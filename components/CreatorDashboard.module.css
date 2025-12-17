@@ -1,0 +1,280 @@
+.dashboard {
+    padding: 2rem 0;
+}
+
+.header {
+    margin-bottom: 2rem;
+}
+
+.title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--foreground);
+    margin: 0 0 0.5rem;
+}
+
+.subtitle {
+    font-size: 1rem;
+    color: var(--muted);
+    margin: 0;
+}
+
+/* Stats Grid */
+.statsGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+}
+
+.statCard {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    position: relative;
+}
+
+.statIcon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    font-size: 1.5rem;
+}
+
+.statInfo {
+    display: flex;
+    flex-direction: column;
+}
+
+.statValue {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--foreground);
+}
+
+.statLabel {
+    font-size: 0.8125rem;
+    color: var(--muted);
+}
+
+.growth {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--radius-full);
+}
+
+.positive {
+    background: #dcfce7;
+    color: #16a34a;
+}
+
+.negative {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+/* Main Grid */
+.mainGrid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+}
+
+.cardHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.cardHeader h2 {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--foreground);
+    margin: 0;
+}
+
+.viewAll {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--primary);
+    text-decoration: none;
+}
+
+/* Content List */
+.contentList {
+    padding: 0.5rem;
+}
+
+.contentRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    transition: background 0.2s;
+}
+
+.contentRow:hover {
+    background: var(--surface);
+}
+
+.contentInfo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.contentType {
+    font-size: 1.25rem;
+}
+
+.contentTitle {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--foreground);
+}
+
+.contentStats {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    font-size: 0.8125rem;
+    color: var(--muted);
+}
+
+.trend.up {
+    color: #16a34a;
+}
+
+.trend.down {
+    color: #dc2626;
+}
+
+.trend.stable {
+    color: var(--muted);
+}
+
+/* Activity List */
+.activityList {
+    padding: 1rem 1.5rem;
+}
+
+.activityItem {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.activityItem:last-child {
+    border-bottom: none;
+}
+
+.activityIcon {
+    font-size: 1.25rem;
+}
+
+.activityContent {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.activityText {
+    font-size: 0.875rem;
+    color: var(--foreground);
+}
+
+.activityTime {
+    font-size: 0.75rem;
+    color: var(--muted);
+}
+
+/* Quick Actions */
+.quickActions {
+    display: flex;
+    gap: 1rem;
+}
+
+.actionBtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1.5rem;
+    background: var(--primary);
+    color: white;
+    border-radius: var(--radius-lg);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all var(--transition-fast);
+}
+
+.actionBtn:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+}
+
+.actionBtnSecondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1.5rem;
+    background: white;
+    color: var(--foreground);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all var(--transition-fast);
+}
+
+.actionBtnSecondary:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+@media (max-width: 1024px) {
+    .statsGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .mainGrid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    .statsGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .quickActions {
+        flex-direction: column;
+    }
+}

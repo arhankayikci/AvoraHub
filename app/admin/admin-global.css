@@ -1,0 +1,14 @@
+/* Hide navbar and footer on admin pages */
+.admin-wrapper~nav,
+.admin-wrapper~footer,
+nav:has(~ .admin-wrapper),
+footer:has(~ .admin-wrapper) {
+    display: none !important;
+}
+
+/* Alternative: hide by class */
+body:has(.adminLayout) header,
+body:has(.adminLayout) footer,
+body:has(.adminLayout) nav {
+    display: none !important;
+}

@@ -1,0 +1,266 @@
+.page {
+    min-height: 100vh;
+    padding: 3rem 0 4rem;
+    background: var(--background);
+}
+
+/* Header */
+.header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    padding: 3rem 0 2rem;
+}
+
+.header h1 {
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0 0 0.75rem;
+    letter-spacing: -0.02em;
+}
+
+.header p {
+    font-size: 1.0625rem;
+    color: #64748b;
+    margin: 0;
+}
+
+/* Search */
+.searchWrapper {
+    max-width: 600px;
+    margin: 0 auto 3rem;
+    position: relative;
+}
+
+.searchWrapper::before {
+    content: '';
+    position: absolute;
+    left: 1.25rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    border: 2px solid #94a3b8;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.searchWrapper::after {
+    content: '';
+    position: absolute;
+    left: 2.375rem;
+    top: calc(50% + 6px);
+    width: 2px;
+    height: 6px;
+    background: #94a3b8;
+    transform: rotate(-45deg);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.searchInput {
+    width: 100%;
+    padding: 1rem 1.25rem 1rem 3.5rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 0.9375rem;
+    color: #0f172a;
+    background: white;
+    transition: all 0.15s ease;
+}
+
+.searchInput::placeholder {
+    color: #94a3b8;
+}
+
+.searchInput:focus {
+    outline: none;
+    border-color: #0f172a;
+    box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.08);
+}
+
+/* Content */
+.content {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 3rem;
+    max-width: 900px;
+    margin: 0 auto 3rem;
+}
+
+/* Sidebar */
+.sidebar h3 {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #64748b;
+    margin: 0 0 1rem;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar li {
+    margin-bottom: 0.25rem;
+}
+
+.sidebar button {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: none;
+    background: transparent;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: #334155;
+    text-align: left;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: all 0.15s ease;
+}
+
+.sidebar button:hover {
+    background: #f1f5f9;
+}
+
+.sidebar button.active {
+    background: #0f172a;
+    color: white;
+}
+
+/* FAQ List */
+.faqList {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.searchInfo {
+    font-size: 0.8125rem;
+    color: #64748b;
+    margin: 0 0 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.faqItem {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.15s ease;
+}
+
+.faqItem:hover {
+    border-color: #cbd5e1;
+}
+
+.faqItem.open {
+    border-color: #0f172a;
+}
+
+.faqQuestion {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem;
+    border: none;
+    background: transparent;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--foreground);
+    text-align: left;
+    cursor: pointer;
+}
+
+.icon {
+    font-size: 1.25rem;
+    color: var(--primary);
+    font-weight: 300;
+}
+
+.faqAnswer {
+    padding: 0 1.25rem 1.25rem;
+    font-size: 0.9375rem;
+    color: var(--muted);
+    line-height: 1.7;
+    border-top: 1px solid var(--border);
+    padding-top: 1rem;
+    margin-top: -0.25rem;
+}
+
+.noResults {
+    text-align: center;
+    padding: 3rem;
+    color: var(--muted);
+}
+
+/* CTA */
+.cta {
+    text-align: center;
+    padding: 2.5rem;
+    background: var(--surface);
+    border-radius: 16px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.cta h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--foreground);
+    margin: 0 0 0.5rem;
+}
+
+.cta p {
+    font-size: 0.9375rem;
+    color: var(--muted);
+    margin: 0 0 1.5rem;
+}
+
+.ctaBtn {
+    display: inline-block;
+    padding: 0.875rem 2rem;
+    background: var(--primary);
+    color: white;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.ctaBtn:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .sidebar ul {
+        display: flex;
+        gap: 0.5rem;
+        overflow-x: auto;
+        padding-bottom: 0.5rem;
+    }
+
+    .sidebar li {
+        margin: 0;
+    }
+
+    .sidebar button {
+        white-space: nowrap;
+        padding: 0.625rem 1rem;
+    }
+}

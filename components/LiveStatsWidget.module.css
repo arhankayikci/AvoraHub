@@ -1,0 +1,190 @@
+.widget {
+    background: white;
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.05),
+        0 0 0 1px rgba(0, 0, 0, 0.05);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.widget.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+}
+
+.title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--foreground);
+    margin: 0;
+}
+
+.liveDot {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: #10b981;
+    position: relative;
+}
+
+.liveDot::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    background: #10b981;
+    border-radius: 50%;
+    position: relative;
+}
+
+.ping {
+    position: absolute;
+    left: 0;
+    width: 8px;
+    height: 8px;
+    background: #10b981;
+    border-radius: 50%;
+    animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+.statsGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+}
+
+.statCard {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem;
+    background: var(--border-light);
+    border-radius: var(--radius-sm);
+    transition: all 0.2s ease;
+    opacity: 0;
+    transform: translateY(10px);
+    animation: slideInUp 0.4s ease-out var(--delay) forwards;
+}
+
+.statCard:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.iconWrapper {
+    position: relative;
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.pulse {
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-sm);
+    background: currentColor;
+    opacity: 0.3;
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.statInfo {
+    flex: 1;
+    min-width: 0;
+}
+
+.value {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--foreground);
+    line-height: 1;
+    margin-bottom: 0.25rem;
+    font-variant-numeric: tabular-nums;
+}
+
+.label {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--foreground-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    line-height: 1.2;
+}
+
+.sublabel {
+    display: block;
+    font-size: 0.75rem;
+    opacity: 0.7;
+}
+
+@keyframes ping {
+
+    75%,
+    100% {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 0.3;
+    }
+
+    50% {
+        opacity: 0.1;
+    }
+}
+
+@keyframes slideInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 1200px) {
+    .statsGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .widget {
+        padding: 1.25rem;
+    }
+
+    .statsGrid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .statCard {
+        padding: 1rem;
+    }
+
+    .iconWrapper {
+        width: 40px;
+        height: 40px;
+    }
+
+    .value {
+        font-size: 1.5rem;
+    }
+}

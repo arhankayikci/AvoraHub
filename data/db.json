@@ -1,0 +1,402 @@
+{
+  "users": [
+    {
+      "id": "u1",
+      "name": "Demo User",
+      "email": "demo@avora.com",
+      "password": "password123",
+      "avatar": "",
+      "bio": "Avora platformu demo kullanıcısı.",
+      "userType": "entrepreneur",
+      "interests": [
+        "AI",
+        "Finans",
+        "Eğitim"
+      ],
+      "createdAt": "2025-01-01T00:00:00Z"
+    },
+    {
+      "id": "u1764237055012",
+      "createdAt": "2025-11-27T09:50:55.012Z",
+      "name": "Ahmet Yılmaz",
+      "email": "ahmet@example.com",
+      "password": "demo123",
+      "avatar": "",
+      "bio": "Teknoloji girişimcisi",
+      "userType": "entrepreneur",
+      "interests": [
+        "HealthTech",
+        "EdTech"
+      ]
+    },
+    {
+      "id": "u1764352196053",
+      "createdAt": "2025-11-28T17:49:56.053Z",
+      "name": "Ayşe Kaya",
+      "email": "ayse@example.com",
+      "password": "demo456",
+      "avatar": "",
+      "bio": "Problem çözücü",
+      "userType": "solution-seeker",
+      "interests": [
+        "SaaS",
+        "E-Ticaret"
+      ]
+    },
+    {
+      "id": "u1765962577561",
+      "createdAt": "2025-12-17T09:09:37.561Z",
+      "name": "sadasd",
+      "email": "dadasas@gmail.com",
+      "password": "123456",
+      "avatar": "",
+      "bio": "",
+      "userType": "entrepreneur",
+      "interests": [
+        "E-Ticaret",
+        "SaaS"
+      ]
+    },
+    {
+      "id": "u1766006395990",
+      "createdAt": "2025-12-17T21:19:55.990Z",
+      "name": "arhan kayikci",
+      "email": "arhankayikci@gmail.com",
+      "password": "kerimarhan",
+      "avatar": "",
+      "bio": "",
+      "userType": "investor",
+      "interests": [
+        "EdTech",
+        "E-Ticaret"
+      ]
+    }
+  ],
+  "problems": [
+    {
+      "id": 1,
+      "title": "Elektrikli Araç Şarj İstasyonu Bulma Sorunu",
+      "description": "Şehirlerarası yollarda güvenilir ve hızlı şarj istasyonu bulmak hala büyük bir çile. Mevcut uygulamalar güncel değil.",
+      "category": "Ulaşım",
+      "votes": 124,
+      "comments": 15,
+      "author": "Ahmet Y.",
+      "country": "TR",
+      "createdAt": "2025-01-25T10:00:00Z",
+      "bannerGradient": "linear-gradient(135deg, #0f172a 0%, #0ea5e9 100%)"
+    },
+    {
+      "id": 2,
+      "title": "Uzaktan Çalışanlar İçin Sosyalleşme",
+      "description": "Evden çalışanlar giderek yalnızlaşıyor. Sadece iş odaklı olmayan, spontane sosyalleşme sağlayan bir platform eksikliği var.",
+      "category": "Sosyal",
+      "votes": 89,
+      "comments": 42,
+      "author": "Ayşe K.",
+      "country": "US",
+      "createdAt": "2025-01-24T14:30:00Z",
+      "bannerGradient": "linear-gradient(135deg, #4c1d95 0%, #8b5cf6 100%)"
+    },
+    {
+      "id": 3,
+      "title": "İkinci El Kıyafet Takas Platformu Güvenliği",
+      "description": "Mevcut platformlarda ürün durumu hakkında dürüst olunmuyor. Doğrulanmış takas sistemi lazım.",
+      "category": "E-Ticaret",
+      "votes": 56,
+      "comments": 8,
+      "author": "Mehmet S.",
+      "country": "TR",
+      "createdAt": "2025-01-23T09:15:00Z"
+    },
+    {
+      "id": 4,
+      "title": "KOBİ'ler İçin Basitleştirilmiş Vergi Takibi",
+      "description": "Küçük işletmeler için muhasebe yazılımları çok karmaşık ve pahalı. Sadece vergi odaklı basit bir çözüm yok.",
+      "category": "Finans",
+      "votes": 210,
+      "comments": 36,
+      "author": "Canan B.",
+      "country": "TR",
+      "createdAt": "2025-01-26T11:20:00Z"
+    },
+    {
+      "id": 5,
+      "title": "Sustainable Packaging for Small Businesses",
+      "description": "Small businesses want to use eco-friendly packaging but sourcing small quantities is too expensive.",
+      "category": "Çevre",
+      "votes": 145,
+      "comments": 22,
+      "author": "John D.",
+      "country": "GB",
+      "createdAt": "2025-01-22T16:45:00Z"
+    },
+    {
+      "id": 6,
+      "title": "Freelancer Ödeme Garantisi Sorunu",
+      "description": "Müşteriler iş bitiminde ödemeyi geciktiriyor veya yapmıyor. Escrow mantığıyla çalışan yerel bir çözüm şart.",
+      "category": "Finans",
+      "votes": 178,
+      "comments": 56,
+      "author": "Burak Y.",
+      "country": "TR",
+      "createdAt": "2025-01-21T13:00:00Z"
+    }
+  ],
+  "startups": [
+    {
+      "id": 1,
+      "name": "VergiBot",
+      "tagline": "Yapay zeka destekli kişisel vergi asistanı",
+      "description": "VergiBot, serbest çalışanlar ve küçük işletmeler için vergi hesaplamalarını otomatize eden, fatura takibi yapan ve vergi dönemlerinde hatırlatmalar gönderen bir yapay zeka asistanıdır.",
+      "category": "Finans",
+      "stage": "Seed",
+      "funding": "$250K",
+      "likes": 450,
+      "comments": 33,
+      "country": "TR",
+      "website": "https://vergibot.com",
+      "createdAt": "2025-01-15T09:00:00Z",
+      "bannerGradient": "linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%)"
+    },
+    {
+      "id": 2,
+      "name": "HealthBridge",
+      "tagline": "Telemedicine platform connecting rural areas to specialists",
+      "description": "Connecting patients in remote areas with top medical specialists via secure video consultations and AI-driven preliminary diagnosis.",
+      "category": "Sağlık",
+      "stage": "Series A",
+      "funding": "$8M",
+      "likes": 320,
+      "comments": 15,
+      "country": "US",
+      "website": "https://healthbridge.io",
+      "createdAt": "2025-01-10T14:20:00Z",
+      "bannerGradient": "linear-gradient(135deg, #065f46 0%, #10b981 100%)"
+    },
+    {
+      "id": 3,
+      "name": "EcoPack",
+      "tagline": "Biodegradable packaging solutions for e-commerce",
+      "description": "Sustainable, plant-based packaging materials designed specifically for e-commerce businesses to reduce plastic waste.",
+      "category": "Çevre",
+      "stage": "Pre-Seed",
+      "funding": "$120K",
+      "likes": 210,
+      "comments": 28,
+      "country": "DE",
+      "website": "https://ecopack.de",
+      "createdAt": "2025-01-18T11:00:00Z"
+    },
+    {
+      "id": 4,
+      "name": "EduMate",
+      "tagline": "Personalized learning paths for high school students",
+      "description": "AI-powered platform that creates personalized study schedules and content recommendations for students preparing for university exams.",
+      "category": "Eğitim",
+      "stage": "Seed",
+      "funding": "$500K",
+      "likes": 180,
+      "comments": 45,
+      "country": "TR",
+      "website": "https://edumate.com.tr",
+      "createdAt": "2025-01-20T10:30:00Z"
+    }
+  ],
+  "comments": [
+    {
+      "id": 101,
+      "content": "Bu gerçekten büyük bir sorun. Özellikle uzun yolda şarj istasyonu aramak stres kaynağı. Harita entegrasyonu şart.",
+      "itemId": 1,
+      "itemType": "problem",
+      "authorId": "u1764237055012",
+      "author": "Ahmet Yılmaz",
+      "createdAt": "2025-11-29T10:30:00Z",
+      "likes": 5
+    },
+    {
+      "id": 102,
+      "content": "Kesinlikle katılıyorum! Mevcut uygulamalar çok dağınık. Tek bir platformda toplanması harika olur.",
+      "itemId": 1,
+      "itemType": "problem",
+      "authorId": "u1764352196053",
+      "author": "Ayşe Kaya",
+      "createdAt": "2025-11-29T11:15:00Z",
+      "likes": 3
+    },
+    {
+      "id": 103,
+      "content": "VergiBot fikri muazzam! Küçük işletme sahibi olarak muhasebe işlerinden nefret ediyorum. Beta sürümü ne zaman çıkar?",
+      "itemId": 1,
+      "itemType": "startup",
+      "authorId": "u1",
+      "author": "Demo User",
+      "createdAt": "2025-11-28T14:20:00Z",
+      "likes": 8
+    },
+    {
+      "id": 104,
+      "content": "Fiyatlandırma politikanız nasıl olacak? Aylık abonelik mi yoksa işlem başı ücret mi?",
+      "itemId": 1,
+      "itemType": "startup",
+      "authorId": "u1764352196053",
+      "author": "Ayşe Kaya",
+      "createdAt": "2025-11-28T16:45:00Z",
+      "likes": 2
+    },
+    {
+      "id": 105,
+      "content": "Uzaktan çalışma yalnızlığına çözüm bulmak çok önemli. Sadece iş değil, hobi odaklı gruplar da olmalı.",
+      "itemId": 2,
+      "itemType": "problem",
+      "authorId": "u1764237055012",
+      "author": "Ahmet Yılmaz",
+      "createdAt": "2025-11-30T09:00:00Z",
+      "likes": 4
+    },
+    {
+      "id": 1765962606709,
+      "createdAt": "2025-12-17T09:10:06.709Z",
+      "content": "wdqwqd",
+      "itemId": "4",
+      "itemType": "problem",
+      "authorId": "u1765962577561",
+      "author": "sadasd",
+      "avatar": "",
+      "likes": 0
+    },
+    {
+      "id": 1765989278043,
+      "createdAt": "2025-12-17T16:34:38.043Z",
+      "content": "abc\n",
+      "itemId": "1",
+      "itemType": "startup",
+      "authorId": "u1765962577561",
+      "author": "sadasd",
+      "avatar": "",
+      "likes": 0
+    }
+  ],
+  "votes": [
+    {
+      "id": 1002,
+      "userId": "u1764237055012",
+      "itemId": 1,
+      "itemType": "problem",
+      "createdAt": "2025-11-30T14:18:20.002Z"
+    },
+    {
+      "id": 1003,
+      "userId": "u1",
+      "itemId": 1,
+      "itemType": "problem",
+      "createdAt": "2025-11-30T14:18:20.003Z"
+    },
+    {
+      "id": 1004,
+      "userId": "u1764237055012",
+      "itemId": 2,
+      "itemType": "problem",
+      "createdAt": "2025-11-30T14:18:21.001Z"
+    },
+    {
+      "id": 1005,
+      "userId": "u1",
+      "itemId": 2,
+      "itemType": "problem",
+      "createdAt": "2025-11-30T14:18:21.002Z"
+    },
+    {
+      "id": 1006,
+      "userId": "u1764352196053",
+      "itemId": 3,
+      "itemType": "problem",
+      "createdAt": "2025-11-30T14:18:22.001Z"
+    },
+    {
+      "id": 1007,
+      "userId": "u1764237055012",
+      "itemId": 3,
+      "itemType": "problem",
+      "createdAt": "2025-11-30T14:18:22.002Z"
+    },
+    {
+      "id": 1009,
+      "userId": "u1",
+      "itemId": 4,
+      "itemType": "problem",
+      "createdAt": "2025-11-30T14:18:23.002Z"
+    },
+    {
+      "id": 2002,
+      "userId": "u1764237055012",
+      "itemId": 1,
+      "itemType": "startup",
+      "createdAt": "2025-11-30T14:20:00.002Z"
+    },
+    {
+      "id": 2003,
+      "userId": "u1",
+      "itemId": 1,
+      "itemType": "startup",
+      "createdAt": "2025-11-30T14:20:00.003Z"
+    },
+    {
+      "id": 2005,
+      "userId": "u1764237055012",
+      "itemId": 2,
+      "itemType": "startup",
+      "createdAt": "2025-11-30T14:20:01.002Z"
+    },
+    {
+      "id": 2006,
+      "userId": "u1764352196053",
+      "itemId": 3,
+      "itemType": "startup",
+      "createdAt": "2025-11-30T14:20:02.001Z"
+    },
+    {
+      "id": 2007,
+      "userId": "u1764237055012",
+      "itemId": 3,
+      "itemType": "startup",
+      "createdAt": "2025-11-30T14:20:02.002Z"
+    },
+    {
+      "id": 2008,
+      "userId": "u1",
+      "itemId": 3,
+      "itemType": "startup",
+      "createdAt": "2025-11-30T14:20:02.003Z"
+    },
+    {
+      "id": 2009,
+      "userId": "u1764352196053",
+      "itemId": 4,
+      "itemType": "startup",
+      "createdAt": "2025-11-30T14:20:03.001Z"
+    }
+  ],
+  "favorites": [
+    {
+      "id": "f1",
+      "userId": "u1764352196053",
+      "itemId": 1,
+      "itemType": "problem",
+      "createdAt": "2025-11-30T14:16:02.899Z"
+    },
+    {
+      "id": "f2",
+      "userId": "u1764352196053",
+      "itemId": 2,
+      "itemType": "startup",
+      "createdAt": "2025-11-30T14:16:05.123Z"
+    },
+    {
+      "id": "f1764512628080",
+      "userId": "u1764352196053",
+      "itemId": 2,
+      "itemType": "problem",
+      "createdAt": "2025-11-30T14:23:48.080Z"
+    }
+  ]
+}

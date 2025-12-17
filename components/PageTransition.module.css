@@ -1,0 +1,117 @@
+.loadingScreen {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(135deg, #0B4F3B 0%, #1a6b52 50%, #0B4F3B 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    animation: fadeOut 0.5s ease 0.8s forwards;
+}
+
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+        pointer-events: none;
+    }
+}
+
+.loadingContent {
+    text-align: center;
+}
+
+.logoAnimation {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
+    font-size: 2.5rem;
+    letter-spacing: 0.1em;
+    margin-bottom: 2rem;
+    animation: logoScale 0.6s ease-out;
+}
+
+@keyframes logoScale {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.logoAvora {
+    color: white;
+}
+
+.logoHub {
+    color: #D4AF37;
+}
+
+.loadingBar {
+    width: 200px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+    margin: 0 auto 1rem;
+    overflow: hidden;
+}
+
+.loadingProgress {
+    height: 100%;
+    background: linear-gradient(90deg, #D4AF37, #f4e4a6, #D4AF37);
+    background-size: 200% 100%;
+    border-radius: 2px;
+    animation: loadingSlide 1s ease-in-out infinite, loadingWidth 0.8s ease forwards;
+}
+
+@keyframes loadingSlide {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+@keyframes loadingWidth {
+    from {
+        width: 0;
+    }
+
+    to {
+        width: 100%;
+    }
+}
+
+.loadingText {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 0.7;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+/* Page Content Animation */
+.pageContent {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.pageContent.visible {
+    opacity: 1;
+    transform: translateY(0);
+}

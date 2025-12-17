@@ -1,0 +1,349 @@
+.container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #f8fffe 0%, #e8f5f2 100%);
+    padding: 2rem 1rem;
+}
+
+.card {
+    background: white;
+    border-radius: 1.5rem;
+    padding: 3rem;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+    max-width: 900px;
+    width: 100%;
+}
+
+/* Progress Bar */
+.progressBar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 3rem;
+    position: relative;
+}
+
+.progressStep {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    flex: 1;
+    z-index: 2;
+}
+
+.stepNumber {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #e2e8f0;
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.125rem;
+    transition: all 0.3s;
+}
+
+.progressStep.active .stepNumber {
+    background: var(--primary);
+    color: white;
+}
+
+.progressStep span {
+    font-size: 0.875rem;
+    color: #64748b;
+    font-weight: 500;
+}
+
+.progressStep.active span {
+    color: var(--primary);
+}
+
+.progressLine {
+    flex: 1;
+    height: 2px;
+    background: #e2e8f0;
+    margin: 0 1rem;
+    margin-bottom: 1.75rem;
+}
+
+/* Content */
+.stepContent {
+    animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #1a202c;
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+
+.subtitle {
+    color: #64748b;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.error {
+    background: #fee2e2;
+    color: #dc2626;
+    padding: 1rem;
+    border-radius: 0.75rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.9375rem;
+    border: 1px solid #fecaca;
+}
+
+/* Form */
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.formGroup label {
+    font-weight: 600;
+    color: #334155;
+    font-size: 0.9375rem;
+}
+
+.formGroup input {
+    padding: 0.875rem 1rem;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 0.75rem;
+    font-size: 1rem;
+    transition: all 0.2s;
+}
+
+.formGroup input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(11, 79, 59, 0.1);
+}
+
+/* Profile Type Cards */
+.profileTypes {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.profileCard {
+    position: relative;
+    padding: 2rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-align: center;
+}
+
+.profileCard:hover {
+    border-color: var(--primary);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(11, 79, 59, 0.15);
+}
+
+.profileCard.selected {
+    border-color: var(--primary);
+    background: rgba(11, 79, 59, 0.05);
+}
+
+.profileIcon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    margin: 0 auto 1rem;
+}
+
+.profileCard h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1a202c;
+    margin-bottom: 0.5rem;
+}
+
+.profileCard p {
+    color: #64748b;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+}
+
+.checkmark {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: scale(0.5);
+    transition: all 0.3s;
+}
+
+.profileCard.selected .checkmark {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Interests */
+.interestsGrid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+}
+
+.interestTag {
+    padding: 0.625rem 1.25rem;
+    border-radius: 2rem;
+    border: 2px solid #e2e8f0;
+    background: white;
+    color: #64748b;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.9375rem;
+}
+
+.interestTag:hover {
+    border-color: var(--primary);
+    background: rgba(11, 79, 59, 0.05);
+}
+
+.interestTag.selected {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+/* Buttons */
+.buttonGroup {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.submitBtn,
+.backBtn {
+    flex: 1;
+    padding: 1rem;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+}
+
+.submitBtn {
+    background: var(--primary);
+    color: white;
+}
+
+.submitBtn:hover:not(:disabled) {
+    background: #0a4332;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(11, 79, 59, 0.3);
+}
+
+.submitBtn:disabled {
+    background: #94a3b8;
+    cursor: not-allowed;
+}
+
+.backBtn {
+    background: white;
+    color: #64748b;
+    border: 1.5px solid #e2e8f0;
+}
+
+.backBtn:hover {
+    background: #f8fafc;
+    border-color: #cbd5e0;
+}
+
+.footer {
+    text-align: center;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid #e2e8f0;
+    color: #64748b;
+    font-size: 0.9375rem;
+}
+
+.footer a {
+    color: var(--primary);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .card {
+        padding: 2rem 1.5rem;
+    }
+
+    .progressBar {
+        margin-bottom: 2rem;
+    }
+
+    .progressStep span {
+        font-size: 0.75rem;
+    }
+
+    .stepNumber {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+
+    .profileTypes {
+        grid-template-columns: 1fr;
+    }
+
+    .title {
+        font-size: 1.5rem;
+    }
+
+    .buttonGroup {
+        flex-direction: column-reverse;
+    }
+}

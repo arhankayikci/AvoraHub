@@ -1,0 +1,87 @@
+.mobileNav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    border-top: 1px solid var(--border);
+    display: none;
+    justify-content: space-around;
+    padding: 0.5rem 0;
+    padding-bottom: calc(0.5rem + env(safe-area-inset-bottom, 0px));
+    z-index: 100;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+}
+
+@media (max-width: 768px) {
+    .mobileNav {
+        display: flex;
+    }
+}
+
+.navItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.5rem 0.75rem;
+    text-decoration: none;
+    color: var(--muted);
+    transition: all 0.2s ease;
+    border-radius: 12px;
+    min-width: 60px;
+}
+
+.navItem:hover {
+    color: var(--primary);
+}
+
+.navItem.active {
+    color: var(--primary);
+}
+
+.navItem.active .icon {
+    transform: scale(1.1);
+}
+
+.icon {
+    font-size: 1.25rem;
+    transition: transform 0.2s ease;
+}
+
+.label {
+    font-size: 0.625rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+}
+
+/* Active indicator dot */
+.navItem.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    width: 4px;
+    height: 4px;
+    background: var(--primary);
+    border-radius: 50%;
+}
+
+/* Pulse animation on tap */
+@keyframes navPulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(0.95);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.navItem:active {
+    animation: navPulse 0.15s ease;
+}

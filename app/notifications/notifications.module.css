@@ -1,0 +1,176 @@
+.page {
+    min-height: 100vh;
+    padding: 2rem 0 4rem;
+    background: var(--background);
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.title {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--foreground);
+    margin: 0;
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.filters {
+    display: flex;
+    background: var(--surface);
+    border-radius: 10px;
+    padding: 4px;
+}
+
+.filterBtn {
+    padding: 0.5rem 1rem;
+    border: none;
+    background: transparent;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--muted);
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.filterBtn:hover {
+    color: var(--foreground);
+}
+
+.filterBtn.active {
+    background: white;
+    color: var(--primary);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.markAllBtn {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border);
+    background: white;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--foreground);
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.markAllBtn:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.25rem;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.item:hover {
+    border-color: var(--primary);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.item.unread {
+    background: linear-gradient(135deg, rgba(11, 79, 59, 0.03) 0%, white 100%);
+    border-color: rgba(11, 79, 59, 0.2);
+}
+
+.icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.content {
+    flex: 1;
+}
+
+.itemTitle {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--foreground);
+    margin: 0 0 0.25rem;
+}
+
+.message {
+    font-size: 0.875rem;
+    color: var(--muted);
+    margin: 0 0 0.5rem;
+    line-height: 1.5;
+}
+
+.time {
+    font-size: 0.75rem;
+    color: var(--muted);
+}
+
+.unreadDot {
+    width: 10px;
+    height: 10px;
+    background: var(--primary);
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.empty {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--muted);
+}
+
+.emptyIcon {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+@media (max-width: 640px) {
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .actions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .filters {
+        width: 100%;
+    }
+
+    .filterBtn {
+        flex: 1;
+        text-align: center;
+    }
+
+    .markAllBtn {
+        width: 100%;
+    }
+}

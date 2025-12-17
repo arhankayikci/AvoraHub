@@ -1,0 +1,193 @@
+/* New Topic Page Styles */
+.newTopicPage {
+    min-height: 100vh;
+    background: var(--background);
+    padding-bottom: 4rem;
+}
+
+.header {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem 0;
+}
+
+.backLink {
+    color: var(--primary);
+    text-decoration: none;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    display: inline-block;
+    margin-bottom: 1rem;
+    transition: opacity 0.2s;
+}
+
+.backLink:hover {
+    opacity: 0.7;
+}
+
+.title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--foreground);
+    margin: 0 0 0.5rem;
+}
+
+.subtitle {
+    font-size: 1rem;
+    color: var(--muted);
+    margin: 0;
+}
+
+/* Form */
+.form {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.formCard {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.formGroup {
+    margin-bottom: 1.75rem;
+}
+
+.formGroup:last-child {
+    margin-bottom: 0;
+}
+
+.label {
+    display: block;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--foreground);
+    margin-bottom: 0.5rem;
+}
+
+.input,
+.select,
+.textarea {
+    width: 100%;
+    padding: 0.875rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    font-size: 0.9375rem;
+    font-family: inherit;
+    transition: border-color 0.2s;
+}
+
+.input:focus,
+.select:focus,
+.textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.textarea {
+    resize: vertical;
+    min-height: 200px;
+    line-height: 1.6;
+}
+
+.hint {
+    font-size: 0.8125rem;
+    color: var(--muted);
+    margin-top: 0.5rem;
+}
+
+.select {
+    cursor: pointer;
+    background: white;
+}
+
+/* Actions */
+.actions {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+}
+
+.cancelBtn,
+.submitBtn {
+    padding: 0.875rem 2rem;
+    border-radius: var(--radius-lg);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.cancelBtn {
+    background: white;
+    border: 1px solid var(--border);
+    color: var(--foreground);
+}
+
+.cancelBtn:hover {
+    background: var(--surface);
+}
+
+.submitBtn {
+    background: var(--primary);
+    border: none;
+    color: white;
+}
+
+.submitBtn:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+}
+
+/* Guidelines */
+.guidelines {
+    max-width: 800px;
+    margin: 2rem auto 0;
+    padding: 1.5rem;
+    background: rgba(11, 79, 59, 0.05);
+    border: 1px solid rgba(11, 79, 59, 0.1);
+    border-radius: var(--radius-lg);
+}
+
+.guidelines h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--foreground);
+    margin: 0 0 1rem;
+}
+
+.guidelines ul {
+    margin: 0;
+    padding-left: 1.5rem;
+}
+
+.guidelines li {
+    font-size: 0.875rem;
+    color: var(--foreground-muted);
+    margin-bottom: 0.5rem;
+    line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+    .formCard {
+        padding: 1.5rem;
+    }
+
+    .title {
+        font-size: 1.5rem;
+    }
+
+    .actions {
+        flex-direction: column-reverse;
+    }
+
+    .cancelBtn,
+    .submitBtn {
+        width: 100%;
+    }
+}

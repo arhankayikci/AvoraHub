@@ -1,0 +1,74 @@
+.streakTracker {
+    position: relative;
+}
+
+.streakBadge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    background: white;
+    border: 2px solid var(--border);
+    border-radius: var(--radius-lg);
+    transition: all var(--transition-fast);
+}
+
+.streakBadge:hover {
+    transform: scale(1.05);
+}
+
+.emoji {
+    font-size: 1.25rem;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.count {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--foreground);
+    line-height: 1.2;
+}
+
+.label {
+    font-size: 0.625rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.celebration {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--gradient-luxury);
+    color: white;
+    padding: 1.5rem 2.5rem;
+    border-radius: var(--radius-xl);
+    font-size: 1.25rem;
+    font-weight: 700;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    animation: celebrate 0.5s ease-out;
+    z-index: 9999;
+}
+
+@keyframes celebrate {
+    0% {
+        transform: translate(-50%, -50%) scale(0.5);
+        opacity: 0;
+    }
+
+    50% {
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+}

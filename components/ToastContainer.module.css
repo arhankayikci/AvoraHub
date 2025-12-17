@@ -1,0 +1,160 @@
+.container {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 99999;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    max-width: 400px;
+    pointer-events: none;
+}
+
+.toast {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.25rem;
+    background: white;
+    border-radius: var(--radius);
+    box-shadow:
+        0 10px 40px -10px rgba(0, 0, 0, 0.1),
+        0 0 0 1px rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+    pointer-events: all;
+    overflow: hidden;
+    animation: slideInRight 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: all 0.2s ease;
+}
+
+.toast:hover {
+    transform: translateX(-4px);
+    box-shadow:
+        0 20px 50px -10px rgba(0, 0, 0, 0.15),
+        0 0 0 1px rgba(0, 0, 0, 0.05);
+}
+
+.iconWrapper {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.success .iconWrapper {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.error .iconWrapper {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.warning .iconWrapper {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.info .iconWrapper {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.message {
+    flex: 1;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--foreground);
+    margin: 0;
+    line-height: 1.5;
+}
+
+.closeBtn {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    border: none;
+    background: transparent;
+    color: var(--foreground-muted);
+    cursor: pointer;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.closeBtn:hover {
+    background: var(--border-light);
+    color: var(--foreground);
+}
+
+.progressBar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    width: 100%;
+    transform-origin: left;
+    animation: progressBar 4s linear forwards;
+}
+
+.success .progressBar {
+    background: #10b981;
+}
+
+.error .progressBar {
+    background: #ef4444;
+}
+
+.warning .progressBar {
+    background: #f59e0b;
+}
+
+.info .progressBar {
+    background: #3b82f6;
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes progressBar {
+    from {
+        transform: scaleX(1);
+    }
+
+    to {
+        transform: scaleX(0);
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        top: 0.75rem;
+        right: 0.75rem;
+        left: 0.75rem;
+        max-width: none;
+    }
+
+    .toast {
+        padding: 0.875rem 1rem;
+    }
+
+    .message {
+        font-size: 0.875rem;
+    }
+}

@@ -1,0 +1,24 @@
+<svg width="32" height="32" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 2C9.163 2 2 9.163 2 18C2 26.837 9.163 34 18 34C26.837 34 34 26.837 34 18C34 9.163 26.837 2 18 2Z" stroke="url(#spiralGradient1)" stroke-width="2.5" fill="none"/>
+    <path d="M18 6C11.373 6 6 11.373 6 18C6 24.627 11.373 30 18 30C24.627 30 30 24.627 30 18C30 11.373 24.627 6 18 6Z" stroke="url(#spiralGradient2)" stroke-width="2.5" fill="none"/>
+    <path d="M18 10C13.582 10 10 13.582 10 18C10 22.418 13.582 26 18 26C22.418 26 26 22.418 26 18C26 13.582 22.418 10 18 10Z" stroke="url(#spiralGradient3)" stroke-width="2.5" fill="none"/>
+    <circle cx="18" cy="18" r="3" fill="url(#centerGradient)"/>
+    <defs>
+        <linearGradient id="spiralGradient1" x1="2" y1="2" x2="34" y2="34" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#0B4F3B"/>
+            <stop offset="1" stop-color="#1B6B54"/>
+        </linearGradient>
+        <linearGradient id="spiralGradient2" x1="6" y1="6" x2="30" y2="30" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#1B6B54"/>
+            <stop offset="1" stop-color="#2E8B70"/>
+        </linearGradient>
+        <linearGradient id="spiralGradient3" x1="10" y1="10" x2="26" y2="26" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#D4AF37"/>
+            <stop offset="1" stop-color="#F4D03F"/>
+        </linearGradient>
+        <radialGradient id="centerGradient" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(18 18) rotate(90) scale(3)">
+            <stop stop-color="#F4D03F"/>
+            <stop offset="1" stop-color="#D4AF37"/>
+        </radialGradient>
+    </defs>
+</svg>

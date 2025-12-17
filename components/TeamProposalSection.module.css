@@ -1,0 +1,192 @@
+.section {
+    background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+    border: 2px solid var(--border);
+    border-radius: 1rem;
+    padding: 2rem;
+    margin: 2rem 0;
+}
+
+.header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.icon {
+    font-size: 3rem;
+    flex-shrink: 0;
+}
+
+.title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--foreground);
+}
+
+.subtitle {
+    font-size: 1rem;
+    color: var(--foreground-muted);
+    line-height: 1.6;
+}
+
+.rolesContainer {
+    margin-bottom: 2rem;
+}
+
+.rolesLabel {
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--foreground-muted);
+}
+
+.rolesGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 0.75rem;
+}
+
+.roleChip {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+/* Modal */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 1rem;
+}
+
+.modal {
+    background: white;
+    border-radius: 1rem;
+    max-width: 600px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.modalHeader h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.closeBtn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--foreground-muted);
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    transition: all 0.2s;
+}
+
+.closeBtn:hover {
+    background: var(--background);
+    color: var(--foreground);
+}
+
+.form {
+    padding: 1.5rem;
+}
+
+.formGroup {
+    margin-bottom: 1.5rem;
+}
+
+.formGroup label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--foreground);
+}
+
+.formGroup textarea,
+.formGroup select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: border-color 0.2s;
+}
+
+.formGroup textarea:focus,
+.formGroup select:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.rolesCheckboxGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 0.75rem;
+}
+
+.checkboxLabel {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    background: var(--background);
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.checkboxLabel:hover {
+    border-color: var(--primary);
+}
+
+.checkboxLabel input[type="checkbox"] {
+    cursor: pointer;
+}
+
+.modalActions {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    margin-top: 2rem;
+}
+
+@media (max-width: 768px) {
+
+    .rolesGrid,
+    .rolesCheckboxGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .modal {
+        margin: 1rem;
+        max-height: 95vh;
+    }
+}

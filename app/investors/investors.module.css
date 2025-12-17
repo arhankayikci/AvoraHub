@@ -1,0 +1,134 @@
+.page {
+    min-height: 100vh;
+    background: var(--background);
+}
+
+.hero {
+    padding: 5rem 0 4rem;
+    background: var(--gradient-hero);
+    border-bottom: 1px solid var(--border);
+    text-align: center;
+}
+
+.heroContent {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.title {
+    font-size: 3.5rem;
+    font-weight: 900;
+    margin: 0 0 1.5rem;
+    background: var(--gradient-luxury);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.subtitle {
+    font-size: 1.25rem;
+    color: var(--foreground-muted);
+    margin: 0 0 2.5rem;
+    line-height: 1.6;
+}
+
+.statsGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: 4rem;
+}
+
+.statCard {
+    background: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    border: 1px solid var(--border);
+    text-align: center;
+}
+
+.statValue {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--primary);
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.statLabel {
+    color: var(--foreground-muted);
+    font-weight: 600;
+}
+
+.valueSection {
+    padding: 5rem 0;
+}
+
+.sectionTitle {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 3rem;
+    color: var(--foreground);
+}
+
+.valueGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.valueCard {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 1rem;
+    border: 1px solid var(--border);
+    transition: all 0.3s ease;
+}
+
+.valueCard:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary);
+}
+
+.valueIcon {
+    width: 48px;
+    height: 48px;
+    background: var(--info-light);
+    color: var(--primary);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+}
+
+.valueTitle {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--foreground);
+}
+
+.valueText {
+    color: var(--foreground-muted);
+    line-height: 1.6;
+}
+
+.ctaSection {
+    padding: 5rem 0;
+    background: var(--surface);
+    text-align: center;
+    border-top: 1px solid var(--border);
+}
+
+@media (max-width: 768px) {
+    .title {
+        font-size: 2.5rem;
+    }
+
+    .statsGrid {
+        grid-template-columns: 1fr;
+    }
+}

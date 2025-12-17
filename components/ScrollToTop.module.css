@@ -1,0 +1,41 @@
+.button {
+    position: fixed;
+    bottom: 100px;
+    right: 24px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--gradient-primary);
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 16px rgba(11, 79, 59, 0.3);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.button:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 24px rgba(11, 79, 59, 0.4);
+}
+
+.button.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+    .button {
+        bottom: 90px;
+        right: 16px;
+        width: 44px;
+        height: 44px;
+    }
+}

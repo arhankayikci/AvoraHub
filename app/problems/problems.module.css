@@ -1,0 +1,246 @@
+.page {
+    min-height: 100vh;
+    background: var(--background);
+}
+
+.hero {
+    padding: 4rem 0 3rem;
+    background: var(--gradient-hero);
+    border-bottom: 1px solid var(--border);
+}
+
+.heroContent {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.title {
+    font-size: 3rem;
+    font-weight: 900;
+    margin: 0 0 1rem;
+    background: var(--gradient-luxury);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.subtitle {
+    font-size: 1.125rem;
+    color: var(--foreground-muted);
+    margin: 0 0 2rem;
+    line-height: 1.6;
+}
+
+/* Controls Section */
+.controlsSection {
+    padding: 1.5rem 0;
+    background: white;
+    border-bottom: 1px solid var(--border);
+}
+
+.controlsBar {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+    flex-wrap: wrap;
+}
+
+/* Search Box */
+.searchBox {
+    position: relative;
+    flex: 1;
+    min-width: 280px;
+}
+
+.searchIcon {
+    position: absolute;
+    left: 0.875rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted);
+    pointer-events: none;
+}
+
+.searchInput {
+    width: 100%;
+    padding: 0.625rem 2.5rem 0.625rem 2.5rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 0.875rem;
+    transition: all 0.15s ease;
+}
+
+.searchInput:focus {
+    outline: none;
+    border-color: var(--primary);
+    background: white;
+}
+
+.clearSearch {
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    padding: 0.25rem;
+    cursor: pointer;
+    color: var(--muted);
+    font-size: 0.75rem;
+}
+
+.clearSearch:hover {
+    color: var(--foreground);
+}
+
+/* Filter Selects */
+.filterSelect {
+    padding: 0.625rem 1rem;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--foreground);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    min-width: 160px;
+}
+
+.filterSelect:hover {
+    border-color: var(--muted);
+}
+
+.filterSelect:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+/* Clear Filters Button */
+.clearFilters {
+    padding: 0.625rem 1rem;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.clearFilters:hover {
+    border-color: var(--error);
+    color: var(--error);
+}
+
+/* Results Info */
+.resultsInfo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.resultCount {
+    font-size: 0.875rem;
+    color: var(--muted);
+}
+
+.resultCount strong {
+    color: var(--foreground);
+    font-weight: 600;
+}
+
+.filterInfo {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.activeFilter {
+    padding: 0.25rem 0.625rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--foreground);
+    cursor: pointer;
+}
+
+.activeFilter:hover {
+    border-color: var(--error);
+    color: var(--error);
+}
+
+/* Problems Section */
+.problemsSection {
+    padding: 3rem 0;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 2rem;
+}
+
+/* Empty State */
+.emptyState {
+    text-align: center;
+    padding: 4rem 2rem;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.emptyIcon {
+    color: var(--foreground-muted);
+    opacity: 0.3;
+    margin-bottom: 1.5rem;
+}
+
+.emptyState h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--foreground);
+    margin: 0 0 0.75rem 0;
+}
+
+.emptyState p {
+    font-size: 1rem;
+    color: var(--foreground-muted);
+    line-height: 1.6;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .title {
+        font-size: 2rem;
+    }
+
+    .controlsBar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .searchBox {
+        min-width: 100%;
+    }
+
+    .filterSelect {
+        width: 100%;
+    }
+
+    .resultsInfo {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .grid {
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,0 +1,343 @@
+.page {
+    min-height: 100vh;
+    background: var(--background);
+    padding-bottom: 4rem;
+}
+
+/* Hero */
+.hero {
+    text-align: center;
+    padding: 3rem 0 2rem;
+}
+
+.title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--foreground);
+    margin: 0 0 0.75rem;
+}
+
+.subtitle {
+    font-size: 1.125rem;
+    color: var(--muted);
+    margin: 0;
+}
+
+/* Stats Grid */
+.statsGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.statCard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5rem;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    text-align: center;
+}
+
+.statCard .statValue {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--primary);
+    margin-bottom: 0.25rem;
+}
+
+.statCard .statLabel {
+    font-size: 0.8125rem;
+    color: var(--muted);
+}
+
+/* Filters */
+.filters {
+    padding: 1.5rem;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    margin-bottom: 1.5rem;
+}
+
+.filterGroup {
+    margin-bottom: 1rem;
+}
+
+.filterGroup:last-child {
+    margin-bottom: 0;
+}
+
+.filterGroup label {
+    display: block;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--foreground);
+    margin-bottom: 0.75rem;
+}
+
+.filterBtns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.filterBtn {
+    padding: 0.5rem 1rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-full);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--foreground-muted);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.filterBtn:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.filterBtn.active {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: white;
+}
+
+/* Results Header */
+.resultsHeader {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    font-size: 0.9375rem;
+    color: var(--muted);
+}
+
+/* Funding List */
+.fundingList {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* Funding Card */
+.fundingCard {
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    text-decoration: none;
+    position: relative;
+    transition: all var(--transition-fast);
+}
+
+.fundingCard:hover {
+    border-color: var(--primary);
+    box-shadow: var(--shadow-md);
+}
+
+.fundingCard.hot {
+    border-left: 4px solid #f97316;
+    background: linear-gradient(135deg, white 0%, rgba(249, 115, 22, 0.03) 100%);
+}
+
+.hotBadge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.25rem 0.75rem;
+    background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+    color: white;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    border-radius: var(--radius-full);
+}
+
+.cardHeader {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.logo {
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--gradient-luxury);
+    color: white;
+    font-weight: 700;
+    font-size: 1.125rem;
+    border-radius: var(--radius-lg);
+    flex-shrink: 0;
+}
+
+.headerInfo {
+    flex: 1;
+}
+
+.companyName {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--foreground);
+    margin: 0 0 0.25rem;
+}
+
+.category {
+    font-size: 0.8125rem;
+    color: var(--primary);
+    font-weight: 500;
+}
+
+.amountBox {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.amount {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #16a34a;
+}
+
+.round {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--foreground-muted);
+    padding: 0.25rem 0.625rem;
+    background: var(--surface);
+    border-radius: var(--radius-full);
+    margin-top: 0.25rem;
+}
+
+.description {
+    font-size: 0.9375rem;
+    color: var(--muted);
+    line-height: 1.5;
+    margin: 0 0 1rem;
+}
+
+.investors {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.investorsLabel {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--foreground-muted);
+    white-space: nowrap;
+}
+
+.investorsList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.investor {
+    font-size: 0.8125rem;
+    padding: 0.25rem 0.625rem;
+    background: var(--surface);
+    color: var(--foreground-muted);
+    border-radius: var(--radius-full);
+}
+
+.investor.lead {
+    background: rgba(212, 175, 55, 0.15);
+    color: #B8860B;
+    font-weight: 600;
+}
+
+.cardFooter {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+}
+
+.date {
+    font-size: 0.8125rem;
+    color: var(--muted);
+}
+
+.viewLink {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--primary);
+}
+
+/* CTA */
+.cta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2rem;
+    background: linear-gradient(135deg, var(--primary) 0%, #2E8B70 100%);
+    border-radius: var(--radius-xl);
+    color: white;
+    margin-top: 3rem;
+}
+
+.ctaContent h3 {
+    font-size: 1.25rem;
+    font-weight: 800;
+    margin: 0 0 0.25rem;
+}
+
+.ctaContent p {
+    font-size: 0.9375rem;
+    opacity: 0.9;
+    margin: 0;
+}
+
+.ctaBtn {
+    padding: 0.875rem 2rem;
+    background: white;
+    color: var(--primary);
+    font-weight: 700;
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+}
+
+@media (max-width: 900px) {
+    .statsGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .statsGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .cardHeader {
+        flex-wrap: wrap;
+    }
+
+    .amountBox {
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 0.5rem;
+    }
+
+    .cta {
+        flex-direction: column;
+        text-align: center;
+        gap: 1.5rem;
+    }
+}

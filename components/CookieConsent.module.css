@@ -1,0 +1,115 @@
+.banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    border-top: 1px solid var(--border);
+    box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.1);
+    z-index: 9999;
+    animation: slideUp 0.4s ease;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(100%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
+
+.content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+}
+
+.text {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex: 1;
+}
+
+.icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.text p {
+    font-size: 0.9375rem;
+    color: var(--foreground);
+    margin: 0;
+    line-height: 1.5;
+}
+
+.link {
+    color: var(--primary);
+    font-weight: 500;
+    text-decoration: underline;
+}
+
+.actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-shrink: 0;
+}
+
+.btnSecondary {
+    padding: 0.625rem 1.25rem;
+    border: 1.5px solid var(--border);
+    background: white;
+    color: var(--foreground);
+    font-size: 0.875rem;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btnSecondary:hover {
+    border-color: var(--foreground);
+}
+
+.btnPrimary {
+    padding: 0.625rem 1.25rem;
+    border: none;
+    background: var(--primary);
+    color: white;
+    font-size: 0.875rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btnPrimary:hover {
+    background: var(--primary-hover);
+}
+
+@media (max-width: 640px) {
+    .content {
+        flex-direction: column;
+        text-align: center;
+        padding: 1.5rem;
+    }
+
+    .text {
+        flex-direction: column;
+    }
+
+    .actions {
+        width: 100%;
+    }
+
+    .btnSecondary,
+    .btnPrimary {
+        flex: 1;
+    }
+}
