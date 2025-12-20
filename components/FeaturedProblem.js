@@ -1,21 +1,47 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import styles from './FeaturedProblem.module.css';
 import EmpathyButton from './EmpathyButton';
 
 export default function FeaturedProblem() {
-    const featured = {
-        id: 1,
-        title: 'Elektrikli araç şarj istasyonu eksikliği',
-        description: 'Türkiye\'nin büyük şehirlerinde elektrikli araçların şarj edilebileceği yeterli istasyon yok. Bu durum EV benimsenmesini engelliyor ve çevresel hedeflere ulaşmayı zorlaştırıyor.',
-        category: 'Ulaşım',
-        empathyCount: 342,
-        comments: 56,
-        author: 'Ayşe Demir',
-        badge: 'Problem of the Day',
-        trending: '+125% today'
-    };
+    const [featured, setFeatured] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchFeatured = async () => {
+            try {
+                const res = await fetch('/api/problems?sort=votes');
+                if (res.ok) {
+                    const data = await res.json();
+                    if (Array.isArray(data) && data.length > 0) {
+                        setFeatured({
+                            ...data[0],
+                            empathyCount: data[0].votes || 0,
+                            comments: data[0].comments || 0,
+                            author: data[0].author || 'Anonim',
+                            badge: 'Problem of the Day',
+                            trending: '+125% today'
+                        });
+                    }
+                }
+            } catch (error) {
+                console.error('Error fetching featured problem:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchFeatured();
+    }, []);
+
+    if (loading) {
+        return null;
+    }
+
+    if (!featured) {
+        return null; // Don't show anything if no featured problem
+    }
 
     return (
         <div className={styles.featuredCard}>

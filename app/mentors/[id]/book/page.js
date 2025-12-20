@@ -116,7 +116,8 @@ export default function BookingPage() {
     const isFormValid = selectedDate && selectedSlot && selectedType;
 
     // Random available slots for demo
-    const availableSlots = TIME_SLOTS.filter(() => Math.random() > 0.3);
+    // Random available slots for demo
+    const [availableSlots] = useState(() => TIME_SLOTS.filter(() => Math.random() > 0.3));
 
     return (
         <div className={styles.page}>

@@ -21,41 +21,49 @@ export default function StreakTracker({ userId }) {
 
             if (diffDays === 0) {
                 // Bugün zaten giriş yapılmış
-                setStreak(data.streak);
-                setLastVisit(data.lastVisit);
+                setTimeout(() => {
+                    setStreak(data.streak);
+                    setLastVisit(data.lastVisit);
+                }, 0);
             } else if (diffDays === 1) {
                 // Dün giriş yapılmış, streak devam
                 const newStreak = data.streak + 1;
-                setStreak(newStreak);
-                setLastVisit(today.toISOString());
-                localStorage.setItem(storageKey, JSON.stringify({
-                    streak: newStreak,
-                    lastVisit: today.toISOString()
-                }));
+                setTimeout(() => {
+                    setStreak(newStreak);
+                    setLastVisit(today.toISOString());
+                    localStorage.setItem(storageKey, JSON.stringify({
+                        streak: newStreak,
+                        lastVisit: today.toISOString()
+                    }));
 
-                // Milestone kutlaması
-                if ([7, 14, 30, 60, 100].includes(newStreak)) {
-                    setShowCelebration(true);
-                    setTimeout(() => setShowCelebration(false), 3000);
-                }
+                    // Milestone kutlaması
+                    if ([7, 14, 30, 60, 100].includes(newStreak)) {
+                        setShowCelebration(true);
+                        setTimeout(() => setShowCelebration(false), 3000);
+                    }
+                }, 0);
             } else {
                 // Streak kırıldı
-                setStreak(1);
-                setLastVisit(today.toISOString());
-                localStorage.setItem(storageKey, JSON.stringify({
-                    streak: 1,
-                    lastVisit: today.toISOString()
-                }));
+                setTimeout(() => {
+                    setStreak(1);
+                    setLastVisit(today.toISOString());
+                    localStorage.setItem(storageKey, JSON.stringify({
+                        streak: 1,
+                        lastVisit: today.toISOString()
+                    }));
+                }, 0);
             }
         } else {
             // İlk ziyaret
             const today = new Date().toISOString();
-            setStreak(1);
-            setLastVisit(today);
-            localStorage.setItem(storageKey, JSON.stringify({
-                streak: 1,
-                lastVisit: today
-            }));
+            setTimeout(() => {
+                setStreak(1);
+                setLastVisit(today);
+                localStorage.setItem(storageKey, JSON.stringify({
+                    streak: 1,
+                    lastVisit: today
+                }));
+            }, 0);
         }
     }, [userId]);
 

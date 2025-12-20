@@ -5,11 +5,10 @@ import Link from 'next/link';
 import styles from './MobileNav.module.css';
 
 const NAV_ITEMS = [
-    { href: '/', icon: '🏠', label: 'Ana Sayfa' },
-    { href: '/problems', icon: '💡', label: 'Problemler' },
-    { href: '/startups', icon: '🚀', label: 'Startuplar' },
-    { href: '/mentors', icon: '🎓', label: 'Mentörler' },
-    { href: '/messages', icon: '💬', label: 'Mesajlar' },
+    { href: '/', icon: 'home', label: 'Ana Sayfa' },
+    { href: '/problems', icon: 'lightbulb', label: 'Problemler' },
+    { href: '/startups', icon: 'rocket_launch', label: 'Startuplar' },
+    { href: '/mentors', icon: 'school', label: 'Mentörler' },
 ];
 
 export default function MobileNav() {
@@ -22,16 +21,21 @@ export default function MobileNav() {
 
     return (
         <nav className={styles.mobileNav}>
-            {NAV_ITEMS.map((item) => (
-                <Link
-                    key={item.href}
-                    href={item.href}
-                    className={`${styles.navItem} ${isActive(item.href) ? styles.active : ''}`}
-                >
-                    <span className={styles.icon}>{item.icon}</span>
-                    <span className={styles.label}>{item.label}</span>
-                </Link>
-            ))}
+            <div className={styles.navContainer}>
+                {NAV_ITEMS.map((item) => {
+                    const active = isActive(item.href);
+                    return (
+                        <Link
+                            key={item.href}
+                            href={item.href}
+                            className={`${styles.navItem} ${active ? styles.active : ''}`}
+                        >
+                            <span className="material-icons-round">{item.icon}</span>
+                            <span className={styles.label}>{item.label}</span>
+                        </Link>
+                    );
+                })}
+            </div>
         </nav>
     );
 }

@@ -4,14 +4,14 @@ import { useState } from 'react';
 import styles from './CategoryFilters.module.css';
 
 const categories = [
-    { id: 'all', label: 'All', icon: '🌍' },
-    { id: 'tech', label: 'Technology', icon: '💻' },
-    { id: 'health', label: 'Health', icon: '🏥' },
-    { id: 'education', label: 'Education', icon: '📚' },
-    { id: 'environment', label: 'Environment', icon: '🌱' },
-    { id: 'transport', label: 'Transport', icon: '🚗' },
-    { id: 'finance', label: 'Finance', icon: '💰' },
-    { id: 'food', label: 'Food', icon: '🍔' }
+    { id: 'all', label: 'Tümü', icon: '🌍' },
+    { id: 'tech', label: 'Teknoloji', icon: '💻' },
+    { id: 'health', label: 'Sağlık', icon: '🏥' },
+    { id: 'education', label: 'Eğitim', icon: '📚' },
+    { id: 'environment', label: 'Çevre', icon: '🌱' },
+    { id: 'transport', label: 'Ulaşım', icon: '🚗' },
+    { id: 'finance', label: 'Finans', icon: '💰' },
+    { id: 'food', label: 'Gıda', icon: '🍔' }
 ];
 
 export default function CategoryFilters() {

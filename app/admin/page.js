@@ -1,39 +1,15 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useAuth } from '@/context/AuthContext';
 import styles from './admin.module.css';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/contexts/AuthContext';
 
 const ADMIN_EMAILS = [
     'admin@avorahub.com',
     'ayse@avorahub.com',
     'arhankayikci@gmail.com',
-];
-
-const DEMO_STATS = {
-    totalUsers: 1247,
-    activeUsers: 892,
-    totalProblems: 456,
-    totalStartups: 189,
-    totalMentors: 34,
-    pendingApprovals: 12,
-    totalRevenue: '₺425,000',
-    monthlyGrowth: '+18%'
-};
-
-const RECENT_ACTIVITY = [
-    { id: 1, user: 'Ahmet Yılmaz', action: 'Yeni startup ekledi', item: 'EcoTech Solutions', time: '5 dk önce', type: 'startup' },
-    { id: 2, user: 'Elif Demir', action: 'Problem paylaştı', item: 'Ulaşım Sorunu', time: '12 dk önce', type: 'problem' },
-    { id: 3, user: 'Can Öztürk', action: 'Hesap oluşturdu', item: '', time: '25 dk önce', type: 'user' },
-    { id: 4, user: 'Zeynep Kaya', action: 'Startup\'a yatırım yaptı', item: 'HealthBridge', time: '1 saat önce', type: 'investment' },
-];
-
-const PENDING_ITEMS = [
-    { id: 1, type: 'Startup', title: 'AI Healthcare Platform', author: 'mehmet@startup.com', submitted: '2 saat önce' },
-    { id: 2, type: 'Problem', title: 'Sürdürülebilir Enerji', author: 'ayse@email.com', submitted: '3 saat önce' },
-    { id: 3, type: 'Mentor', title: 'Dr. Ali Veli - Başvuru', author: 'ali@mentor.com', submitted: '5 saat önce' },
 ];
 
 export default function AdminDashboard() {
@@ -45,10 +21,24 @@ export default function AdminDashboard() {
     const [adminEmails, setAdminEmails] = useState(ADMIN_EMAILS);
     const [newAdminEmail, setNewAdminEmail] = useState('');
 
+    // Real stats from API (empty for now)
+    const [stats, setStats] = useState({
+        totalUsers: 0,
+        activeUsers: 0,
+        totalProblems: 0,
+        totalStartups: 0,
+        totalMentors: 0,
+        pendingApprovals: 0
+    });
+    const [recentActivity, setRecentActivity] = useState([]);
+    const [pendingItems, setPendingItems] = useState([]);
+
     useEffect(() => {
         const stored = localStorage.getItem('adminEmails');
         if (stored) {
-            setAdminEmails(JSON.parse(stored));
+            setTimeout(() => {
+                setAdminEmails(JSON.parse(stored));
+            }, 0);
         }
     }, []);
 
@@ -79,7 +69,9 @@ export default function AdminDashboard() {
             if (!isAdmin) {
                 router.push('/');
             } else {
-                setIsAuthorized(true);
+                setTimeout(() => {
+                    setIsAuthorized(true);
+                }, 0);
             }
         }
     }, [user, loading, router]);
@@ -101,7 +93,7 @@ export default function AdminDashboard() {
     ];
 
     return (
-        <div className={styles.adminWrapper}>
+        <div className={styles.dashboardContainer}>
             {/* Sidebar */}
             <aside className={`${styles.sidebar} ${isSidebarCollapsed ? styles.collapsed : ''}`}>
                 <div className={styles.sidebarHeader}>
@@ -110,213 +102,162 @@ export default function AdminDashboard() {
                         {!isSidebarCollapsed && <span className={styles.logoText}>AvoraHub Admin</span>}
                     </div>
                     <button
-                        className={styles.toggleBtn}
+                        className={styles.collapseBtn}
                         onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
                     >
                         {isSidebarCollapsed ? '→' : '←'}
                     </button>
                 </div>
 
-                <nav className={styles.menu}>
+                <nav className={styles.sidebarNav}>
                     {menuItems.map(item => (
                         <button
                             key={item.id}
-                            className={`${styles.menuItem} ${activeTab === item.id ? styles.active : ''}`}
+                            className={`${styles.navItem} ${activeTab === item.id ? styles.active : ''}`}
                             onClick={() => setActiveTab(item.id)}
-                            title={isSidebarCollapsed ? item.label : ''}
                         >
-                            <span className={styles.menuIcon}>{item.icon}</span>
+                            <span className={styles.navIcon}>{item.icon}</span>
                             {!isSidebarCollapsed && <span>{item.label}</span>}
                         </button>
                     ))}
                 </nav>
 
                 <div className={styles.sidebarFooter}>
-                    <Link href="/" className={styles.exitBtn}>
+                    <Link href="/" className={styles.backLink}>
                         <span>🏠</span>
-                        {!isSidebarCollapsed && <span>Siteye Dön</span>}
+                        {!isSidebarCollapsed && <span>Site'ye Dön</span>}
                     </Link>
                 </div>
             </aside>
 
             {/* Main Content */}
             <main className={styles.mainContent}>
-                {/* Header */}
-                <header className={styles.header}>
-                    <div className={styles.headerLeft}>
-                        <h1 className={styles.pageTitle}>{menuItems.find(m => m.id === activeTab)?.label}</h1>
-                        <p className={styles.pageSubtitle}>Hoş geldin, {user?.name || 'Admin'}</p>
-                    </div>
-                    <div className={styles.headerRight}>
-                        <div className={styles.userBadge}>
-                            <div className={styles.avatar}>{user?.name?.charAt(0) || 'A'}</div>
-                            <div className={styles.userInfo}>
-                                <div className={styles.userName}>{user?.name || 'Admin'}</div>
-                                <div className={styles.userRole}>Yönetici</div>
-                            </div>
+                <div className={styles.topBar}>
+                    <h1 className={styles.pageTitle}>
+                        {menuItems.find(m => m.id === activeTab)?.label}
+                    </h1>
+                    <div className={styles.userInfo}>
+                        <span>Hoş geldin, <strong>{user?.email || 'arhankayikci'}</strong></span>
+                        <div className={styles.userAvatar}>
+                            {user?.email?.charAt(0).toUpperCase() || 'A'}
                         </div>
                     </div>
-                </header>
+                </div>
 
-                {/* Content Area */}
-                <div className={styles.contentArea}>
-                    {activeTab === 'overview' && (
-                        <>
-                            {/* Stats Grid */}
-                            <div className={styles.statsGrid}>
-                                <div className={styles.statCard}>
-                                    <div className={styles.statIcon} style={{ background: '#dbeafe' }}>
-                                        <span style={{ color: '#1e40af' }}>👤</span>
-                                    </div>
-                                    <div className={styles.statContent}>
-                                        <div className={styles.statValue}>{DEMO_STATS.totalUsers}</div>
-                                        <div className={styles.statLabel}>Toplam Kullanıcı</div>
-                                        <div className={styles.statChange}>↗ +12% bu ay</div>
-                                    </div>
-                                </div>
-
-                                <div className={styles.statCard}>
-                                    <div className={styles.statIcon} style={{ background: '#dcfce7' }}>
-                                        <span style={{ color: '#15803d' }}>✓</span>
-                                    </div>
-                                    <div className={styles.statContent}>
-                                        <div className={styles.statValue}>{DEMO_STATS.activeUsers}</div>
-                                        <div className={styles.statLabel}>Aktif Kullanıcı</div>
-                                        <div className={styles.statChange}>↗ +8% bu ay</div>
-                                    </div>
-                                </div>
-
-                                <div className={styles.statCard}>
-                                    <div className={styles.statIcon} style={{ background: '#fef3c7' }}>
-                                        <span style={{ color: '#b45309' }}>🚀</span>
-                                    </div>
-                                    <div className={styles.statContent}>
-                                        <div className={styles.statValue}>{DEMO_STATS.totalStartups}</div>
-                                        <div className={styles.statLabel}>Startuplar</div>
-                                        <div className={styles.statChange}>↗ +15% bu ay</div>
-                                    </div>
-                                </div>
-
-                                <div className={styles.statCard}>
-                                    <div className={styles.statIcon} style={{ background: '#fce7f3' }}>
-                                        <span style={{ color: '#be185d' }}>⚡</span>
-                                    </div>
-                                    <div className={styles.statContent}>
-                                        <div className={styles.statValue}>{DEMO_STATS.pendingApprovals}</div>
-                                        <div className={styles.statLabel}>Onay Bekleyen</div>
-                                        <div className={styles.statChange}>Acil</div>
-                                    </div>
+                {/* Overview Tab */}
+                {activeTab === 'overview' && (
+                    <div className={styles.overview}>
+                        <div className={styles.statsGrid}>
+                            <div className={styles.statCard}>
+                                <div className={styles.statIcon} style={{ background: '#E3F2FD' }}>👤</div>
+                                <div className={styles.statContent}>
+                                    <span className={styles.statLabel}>Toplam Kullanıcı</span>
+                                    <span className={styles.statValue}>{stats.totalUsers}</span>
                                 </div>
                             </div>
+                            <div className={styles.statCard}>
+                                <div className={styles.statIcon} style={{ background: '#E8F5E9' }}>✅</div>
+                                <div className={styles.statContent}>
+                                    <span className={styles.statLabel}>Aktif Kullanıcı</span>
+                                    <span className={styles.statValue}>{stats.activeUsers}</span>
+                                </div>
+                            </div>
+                            <div className={styles.statCard}>
+                                <div className={styles.statIcon} style={{ background: '#FFF9C4' }}>🚀</div>
+                                <div className={styles.statContent}>
+                                    <span className={styles.statLabel}>Startup'lar</span>
+                                    <span className={styles.statValue}>{stats.totalStartups}</span>
+                                </div>
+                            </div>
+                            <div className={styles.statCard}>
+                                <div className={styles.statIcon} style={{ background: '#FFE0B2' }}>⚡</div>
+                                <div className={styles.statContent}>
+                                    <span className={styles.statLabel}>Onay Bekleyen</span>
+                                    <span className={styles.statValue}>{stats.pendingApprovals}</span>
+                                </div>
+                            </div>
+                        </div>
 
-                            {/* Activity and Pending */}
-                            <div className={styles.gridTwo}>
-                                <div className={styles.card}>
-                                    <div className={styles.cardHeader}>
-                                        <h3>Son Aktiviteler</h3>
-                                    </div>
+                        <div className={styles.contentGrid}>
+                            <div className={styles.card}>
+                                <h3>Son Aktiviteler</h3>
+                                {recentActivity.length > 0 ? (
                                     <div className={styles.activityList}>
-                                        {RECENT_ACTIVITY.map(activity => (
+                                        {recentActivity.map(activity => (
                                             <div key={activity.id} className={styles.activityItem}>
-                                                <div className={styles.activityIcon}>
-                                                    {activity.type === 'startup' ? '🚀' : activity.type === 'problem' ? '💡' : activity.type === 'user' ? '👤' : '💰'}
-                                                </div>
-                                                <div className={styles.activityContent}>
-                                                    <div className={styles.activityText}>
-                                                        <strong>{activity.user}</strong> {activity.action}
-                                                        {activity.item && <span className={styles.activityItem}> "{activity.item}"</span>}
-                                                    </div>
-                                                    <div className={styles.activityTime}>{activity.time}</div>
-                                                </div>
+                                                <span>{activity.user}: {activity.action}</span>
+                                                <span className={styles.activityTime}>{activity.time}</span>
                                             </div>
                                         ))}
                                     </div>
-                                </div>
+                                ) : (
+                                    <p className={styles.emptyState}>Henüz aktivite yok</p>
+                                )}
+                            </div>
 
-                                <div className={styles.card}>
-                                    <div className={styles.cardHeader}>
-                                        <h3>Onay Bekleyenler</h3>
-                                        <span className={styles.badge}>{PENDING_ITEMS.length}</span>
-                                    </div>
+                            <div className={styles.card}>
+                                <h3>Onay Bekleyenler</h3>
+                                {pendingItems.length > 0 ? (
                                     <div className={styles.pendingList}>
-                                        {PENDING_ITEMS.map(item => (
+                                        {pendingItems.map(item => (
                                             <div key={item.id} className={styles.pendingItem}>
-                                                <div className={styles.pendingInfo}>
+                                                <div>
                                                     <span className={styles.pendingType}>{item.type}</span>
-                                                    <div className={styles.pendingTitle}>{item.title}</div>
-                                                    <div className={styles.pendingMeta}>{item.author} • {item.submitted}</div>
+                                                    <span>{item.title}</span>
                                                 </div>
                                                 <div className={styles.pendingActions}>
-                                                    <button className={styles.btnApprove}>✓</button>
-                                                    <button className={styles.btnReject}>✕</button>
+                                                    <button className={styles.approveBtn}>✓</button>
+                                                    <button className={styles.rejectBtn}>✗</button>
                                                 </div>
                                             </div>
                                         ))}
                                     </div>
-                                </div>
-                            </div>
-                        </>
-                    )}
-
-                    {activeTab === 'users' && (
-                        <div className={styles.card}>
-                            <div className={styles.cardHeader}>
-                                <h3>Kullanıcı Yönetimi</h3>
-                                <input type="text" placeholder="Ara..." className={styles.searchInput} />
-                            </div>
-                            <div className={styles.tableWrapper}>
-                                <table className={styles.table}>
-                                    <thead>
-                                        <tr>
-                                            <th>Kullanıcı</th>
-                                            <th>E-posta</th>
-                                            <th>Tür</th>
-                                            <th>Durum</th>
-                                            <th>Kayıt</th>
-                                            <th>İşlem</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td><strong>Ahmet Yılmaz</strong></td>
-                                            <td>ahmet@email.com</td>
-                                            <td><span className={styles.typeBadge}>Girişimci</span></td>
-                                            <td><span className={styles.statusActive}>Aktif</span></td>
-                                            <td>2 saat önce</td>
-                                            <td><button className={styles.btnAction}>Düzenle</button></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                ) : (
+                                    <p className={styles.emptyState}>Onay bekleyen içerik yok</p>
+                                )}
                             </div>
                         </div>
-                    )}
+                    </div>
+                )}
 
-                    {activeTab === 'settings' && (
-                        <div className={styles.card}>
-                            <div className={styles.cardHeader}>
-                                <h3>Admin Yönetimi</h3>
-                            </div>
-                            <div className={styles.adminEmailList}>
-                                {adminEmails.map((email, i) => (
-                                    <div key={i} className={styles.emailItem}>
+                {/* Settings Tab */}
+                {activeTab === 'settings' && (
+                    <div className={styles.settings}>
+                        <div className={styles.settingsCard}>
+                            <h3>Admin Yönetimi</h3>
+                            <p>Admin yetkisine sahip email adresleri:</p>
+                            <div className={styles.adminList}>
+                                {adminEmails.map(email => (
+                                    <div key={email} className={styles.adminItem}>
                                         <span>{email}</span>
-                                        <button onClick={() => removeAdmin(email)} className={styles.btnRemove}>Kaldır</button>
+                                        {email !== user?.email && (
+                                            <button onClick={() => removeAdmin(email)} className={styles.removeBtn}>
+                                                Kaldır
+                                            </button>
+                                        )}
                                     </div>
                                 ))}
                             </div>
-                            <div className={styles.addAdmin}>
+                            <div className={styles.addAdminForm}>
                                 <input
                                     type="email"
-                                    placeholder="yeni@admin.com"
+                                    placeholder="Yeni admin email"
                                     value={newAdminEmail}
                                     onChange={(e) => setNewAdminEmail(e.target.value)}
-                                    className={styles.emailInput}
+                                    className={styles.adminInput}
                                 />
-                                <button onClick={addAdmin} className={styles.btnAdd}>Ekle</button>
+                                <button onClick={addAdmin} className={styles.addBtn}>Ekle</button>
                             </div>
                         </div>
-                    )}
-                </div>
+                    </div>
+                )}
+
+                {/* Other tabs show empty state */}
+                {['users', 'content', 'analytics'].includes(activeTab) && (
+                    <div className={styles.emptyTab}>
+                        <p>Bu bölüm henüz geliştirilme aşamasında.</p>
+                    </div>
+                )}
             </main>
         </div>
     );

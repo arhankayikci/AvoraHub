@@ -1,15 +1,25 @@
 import Navbar from './Navbar';
 import Footer from './Footer';
 import MobileNav from './MobileNav';
+import MobileHeader from './MobileHeader';
+import styles from './Layout.module.css';
 
 const Layout = ({ children }) => {
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+        <div className={styles.layout}>
+            {/* Desktop: Top Navbar */}
             <Navbar />
-            <main style={{ flex: 1, paddingBottom: '70px' }}>
+
+            {/* Mobile: Top Header */}
+            <MobileHeader />
+
+            <main className={styles.main}>
                 {children}
             </main>
+
             <Footer />
+
+            {/* Mobile: Bottom Navigation */}
             <MobileNav />
         </div>
     );

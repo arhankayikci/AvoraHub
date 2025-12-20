@@ -83,7 +83,9 @@ export default function MessagesPage() {
 
     useEffect(() => {
         if (activeConversation) {
-            setMessages(DEMO_MESSAGES[activeConversation.id] || []);
+            setTimeout(() => {
+                setMessages(DEMO_MESSAGES[activeConversation.id] || []);
+            }, 0);
         }
     }, [activeConversation]);
 

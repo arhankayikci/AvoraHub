@@ -2,14 +2,17 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import styles from './events.module.css';
+import { useAuth } from '@/contexts/AuthContext';
+import { filterItemsForGuests } from '@/utils/visibilityHelpers';
 
 // Demo etkinlikler
 const DEMO_EVENTS = [
     {
         id: 1,
         title: 'AvoraHub Demo Day 2024',
-        description: '20 startup\'ın yatırımcılara sunum yapacağı büyük demo etkinliği. En iyi girişimler ödüllendirilecek.',
+        description: '20 startup&apos;ın yatırımcılara sunum yapacağı büyük demo etkinliği. En iyi girişimler ödüllendirilecek.',
         date: '2024-12-20',
         time: '14:00',
         location: 'İstanbul Kongre Merkezi',
@@ -22,8 +25,8 @@ const DEMO_EVENTS = [
     },
     {
         id: 2,
-        title: 'Yapay Zeka & Startup\'lar Webinar',
-        description: 'AI teknolojilerini startup\'ınızda nasıl kullanabileceğinizi öğrenin.',
+        title: 'Yapay Zeka & Startup&apos;lar Webinar',
+        description: 'AI teknolojilerini startup&apos;ınızda nasıl kullanabileceğinizi öğrenin.',
         date: '2024-12-22',
         time: '19:00',
         location: 'Online',
@@ -49,7 +52,7 @@ const DEMO_EVENTS = [
     {
         id: 4,
         title: 'Pitch Night: Fintech Edition',
-        description: 'Fintech startup\'ları için özel pitch gecesi. Yatırımcı jüri değerlendirmesi.',
+        description: 'Fintech startup&apos;ları için özel pitch gecesi. Yatırımcı jüri değerlendirmesi.',
         date: '2024-12-28',
         time: '19:30',
         location: 'Workinton Nişantaşı',
@@ -62,7 +65,7 @@ const DEMO_EVENTS = [
     {
         id: 5,
         title: 'Product Management Masterclass',
-        description: 'Deneyimli PM\'lerden product management tekniklerini öğrenin.',
+        description: 'Deneyimli PM&apos;lerden product management tekniklerini öğrenin.',
         date: '2025-01-05',
         time: '10:00',
         location: 'Online',
@@ -133,6 +136,8 @@ function EventCard({ event }) {
 export default function EventsPage() {
     const [selectedType, setSelectedType] = useState('Tümü');
     const [showPast, setShowPast] = useState(false);
+    const { user } = useAuth();
+    const router = useRouter();
 
     const now = new Date();
     const filteredEvents = DEMO_EVENTS.filter(event => {
@@ -142,6 +147,21 @@ export default function EventsPage() {
         return matchesType && matchesTime;
     });
 
+    // Apply rotating visibility for guests
+    const { displayedItems: visibleEvents } = filterItemsForGuests(
+        filteredEvents,
+        !!user,
+        3 // minimum events
+    );
+
+    const handleCreateEvent = () => {
+        if (!user) {
+            router.push('/login?next=/events/new');
+        } else {
+            router.push('/events/new');
+        }
+    };
+
     return (
         <div className={styles.page}>
             <div className="container">
@@ -149,7 +169,7 @@ export default function EventsPage() {
                 <div className={styles.hero}>
                     <h1 className={styles.title}>🎪 Etkinlikler</h1>
                     <p className={styles.subtitle}>
-                        Demo day'ler, webinar'lar, networking ve daha fazlası
+                        Demo day&apos;ler, webinar&apos;lar, networking ve daha fazlası
                     </p>
                 </div>
 
@@ -184,8 +204,8 @@ export default function EventsPage() {
 
                 {/* Events List */}
                 <div className={styles.eventsList}>
-                    {filteredEvents.length > 0 ? (
-                        filteredEvents.map(event => (
+                    {visibleEvents.length > 0 ? (
+                        visibleEvents.map(event => (
                             <EventCard key={event.id} event={event} />
                         ))
                     ) : (
@@ -201,11 +221,11 @@ export default function EventsPage() {
                 <div className={styles.cta}>
                     <div className={styles.ctaContent}>
                         <h3>Bir etkinlik mi düzenliyorsunuz?</h3>
-                        <p>Etkinliğinizi AvoraHub'da paylaşın ve startup ekosistemine ulaşın</p>
+                        <p>Etkinliğinizi AvoraHub&apos;da paylaşın ve startup ekosistemine ulaşın</p>
                     </div>
-                    <Link href="/events/create" className={styles.ctaBtn}>
+                    <button onClick={handleCreateEvent} className={styles.ctaBtn}>
                         + Etkinlik Oluştur
-                    </Link>
+                    </button>
                 </div>
             </div>
         </div>

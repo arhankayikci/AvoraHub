@@ -56,7 +56,7 @@ const Footer = () => {
                             </span>
                         </Link>
                         <p className={styles.tagline}>
-                            Dünya çapında problem çözücüleri, startup'ları ve yatırımcıları buluşturan önde gelen ağ.
+                            Dünya çapında problem çözücüleri, startup&apos;ları ve yatırımcıları buluşturan önde gelen ağ.
                         </p>
                         <div className={styles.social}>
                             <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className={styles.socialLink} aria-label="Twitter">
@@ -83,7 +83,7 @@ const Footer = () => {
                             <h4 className={styles.linkTitle}>Platform</h4>
                             <ul className={styles.linkList}>
                                 <li><Link href="/problems">Problemler</Link></li>
-                                <li><Link href="/startups">Startup'lar</Link></li>
+                                <li><Link href="/startups">Startup&apos;lar</Link></li>
                                 <li><Link href="/mentors">Mentörler</Link></li>
                                 <li><Link href="/events">Etkinlikler</Link></li>
                                 <li><Link href="/jobs">Kariyer</Link></li>
@@ -99,12 +99,11 @@ const Footer = () => {
                                 <li><Link href="/investors">Yatırımcılar</Link></li>
                             </ul>
                         </div>
-
                         <div className={styles.linkGroup}>
                             <h4 className={styles.linkTitle}>Yasal</h4>
                             <ul className={styles.linkList}>
                                 <li><Link href="/privacy">Gizlilik Politikası</Link></li>
-                                <li><Link href="/terms">Hizmet Şartları</Link></li>
+                                <li><Link href="/terms">Kullanım Şartları</Link></li>
                                 <li><Link href="/about">Hakkımızda</Link></li>
                                 <li><Link href="/contact">İletişim</Link></li>
                             </ul>

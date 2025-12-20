@@ -10,7 +10,7 @@ export default function InvestorsPage() {
                     <div className={styles.heroContent}>
                         <h1 className={styles.title}>Geleceğin Unicornlarını Keşfedin</h1>
                         <p className={styles.subtitle}>
-                            Avora, vizyoner yatırımcıları Türkiye'nin en potansiyelli girişimleriyle buluşturuyor.
+                            Avora, vizyoner yatırımcıları Türkiye&apos;nin en potansiyelli girişimleriyle buluşturuyor.
                             Erken aşama fırsatları yakalayın.
                         </p>
                         <div className="flex gap-8 justify-center">
@@ -78,7 +78,7 @@ export default function InvestorsPage() {
                             </div>
                             <h3 className={styles.valueTitle}>Doğrudan İletişim</h3>
                             <p className={styles.valueText}>
-                                Aracı olmadan kurucularla doğrudan iletişime geçin, toplantı ayarlayın ve deal flow'unuzu hızlandırın.
+                                Aracı olmadan kurucularla doğrudan iletişime geçin, toplantı ayarlayın ve deal flow&apos;unuzu hızlandırın.
                             </p>
                         </div>
                     </div>
@@ -90,7 +90,7 @@ export default function InvestorsPage() {
                 <div className="container">
                     <h2 className={styles.sectionTitle}>Portföyünüzü Büyütün</h2>
                     <p className={styles.subtitle} style={{ maxWidth: '600px', margin: '0 auto 2rem' }}>
-                        Türkiye'nin en hızlı büyüyen girişimcilik ağında yerinizi alın.
+                        Türkiye&apos;nin en hızlı büyüyen girişimcilik ağında yerinizi alın.
                     </p>
                     <Link href="/signup?role=investor" className="btn btn-primary btn-lg">
                         Hemen Başvurun

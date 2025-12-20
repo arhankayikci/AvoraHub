@@ -1,8 +1,8 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from 'react';
 import styles from './CommentSection.module.css';
-import { useAuth } from '@/context/AuthContext';
+import { useAuth } from '@/contexts/AuthContext';
 import Link from 'next/link';
 
 const CommentSection = ({ problemId, startupId }) => {

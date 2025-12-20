@@ -89,7 +89,7 @@ export function ValidationBreakdown({ scores = {} }) {
                 <ValidationScoreCard score={totalScore} size="lg" />
                 <div className={styles.breakdownInfo}>
                     <h3>Validation Score</h3>
-                    <p>Startup'ınızın pazar uyumu ve yatırım potansiyelini gösteren kapsamlı skor.</p>
+                    <p>Startup&apos;ınızın pazar uyumu ve yatırım potansiyelini gösteren kapsamlı skor.</p>
                 </div>
             </div>
 

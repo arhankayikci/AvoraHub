@@ -1,0 +1,128 @@
+.container {
+    position: relative;
+}
+
+.gateCard {
+    background: white;
+    border-radius: 16px;
+    padding: 3rem 2rem;
+    text-align: center;
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+    margin-top: 2rem;
+    border: 2px solid #e2e8f0;
+    position: relative;
+    overflow: hidden;
+}
+
+.gateCard::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #16a34a, #15803d);
+}
+
+.lockIcon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #1a202c;
+    margin-bottom: 1rem;
+}
+
+.description {
+    font-size: 1.125rem;
+    color: #64748b;
+    margin-bottom: 2rem;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.benefits {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.benefit {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 500;
+    color: #374151;
+}
+
+.checkmark {
+    color: #16a34a;
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.loginBtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 2.5rem;
+    background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+    color: white;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 1.125rem;
+    transition: all 0.3s;
+    box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);
+}
+
+.loginBtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(22, 163, 74, 0.4);
+}
+
+.signupLink {
+    margin-top: 1.5rem;
+    color: #64748b;
+    font-size: 0.875rem;
+}
+
+.signupLink a {
+    color: #16a34a;
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+.signupLink a:hover {
+    color: #15803d;
+}
+
+@media (max-width: 768px) {
+    .gateCard {
+        padding: 2rem 1.5rem;
+    }
+
+    .title {
+        font-size: 1.5rem;
+    }
+
+    .description {
+        font-size: 1rem;
+    }
+
+    .benefits {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+
+    .loginBtn {
+        width: 100%;
+        justify-content: center;
+    }
+}

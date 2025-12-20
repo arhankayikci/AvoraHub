@@ -1,0 +1,373 @@
+
+> avora-web@0.1.0 lint
+> eslint
+
+[baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+
+C:\Users\Ayşe\Documents\Avora Product Hunter\app\about\page.js
+  132:36   error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  136:88   error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  139:46   error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  140:36   error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  282:40   error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  282:106  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  314:40   error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\Users\Ayşe\Documents\Avora Product Hunter\app\admin\page.js
+   51:13   error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  49 |         const stored = localStorage.getItem('adminEmails');
+  50 |         if (stored) {
+> 51 |             setAdminEmails(JSON.parse(stored));
+     |             ^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  52 |         }
+  53 |     }, []);
+  54 |      react-hooks/set-state-in-effect
+   82:17   error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  80 |                 router.push('/');
+  81 |             } else {
+> 82 |                 setIsAuthorized(true);
+     |                 ^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  83 |             }
+  84 |         }
+  85 |     }, [user, loading, router]);  react-hooks/set-state-in-effect
+  227:114  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                react/no-unescaped-entities
+  227:130  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                react/no-unescaped-entities
+
+C:\Users\Ayşe\Documents\Avora Product Hunter\app\compare\page.js
+   91:87  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  206:36  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\Users\Ayşe\Documents\Avora Product Hunter\app\dashboard\analytics\page.js
+  171:37  error  Error: Cannot reassign variable after render completes
+
+Reassigning `offset` after render has completed can cause inconsistent behavior on subsequent renders. Consider using state instead.
+
+  169 |                                     const strokeDasharray = (source.value / 100) * circumference;
+  170 |                                     const strokeDashoffset = -offset;
+> 171 |                                     offset += strokeDasharray;
+      |                                     ^^^^^^ Cannot reassign `offset` after render completes
+  172 |
+  173 |                                     return (
+  174 |                                         <circle  react-hooks/immutability
+
+C:\Users\Ayşe\Documents\Avora Product Hunter\app\events\page.js
+  152:33  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  152:46  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  204:50  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\Users\Ayşe\Documents\Avora Product Hunter\app\forum\[id]\page.js
+  68:41  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  99:49  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\Ayşe\Documents\Avora Product Hunter\app\forum\new\page.js
+  42:76  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\Users\Ayşe\Documents\Avora Product Hunter\app\investors\[id]\page.js
+  242:39  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\Users\Ayşe\Documents\Avora Product Hunter\app\investors\page.js
+  13:66   error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  81:116  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  93:32   error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\Users\Ayşe\Documents\Avora Product Hunter\app\jobs\page.js
+  150:32  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  150:56  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  229:32  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\Users\Ayşe\Documents\Avora Product Hunter\app\login\page.js
+  45:36  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\Users\Ayşe\Documents\Avora Product Hunter\app\mentors\[id]\book\page.js
+  119:52  error  Error: Cannot call impure function during render
+
+`Math.random` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+  117 |
+  118 |     // Random available slots for demo
+> 119 |     const availableSlots = TIME_SLOTS.filter(() => Math.random() > 0.3);
+      |                                                    ^^^^^^^^^^^^^ Cannot call impure function
+  120 |
+  121 |     return (
+  122 |         <div className={styles.page}>  react-hooks/purity
+
+C:\Users\Ayşe\Documents\Avora Product Hunter\app\messages\page.js
+  86:13  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  84 |     useEffect(() => {
+  85 |         if (activeConversation) {
+> 86 |             setMessages(DEMO_MESSAGES[activeConversation.id] || []);
+     |             ^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  87 |         }
+  88 |     }, [activeConversation]);
+  89 |  react-hooks/set-state-in-effect
+
+C:\Users\Ayşe\Documents\Avora Product Hunter\app\news\page.js
+  104:33  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  128:37  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\Ayşe\Documents\Avora Product Hunter\app\page.js
+  172:43  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\Users\Ayşe\Documents\Avora Product Hunter\app\profile\page.js
+  100:33  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\Ayşe\Documents\Avora Product Hunter\app\register\page.js
+  181:61  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\Users\Ayşe\Documents\Avora Product Hunter\app\resources\page.js
+  171:32  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\Users\Ayşe\Documents\Avora Product Hunter\app\signup\page.js
+  36:36  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\Users\Ayşe\Documents\Avora Product Hunter\app\startups\[id]\page.js
+   54:55  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  226:51  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\Users\Ayşe\Documents\Avora Product Hunter\app\startups\page.js
+  90:74  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\Users\Ayşe\Documents\Avora Product Hunter\app\submit-problem\page.js
+  57:33  error  React Hook "useState" is called conditionally. React Hooks must be called in the exact same order in every component render. Did you accidentally call a React Hook after an early return?  react-hooks/rules-of-hooks
+
+C:\Users\Ayşe\Documents\Avora Product Hunter\app\submit-startup\page.js
+  59:33  error  React Hook "useState" is called conditionally. React Hooks must be called in the exact same order in every component render. Did you accidentally call a React Hook after an early return?  react-hooks/rules-of-hooks
+
+C:\Users\Ayşe\Documents\Avora Product Hunter\components\ActivityFeed.js
+  99:37  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\Ayşe\Documents\Avora Product Hunter\components\BudgetCalculator.js
+  56:9  error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  54 |
+  55 |     useEffect(() => {
+> 56 |         calculateBudget();
+     |         ^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  57 |     }, [teamSize, duration, region]);
+  58 |
+  59 |     const formatCurrency = (amount) => {  react-hooks/set-state-in-effect
+  57:8  warning  React Hook useEffect has a missing dependency: 'calculateBudget'. Either include it or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              react-hooks/exhaustive-deps
+
+C:\Users\Ayşe\Documents\Avora Product Hunter\components\CommentSection.js
+  118:37  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\Ayşe\Documents\Avora Product Hunter\components\FavoriteButton.js
+  16:8  warning  React Hook useEffect has a missing dependency: 'checkFavoriteStatus'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\Ayşe\Documents\Avora Product Hunter\components\Footer.js
+  59:70  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  86:67  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\Users\Ayşe\Documents\Avora Product Hunter\components\HeroSection.js
+  14:32  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  22:75  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  37:36  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\Users\Ayşe\Documents\Avora Product Hunter\components\LazyImage.js
+  22:13  error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  20 |     useEffect(() => {
+  21 |         if (priority) {
+> 22 |             setIsInView(true);
+     |             ^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  23 |             return;
+  24 |         }
+  25 |  react-hooks/set-state-in-effect
+  78:17  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    @next/next/no-img-element
+
+C:\Users\Ayşe\Documents\Avora Product Hunter\components\LiveStatsWidget.js
+  18:9  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  16 |
+  17 |     useEffect(() => {
+> 18 |         setIsVisible(true);
+     |         ^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  19 |
+  20 |         // Simulate live updates every 30 seconds
+  21 |         const interval = setInterval(() => {  react-hooks/set-state-in-effect
+
+C:\Users\Ayşe\Documents\Avora Product Hunter\components\Navbar.js
+   99:83  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                                                                                                                                          react/no-unescaped-entities
+  109:83  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                                                                                                                                          react/no-unescaped-entities
+  121:83  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                                                                                                                                          react/no-unescaped-entities
+  149:41  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  170:49  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\Ayşe\Documents\Avora Product Hunter\components\ProblemCard.js
+  16:29  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\Ayşe\Documents\Avora Product Hunter\components\StartupCard.js
+  16:29  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\Ayşe\Documents\Avora Product Hunter\components\StreakTracker.js
+  24:17  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  22 |             if (diffDays === 0) {
+  23 |                 // Bugün zaten giriş yapılmış
+> 24 |                 setStreak(data.streak);
+     |                 ^^^^^^^^^ Avoid calling setState() directly within an effect
+  25 |                 setLastVisit(data.lastVisit);
+  26 |             } else if (diffDays === 1) {
+  27 |                 // Dün giriş yapılmış, streak devam  react-hooks/set-state-in-effect
+
+C:\Users\Ayşe\Documents\Avora Product Hunter\components\UniversalSearch.js
+   43:13  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  41 |     useEffect(() => {
+  42 |         if (query.length < 2) {
+> 43 |             setResults(null);
+     |             ^^^^^^^^^^ Avoid calling setState() directly within an effect
+  44 |             return;
+  45 |         }
+  46 |  react-hooks/set-state-in-effect
+  199:53  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  react/no-unescaped-entities
+  199:61  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  react/no-unescaped-entities
+
+C:\Users\Ayşe\Documents\Avora Product Hunter\components\ValidationScore.js
+  92:31  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\Users\Ayşe\Documents\Avora Product Hunter\components\VoteButton.js
+  17:8  warning  React Hook useEffect has a missing dependency: 'checkVoteStatus'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\Ayşe\Documents\Avora Product Hunter\contexts\FollowContext.js
+  16:13  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  14 |         const saved = localStorage.getItem('avorahub_following');
+  15 |         if (saved) {
+> 16 |             setFollowing(JSON.parse(saved));
+     |             ^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  17 |         }
+  18 |     }, []);
+  19 |  react-hooks/set-state-in-effect
+
+C:\Users\Ayşe\Documents\Avora Product Hunter\contexts\LanguageContext.js
+  18:13  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  16 |         const saved = localStorage.getItem('locale');
+  17 |         if (saved && (saved === 'tr' || saved === 'en')) {
+> 18 |             setLocale(saved);
+     |             ^^^^^^^^^ Avoid calling setState() directly within an effect
+  19 |         }
+  20 |     }, []);
+  21 |  react-hooks/set-state-in-effect
+
+C:\Users\Ayşe\Documents\Avora Product Hunter\contexts\NotificationContext.js
+  68:9  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  66 |     useEffect(() => {
+  67 |         const count = notifications.filter(n => !n.read).length;
+> 68 |         setUnreadCount(count);
+     |         ^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  69 |     }, [notifications]);
+  70 |
+  71 |     const markAsRead = (id) => {  react-hooks/set-state-in-effect
+
+C:\Users\Ayşe\Documents\Avora Product Hunter\contexts\ToastContext.js
+  26:17  error    Error: Cannot access variable before it is declared
+
+`removeToast` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+  24 |         if (duration > 0) {
+  25 |             setTimeout(() => {
+> 26 |                 removeToast(id);
+     |                 ^^^^^^^^^^^ `removeToast` accessed before it is declared
+  27 |             }, duration);
+  28 |         }
+  29 |
+
+  31 |     }, []);
+  32 |
+> 33 |     const removeToast = useCallback((id) => {
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 34 |         setToasts((prev) => prev.filter((toast) => toast.id !== id));
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 35 |     }, []);
+     | ^^^^^^^^^^^^ `removeToast` is declared here
+  36 |
+  37 |     const success = useCallback((message, duration) => {
+  38 |         return addToast(message, 'success', duration);  react-hooks/immutability
+  31:8   warning  React Hook useCallback has a missing dependency: 'removeToast'. Either include it or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               react-hooks/exhaustive-deps
+
+C:\Users\Ayşe\Documents\Avora Product Hunter\lib\hooks\useMentors.js
+  27:8  warning  React Hook useEffect has a missing dependency: 'options'. Either include it or remove the dependency array                                react-hooks/exhaustive-deps
+  27:9  warning  React Hook useEffect has a complex expression in the dependency array. Extract it to a separate variable so it can be statically checked  react-hooks/exhaustive-deps
+
+C:\Users\Ayşe\Documents\Avora Product Hunter\lib\hooks\useProblems.js
+  27:8  warning  React Hook useEffect has a missing dependency: 'options'. Either include it or remove the dependency array                                react-hooks/exhaustive-deps
+  27:9  warning  React Hook useEffect has a complex expression in the dependency array. Extract it to a separate variable so it can be statically checked  react-hooks/exhaustive-deps
+
+C:\Users\Ayşe\Documents\Avora Product Hunter\lib\hooks\useStartups.js
+  27:8  warning  React Hook useEffect has a missing dependency: 'options'. Either include it or remove the dependency array                                react-hooks/exhaustive-deps
+  27:9  warning  React Hook useEffect has a complex expression in the dependency array. Extract it to a separate variable so it can be statically checked  react-hooks/exhaustive-deps
+
+✖ 79 problems (57 errors, 22 warnings)
+

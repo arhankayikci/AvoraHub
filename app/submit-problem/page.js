@@ -1,9 +1,9 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from 'react';
 import styles from './submit.module.css';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/context/AuthContext';
+import { useAuth } from '@/contexts/AuthContext';
 
 const categories = [
     "AI", "Dev", "No-Code", "Freelance", "Tasarım & Yaratıcılık",
@@ -44,6 +44,8 @@ export default function SubmitProblem() {
         contactEmail: ''
     });
 
+    const [errors, setErrors] = useState({});
+
     useEffect(() => {
         if (!loading && !user) {
             router.push('/login');
@@ -53,8 +55,6 @@ export default function SubmitProblem() {
     if (loading || !user) {
         return <div className="flex justify-center py-20">Yükleniyor...</div>;
     }
-
-    const [errors, setErrors] = useState({});
 
     // Validation Functions
     const validateTitle = (title) => {

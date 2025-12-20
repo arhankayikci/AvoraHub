@@ -6,6 +6,9 @@ import StartupCard from '@/components/StartupCard';
 import CategoryBar from '@/components/CategoryBar';
 import Link from 'next/link';
 import LoadingSpinner from '@/components/LoadingSpinner';
+import { useAuth } from '@/contexts/AuthContext';
+import FreemiumGate from '@/components/FreemiumGate';
+import { filterItemsForGuests } from '@/utils/visibilityHelpers';
 
 const countries = [
     { code: "TR", name: "Türkiye" },
@@ -21,6 +24,33 @@ const countries = [
 ];
 
 const stages = ["Pre-Seed", "Seed", "Series A", "Series B", "Growth"];
+
+function FreemiumStartupsWrapper({ startups, countries }) {
+    const { user } = useAuth();
+    const { displayedItems } = filterItemsForGuests(startups, !!user, 3);
+
+    return (
+        <FreemiumGate
+            isAuthenticated={!!user}
+            items={startups}
+            listType="startup"
+        >
+            <div className={styles.grid}>
+                {displayedItems.map(startup => {
+                    const countryObj = countries.find(c => c.code === startup.country);
+                    return (
+                        <StartupCard
+                            key={startup.id}
+                            {...startup}
+                            countryCode={startup.country}
+                            countryName={countryObj ? countryObj.name : startup.country}
+                        />
+                    );
+                })}
+            </div>
+        </FreemiumGate>
+    );
+}
 
 export default function StartupsPage() {
     const [activeCategory, setActiveCategory] = useState('all');
@@ -87,7 +117,7 @@ export default function StartupsPage() {
                         </div>
                         <h1 className={styles.title}>Girişimleri Keşfet</h1>
                         <p className={styles.subtitle}>
-                            Global problemleri çözen en yenilikçi startup'ları incele,
+                            Global problemleri çözen en yenilikçi startup&apos;ları incele,
                             yatırım yap veya ekibe katıl.
                         </p>
                     </div>
@@ -203,19 +233,7 @@ export default function StartupsPage() {
                             <p>{error}</p>
                         </div>
                     ) : startups.length > 0 ? (
-                        <div className={styles.grid}>
-                            {startups.map(startup => {
-                                const countryObj = countries.find(c => c.code === startup.country);
-                                return (
-                                    <StartupCard
-                                        key={startup.id}
-                                        {...startup}
-                                        countryCode={startup.country}
-                                        countryName={countryObj ? countryObj.name : startup.country}
-                                    />
-                                );
-                            })}
-                        </div>
+                        <FreemiumStartupsWrapper startups={startups} countries={countries} />
                     ) : (
                         <div className={styles.emptyState}>
                             <div className={styles.emptyIcon}>
@@ -223,14 +241,43 @@ export default function StartupsPage() {
                                     <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
                                 </svg>
                             </div>
-                            <h3>Sonuç Bulunamadı</h3>
+                            <h3>Henüz Startup Eklenmemiş</h3>
                             <p>
-                                Aradığınız kriterlere uygun startup bulunamadı.<br />
-                                Filtreleri değiştirmeyi veya yeni bir arama yapmayı deneyin.
+                                {hasActiveFilters
+                                    ? 'Aradığınız kriterlere uygun startup bulunamadı.'
+                                    : 'Toplulukta henüz paylaşılmış startup yok. İlk startup\'ı sen ekle!'
+                                }
                             </p>
-                            <button className={styles.clearFilters} onClick={clearFilters} style={{ marginTop: '1rem' }}>
-                                Tüm Filtreleri Temizle
-                            </button>
+                            <div style={{ display: 'flex', gap: '1rem', marginTop: '1.5rem', justifyContent: 'center' }}>
+                                {hasActiveFilters ? (
+                                    <button className={styles.clearFilters} onClick={clearFilters}>
+                                        Filtreleri Temizle
+                                    </button>
+                                ) : (
+                                    <>
+                                        <Link href="/startups/new" className="btn btn-primary">
+                                            Startup Ekle
+                                        </Link>
+                                        <button
+                                            className="btn btn-outline"
+                                            onClick={async () => {
+                                                try {
+                                                    const res = await fetch('/api/demo/load', { method: 'POST' });
+                                                    const data = await res.json();
+                                                    if (data.success) {
+                                                        alert('Demo veriler yüklendi!');
+                                                        window.location.reload();
+                                                    }
+                                                } catch (err) {
+                                                    alert('Hata oluştu');
+                                                }
+                                            }}
+                                        >
+                                            📊 Demo Veri Yükle
+                                        </button>
+                                    </>
+                                )}
+                            </div>
                         </div>
                     )}
                 </div>

@@ -1,87 +1,82 @@
+/* MobileNav - Professional & Modern */
 .mobileNav {
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
-    background: white;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     border-top: 1px solid var(--border);
     display: none;
-    justify-content: space-around;
-    padding: 0.5rem 0;
-    padding-bottom: calc(0.5rem + env(safe-area-inset-bottom, 0px));
     z-index: 100;
-    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
 @media (max-width: 768px) {
     .mobileNav {
-        display: flex;
+        display: block;
     }
+}
+
+.navContainer {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 60px;
+    max-width: 420px;
+    margin: 0 auto;
+    padding: 0 8px;
 }
 
 .navItem {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.25rem;
-    padding: 0.5rem 0.75rem;
+    gap: 4px;
     text-decoration: none;
     color: var(--muted);
     transition: all 0.2s ease;
-    border-radius: 12px;
-    min-width: 60px;
+    padding: 8px 12px;
+    border-radius: var(--radius-md);
+    min-width: 64px;
+}
+
+.navItem .material-icons-round {
+    font-size: 22px;
+    transition: all 0.2s ease;
 }
 
 .navItem:hover {
     color: var(--primary);
+    background: rgba(26, 69, 56, 0.04);
 }
 
 .navItem.active {
     color: var(--primary);
 }
 
-.navItem.active .icon {
-    transform: scale(1.1);
-}
-
-.icon {
-    font-size: 1.25rem;
-    transition: transform 0.2s ease;
+.navItem.active .material-icons-round {
+    font-variation-settings: 'FILL' 1;
 }
 
 .label {
-    font-size: 0.625rem;
+    font-size: 10px;
     font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.01em;
 }
 
-/* Active indicator dot */
-.navItem.active::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    width: 4px;
-    height: 4px;
-    background: var(--primary);
-    border-radius: 50%;
-}
-
-/* Pulse animation on tap */
-@keyframes navPulse {
-    0% {
-        transform: scale(1);
+/* Tablet */
+@media (min-width: 481px) and (max-width: 768px) {
+    .navContainer {
+        max-width: 500px;
     }
 
-    50% {
-        transform: scale(0.95);
+    .navItem {
+        padding: 8px 16px;
     }
 
-    100% {
-        transform: scale(1);
+    .label {
+        font-size: 11px;
     }
-}
-
-.navItem:active {
-    animation: navPulse 0.15s ease;
 }

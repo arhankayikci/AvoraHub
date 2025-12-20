@@ -11,7 +11,7 @@ const HeroSection = () => {
                 <div className={styles.content}>
                     <div className={styles.badge}>
                         <span className={styles.badgeDot}></span>
-                        Türkiye'nin Lider Startup Ekosistemi
+                        Türkiye&apos;nin Lider Startup Ekosistemi
                     </div>
 
                     <h1 className={styles.title}>
@@ -19,7 +19,7 @@ const HeroSection = () => {
                     </h1>
 
                     <p className={styles.subtitle}>
-                        Vizyon sahibi problem çözücüler, yenilikçi startup'lar ve ilerici yatırımcılarla bağlantı kurun. Anlamlı inovasyonu yönlendiren global ağa katılın.
+                        Vizyon sahibi problem çözücüler, yenilikçi startup&apos;lar ve ilerici yatırımcılarla bağlantı kurun. Anlamlı inovasyonu yönlendiren global ağa katılın.
                     </p>
 
                     <div className={styles.actions}>
@@ -34,7 +34,7 @@ const HeroSection = () => {
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                 <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
                             </svg>
-                            Startup'ları Keşfedin
+                            Girişimleri Keşfedin
                         </Link>
                     </div>
 
@@ -58,7 +58,7 @@ const HeroSection = () => {
                                 </svg>
                             </div>
                             <span className={styles.statNumber}>120+</span>
-                            <span className={styles.statLabel}>STARTUP</span>
+                            <span className={styles.statLabel}>GİRİŞİM</span>
                         </div>
                         <div className={styles.statDivider}></div>
                         <div className={styles.statItem}>

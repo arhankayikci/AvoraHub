@@ -1,0 +1,19 @@
+.layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.main {
+    flex: 1;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+    .main {
+        padding-top: 64px;
+        /* MobileHeader height */
+        padding-bottom: 80px;
+        /* MobileNav height + safe area */
+    }
+}

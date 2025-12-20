@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useAuth } from '@/contexts/AuthContext';
 import styles from './new-topic.module.css';
 
 const CATEGORIES = [
@@ -16,18 +17,65 @@ const CATEGORIES = [
 
 export default function NewTopicPage() {
     const router = useRouter();
+    const { user, loading: authLoading } = useAuth();
     const [formData, setFormData] = useState({
         title: '',
         category: 'general',
         content: '',
         tags: ''
     });
+    const [submitting, setSubmitting] = useState(false);
 
-    const handleSubmit = (e) => {
+    // Auth protection - redirect to login if not authenticated
+    useEffect(() => {
+        if (!authLoading && !user) {
+            router.push('/login?redirect=/forum/new');
+        }
+    }, [user, authLoading, router]);
+
+    // Show loading while checking auth
+    if (authLoading) {
+        return (
+            <div className={styles.newTopicPage}>
+                <div className="container">
+                    <div className={styles.loadingState}>
+                        <p>Yükleniyor...</p>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    // Don't render form if not authenticated
+    if (!user) {
+        return (
+            <div className={styles.newTopicPage}>
+                <div className="container">
+                    <div className={styles.authRequired}>
+                        <h2>Giriş Yapmanız Gerekiyor</h2>
+                        <p>Yeni konu açmak için lütfen giriş yapın.</p>
+                        <Link href="/login?redirect=/forum/new" className="btn btn-primary">
+                            Giriş Yap
+                        </Link>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Handle form submission
-        console.log('New topic:', formData);
-        router.push('/forum');
+        setSubmitting(true);
+
+        try {
+            // TODO: Submit to API
+            console.log('New topic:', formData);
+            router.push('/forum');
+        } catch (error) {
+            console.error('Error creating topic:', error);
+        } finally {
+            setSubmitting(false);
+        }
     };
 
     const handleChange = (e) => {
@@ -113,8 +161,12 @@ export default function NewTopicPage() {
                         >
                             İptal
                         </button>
-                        <button type="submit" className={styles.submitBtn}>
-                            Konuyu Yayınla
+                        <button
+                            type="submit"
+                            className={styles.submitBtn}
+                            disabled={submitting}
+                        >
+                            {submitting ? 'Yayınlanıyor...' : 'Konuyu Yayınla'}
                         </button>
                     </div>
                 </form>

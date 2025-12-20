@@ -239,7 +239,7 @@ export default function InvestorDetail() {
                         {/* CTA */}
                         <div className={styles.ctaCard}>
                             <h3>Pitch Gönder</h3>
-                            <p>Startup'ınızı bu yatırımcıya sunun</p>
+                            <p>Startup&apos;ınızı bu yatırımcıya sunun</p>
                             <button className="btn btn-primary" style={{ width: '100%', marginTop: '1rem' }}>
                                 Pitch Deck Gönder
                             </button>

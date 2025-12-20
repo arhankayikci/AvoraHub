@@ -1,7 +1,7 @@
-"use client";
+﻿"use client";
 
 import { useState } from 'react';
-import { useAuth } from '@/context/AuthContext';
+import { useAuth } from '@/contexts/AuthContext';
 import styles from './TeamProposalSection.module.css';
 
 export default function TeamProposalSection({ problemId, problem }) {

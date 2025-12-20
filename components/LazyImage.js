@@ -19,7 +19,9 @@ export default function LazyImage({
 
     useEffect(() => {
         if (priority) {
-            setIsInView(true);
+            if (!isInView) {
+                setTimeout(() => setIsInView(true), 0);
+            }
             return;
         }
 

@@ -1,7 +1,7 @@
-"use client";
+﻿"use client";
 
 import { useState } from 'react';
-import { useAuth } from '@/context/AuthContext';
+import { useAuth } from '@/contexts/AuthContext';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import styles from './register.module.css';
@@ -178,7 +178,7 @@ export default function RegisterPage() {
                 {step === 2 && (
                     <div className={styles.stepContent}>
                         <h1 className={styles.title}>Profilinizi Seçin</h1>
-                        <p className={styles.subtitle}>Avora'yı nasıl kullanmak istiyorsunuz?</p>
+                        <p className={styles.subtitle}>Avora&apos;yı nasıl kullanmak istiyorsunuz?</p>
 
                         <div className={styles.profileTypes}>
                             {profileTypes.map((type) => (

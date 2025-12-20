@@ -40,11 +40,9 @@ export default function UniversalSearch({ placeholder = 'Search problems, startu
 
     useEffect(() => {
         if (query.length < 2) {
-            setResults(null);
             return;
         }
 
-        setIsLoading(true);
         const timer = setTimeout(() => {
             // Mock search - filter results
             const filtered = {
@@ -91,7 +89,15 @@ export default function UniversalSearch({ placeholder = 'Search problems, startu
                     className={styles.searchInput}
                     placeholder={placeholder}
                     value={query}
-                    onChange={(e) => setQuery(e.target.value)}
+                    onChange={(e) => {
+                        const val = e.target.value;
+                        setQuery(val);
+                        if (val.length < 2) {
+                            setResults(null);
+                        } else {
+                            setIsLoading(true);
+                        }
+                    }}
                     onFocus={() => setIsOpen(true)}
                 />
                 {query && (
@@ -196,7 +202,7 @@ export default function UniversalSearch({ placeholder = 'Search problems, startu
                                 <circle cx="11" cy="11" r="8"></circle>
                                 <path d="m21 21-4.35-4.35"></path>
                             </svg>
-                            <p>No results found for "{query}"</p>
+                            <p>No results found for &quot;{query}&quot;</p>
                         </div>
                     )}
                 </div>

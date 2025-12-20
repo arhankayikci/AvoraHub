@@ -165,12 +165,12 @@ export default function AnalyticsPage() {
                         </div>
                         <div className={styles.donutChart}>
                             <svg className={styles.donutSvg} viewBox="0 0 150 150">
-                                {TRAFFIC_SOURCES.map((source, i) => {
+                                {TRAFFIC_SOURCES.reduce((acc, source, i) => {
                                     const strokeDasharray = (source.value / 100) * circumference;
-                                    const strokeDashoffset = -offset;
-                                    offset += strokeDasharray;
+                                    const currentOffset = acc.offset;
+                                    const strokeDashoffset = -currentOffset;
 
-                                    return (
+                                    acc.elements.push(
                                         <circle
                                             key={i}
                                             className={styles.donutCircle}
@@ -182,7 +182,9 @@ export default function AnalyticsPage() {
                                             strokeDashoffset={strokeDashoffset}
                                         />
                                     );
-                                })}
+                                    acc.offset += strokeDasharray;
+                                    return acc;
+                                }, { offset: 0, elements: [] }).elements}
                             </svg>
                             <div className={styles.donutLegend}>
                                 {TRAFFIC_SOURCES.map((source, i) => (

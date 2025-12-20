@@ -1,7 +1,7 @@
-"use client";
+﻿"use client";
 
 import { useState } from 'react';
-import { useAuth } from '@/context/AuthContext';
+import { useAuth } from '@/contexts/AuthContext';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import styles from './login.module.css';
@@ -41,25 +41,52 @@ export default function LoginPage() {
                             <span className={styles.logoAvora}>AVORA</span>
                             <span className={styles.logoHub}>HUB</span>
                         </Link>
-                        <h1 className={styles.brandTitle}>
-                            Türkiye'nin Girişimcilik Merkezi
-                        </h1>
-                        <p className={styles.brandText}>
-                            Binlerce girişimci, yatırımcı ve problem çözücüyle tanışın.
-                            Fikirlerinizi hayata geçirin.
-                        </p>
+
+                        <div className={styles.brandMain}>
+                            <p className={styles.brandTagline}>Türkiye&apos;nin Lider</p>
+                            <h1 className={styles.brandTitle}>
+                                Girişimcilik<br />
+                                Platformu
+                            </h1>
+                            <p className={styles.brandText}>
+                                Fikirlerin sermayeyle buluştuğu, girişimcilerin
+                                yatırımcılarla bağlantı kurduğu ekosistem.
+                            </p>
+                        </div>
+
+                        <div className={styles.brandFeatures}>
+                            <div className={styles.brandFeature}>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                    <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" strokeLinecap="round" strokeLinejoin="round" />
+                                </svg>
+                                <span>Doğrulanmış Yatırımcılar</span>
+                            </div>
+                            <div className={styles.brandFeature}>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                    <path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" strokeLinecap="round" strokeLinejoin="round" />
+                                </svg>
+                                <span>Güvenli Veri Altyapısı</span>
+                            </div>
+                            <div className={styles.brandFeature}>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                    <path d="M13 10V3L4 14h7v7l9-11h-7z" strokeLinecap="round" strokeLinejoin="round" />
+                                </svg>
+                                <span>Hızlı Eşleştirme Sistemi</span>
+                            </div>
+                        </div>
+
                         <div className={styles.brandStats}>
                             <div className={styles.brandStat}>
-                                <span className={styles.brandStatValue}>10K+</span>
-                                <span className={styles.brandStatLabel}>Kullanıcı</span>
+                                <span className={styles.statValue}>500+</span>
+                                <span className={styles.statLabel}>Startup</span>
                             </div>
                             <div className={styles.brandStat}>
-                                <span className={styles.brandStatValue}>500+</span>
-                                <span className={styles.brandStatLabel}>Problem</span>
+                                <span className={styles.statValue}>150+</span>
+                                <span className={styles.statLabel}>Yatırımcı</span>
                             </div>
                             <div className={styles.brandStat}>
-                                <span className={styles.brandStatValue}>200+</span>
-                                <span className={styles.brandStatLabel}>Startup</span>
+                                <span className={styles.statValue}>₺12M+</span>
+                                <span className={styles.statLabel}>Yatırım</span>
                             </div>
                         </div>
                     </div>
@@ -105,16 +132,14 @@ export default function LoginPage() {
                         <form onSubmit={handleSubmit} className={styles.form}>
                             <div className={styles.formGroup}>
                                 <label>E-posta Adresi</label>
-                                <div className={styles.inputWrapper}>
-                                    <span className={styles.inputIcon}>📧</span>
-                                    <input
-                                        type="email"
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        placeholder="ornek@email.com"
-                                        required
-                                    />
-                                </div>
+                                <input
+                                    type="email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    placeholder="ornek@email.com"
+                                    required
+                                    className={styles.input}
+                                />
                             </div>
 
                             <div className={styles.formGroup}>
@@ -124,21 +149,21 @@ export default function LoginPage() {
                                         Şifremi Unuttum
                                     </Link>
                                 </div>
-                                <div className={styles.inputWrapper}>
-                                    <span className={styles.inputIcon}>🔒</span>
+                                <div className={styles.passwordWrapper}>
                                     <input
                                         type={showPassword ? 'text' : 'password'}
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
                                         placeholder="••••••••"
                                         required
+                                        className={styles.input}
                                     />
                                     <button
                                         type="button"
                                         className={styles.togglePassword}
                                         onClick={() => setShowPassword(!showPassword)}
                                     >
-                                        {showPassword ? '🙈' : '👁️'}
+                                        {showPassword ? 'Gizle' : 'Göster'}
                                     </button>
                                 </div>
                             </div>
@@ -150,7 +175,7 @@ export default function LoginPage() {
                                         Giriş yapılıyor...
                                     </>
                                 ) : (
-                                    '🔐 Giriş Yap'
+                                    'Giriş Yap'
                                 )}
                             </button>
                         </form>

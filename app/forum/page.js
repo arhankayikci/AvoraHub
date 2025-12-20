@@ -1,10 +1,9 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import styles from './forum.module.css';
 
-// Demo forum verileri
 const DEMO_CATEGORIES = [
     { id: 'general', name: 'Genel', color: '#3b82f6' },
     { id: 'startups', name: 'Startup\'lar', color: '#10b981' },
@@ -14,84 +13,15 @@ const DEMO_CATEGORIES = [
     { id: 'hiring', name: 'İşe Alım', color: '#06b6d4' },
 ];
 
-const DEMO_TOPICS = [
-    {
-        id: 1,
-        title: 'İlk yatırımcı görüşmesine nasıl hazırlanılır?',
-        category: 'funding',
-        author: { name: 'Ahmet Yılmaz', avatar: 'AY' },
-        replies: 24,
-        views: 456,
-        lastActivity: '2 saat önce',
-        isPinned: true,
-        tags: ['yatırım', 'pitch']
-    },
-    {
-        id: 2,
-        title: 'React vs Next.js - 2024 için hangisi daha iyi?',
-        category: 'tech',
-        author: { name: 'Can Demir', avatar: 'CD' },
-        replies: 38,
-        views: 892,
-        lastActivity: '3 saat önce',
-        isPinned: true,
-        tags: ['react', 'nextjs', 'frontend']
-    },
-    {
-        id: 3,
-        title: 'Startup\'ımı nasıl validation yapabilirim?',
-        category: 'startups',
-        author: { name: 'Elif Kaya', avatar: 'EK' },
-        replies: 15,
-        views: 234,
-        lastActivity: '5 saat önce',
-        isPinned: false,
-        tags: ['validation', 'mvp']
-    },
-    {
-        id: 4,
-        title: 'LinkedIn organik büyüme stratejileri',
-        category: 'marketing',
-        author: { name: 'Murat Öz', avatar: 'MÖ' },
-        replies: 42,
-        views: 1203,
-        lastActivity: 'Dün',
-        isPinned: false,
-        tags: ['linkedin', 'growth', 'b2b']
-    },
-    {
-        id: 5,
-        title: 'Remote developer maaşları 2024',
-        category: 'hiring',
-        author: { name: 'Selin A.', avatar: 'SA' },
-        replies: 67,
-        views: 2341,
-        lastActivity: 'Dün',
-        isPinned: false,
-        tags: ['remote', 'maaş', 'developer']
-    },
-    {
-        id: 6,
-        title: 'AvoraHub\'da startup paylaşırken dikkat edilmesi gerekenler',
-        category: 'general',
-        author: { name: 'AvoraHub Team', avatar: 'AH' },
-        replies: 8,
-        views: 567,
-        lastActivity: '2 gün önce',
-        isPinned: false,
-        tags: ['rehber', 'avorahub']
-    },
-];
-
 function TopicCard({ topic }) {
     const category = DEMO_CATEGORIES.find(c => c.id === topic.category);
 
     return (
-        <Link href={`/forum/${topic.id}`} className={`${styles.topicCard} ${topic.isPinned ? styles.pinned : ''}`}>
-            {topic.isPinned && <span className={styles.pinnedBadge}>Sabitlenmiş</span>}
+        <Link href={`/forum/${topic.id}`} className={`${styles.topicCard} ${topic.is_pinned ? styles.pinned : ''}`}>
+            {topic.is_pinned && <span className={styles.pinnedBadge}>Sabitlenmiş</span>}
 
             <div className={styles.topicLeft}>
-                <div className={styles.avatar}>{topic.author.avatar}</div>
+                <div className={styles.avatar}>{topic.author_avatar || topic.author?.slice(0, 2).toUpperCase()}</div>
             </div>
 
             <div className={styles.topicContent}>
@@ -101,12 +31,12 @@ function TopicCard({ topic }) {
                         className={styles.categoryBadge}
                         style={{ background: `${category?.color}20`, color: category?.color }}
                     >
-                        {category?.name}
+                        {category?.name || topic.category}
                     </span>
-                    <span className={styles.author}>@{topic.author.name}</span>
+                    <span className={styles.author}>@{topic.author}</span>
                 </div>
                 <div className={styles.tags}>
-                    {topic.tags.map((tag, i) => (
+                    {topic.tags?.map((tag, i) => (
                         <span key={i} className={styles.tag}>#{tag}</span>
                     ))}
                 </div>
@@ -114,15 +44,12 @@ function TopicCard({ topic }) {
 
             <div className={styles.topicStats}>
                 <div className={styles.stat}>
-                    <span className={styles.statValue}>{topic.replies}</span>
+                    <span className={styles.statValue}>{topic.replies || 0}</span>
                     <span className={styles.statLabel}>yanıt</span>
                 </div>
                 <div className={styles.stat}>
-                    <span className={styles.statValue}>{topic.views}</span>
+                    <span className={styles.statValue}>{topic.views || 0}</span>
                     <span className={styles.statLabel}>görüntülenme</span>
-                </div>
-                <div className={styles.lastActivity}>
-                    {topic.lastActivity}
                 </div>
             </div>
         </Link>
@@ -130,17 +57,36 @@ function TopicCard({ topic }) {
 }
 
 export default function ForumPage() {
+    const [topics, setTopics] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [selectedCategory, setSelectedCategory] = useState('all');
     const [sortBy, setSortBy] = useState('recent');
 
-    const filteredTopics = DEMO_TOPICS.filter(topic =>
+    useEffect(() => {
+        const fetchTopics = async () => {
+            try {
+                const res = await fetch('/api/forum');
+                if (res.ok) {
+                    const data = await res.json();
+                    setTopics(Array.isArray(data) ? data : []);
+                }
+            } catch (error) {
+                console.error('Error fetching topics:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchTopics();
+    }, []);
+
+    const filteredTopics = topics.filter(topic =>
         selectedCategory === 'all' || topic.category === selectedCategory
     );
 
     const sortedTopics = [...filteredTopics].sort((a, b) => {
-        if (a.isPinned && !b.isPinned) return -1;
-        if (!a.isPinned && b.isPinned) return 1;
-        if (sortBy === 'popular') return b.views - a.views;
+        if (a.is_pinned && !b.is_pinned) return -1;
+        if (!a.is_pinned && b.is_pinned) return 1;
+        if (sortBy === 'popular') return (b.views || 0) - (a.views || 0);
         return 0;
     });
 
@@ -156,7 +102,7 @@ export default function ForumPage() {
                         </p>
                     </div>
                     <Link href="/forum/new" className={styles.newTopicBtn}>
-                        + Yeni Konu Aç
+                        Yeni Konu Aç
                     </Link>
                 </div>
 
@@ -171,10 +117,10 @@ export default function ForumPage() {
                                 onClick={() => setSelectedCategory('all')}
                             >
                                 <span>Tümü</span>
-                                <span className={styles.count}>{DEMO_TOPICS.length}</span>
+                                <span className={styles.count}>{topics.length}</span>
                             </button>
                             {DEMO_CATEGORIES.map(cat => {
-                                const count = DEMO_TOPICS.filter(t => t.category === cat.id).length;
+                                const count = topics.filter(t => t.category === cat.id).length;
                                 return (
                                     <button
                                         key={cat.id}
@@ -223,9 +169,18 @@ export default function ForumPage() {
 
                         {/* Topics List */}
                         <div className={styles.topicsList}>
-                            {sortedTopics.map(topic => (
-                                <TopicCard key={topic.id} topic={topic} />
-                            ))}
+                            {loading ? (
+                                <p>Yükleniyor...</p>
+                            ) : sortedTopics.length > 0 ? (
+                                sortedTopics.map(topic => (
+                                    <TopicCard key={topic.id} topic={topic} />
+                                ))
+                            ) : (
+                                <div className={styles.emptyState}>
+                                    <p>Henüz konu eklenmemiş. İlk konuyu siz açın!</p>
+                                    <Link href="/forum/new" className="btn btn-primary">Yeni Konu Aç</Link>
+                                </div>
+                            )}
                         </div>
                     </main>
                 </div>

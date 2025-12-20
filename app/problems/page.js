@@ -199,14 +199,43 @@ export default function ProblemsPage() {
                                     <line x1="15" y1="9" x2="15.01" y2="9" />
                                 </svg>
                             </div>
-                            <h3>Sonuç Bulunamadı</h3>
+                            <h3>Henüz Problem Eklenmemiş</h3>
                             <p>
-                                Aradığınız kriterlere uygun problem bulunamadı.<br />
-                                Filtreleri değiştirmeyi veya yeni bir arama yapmayı deneyin.
+                                {hasActiveFilters
+                                    ? 'Aradığınız kriterlere uygun problem bulunamadı.'
+                                    : 'Toplulukta henüz paylaşılmış problem yok. İlk problemi sen ekle!'
+                                }
                             </p>
-                            <button className={styles.clearFilters} onClick={clearFilters} style={{ marginTop: '1rem' }}>
-                                Tüm Filtreleri Temizle
-                            </button>
+                            <div style={{ display: 'flex', gap: '1rem', marginTop: '1.5rem', justifyContent: 'center' }}>
+                                {hasActiveFilters ? (
+                                    <button className={styles.clearFilters} onClick={clearFilters}>
+                                        Filtreleri Temizle
+                                    </button>
+                                ) : (
+                                    <>
+                                        <Link href="/problems/new" className="btn btn-primary">
+                                            Problem Ekle
+                                        </Link>
+                                        <button
+                                            className="btn btn-outline"
+                                            onClick={async () => {
+                                                try {
+                                                    const res = await fetch('/api/demo/load', { method: 'POST' });
+                                                    const data = await res.json();
+                                                    if (data.success) {
+                                                        alert('Demo veriler yüklendi!');
+                                                        window.location.reload();
+                                                    }
+                                                } catch (err) {
+                                                    alert('Hata oluştu');
+                                                }
+                                            }}
+                                        >
+                                            📊 Demo Veri Yükle
+                                        </button>
+                                    </>
+                                )}
+                            </div>
                         </div>
                     )}
                 </div>

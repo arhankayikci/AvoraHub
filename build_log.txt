@@ -1,0 +1,84 @@
+﻿
+> avora-web@0.1.0 build
+> next build
+
+   Ôû▓ Next.js 16.0.10 (Turbopack)
+   - Environments: .env.local
+
+   Creating an optimized production build ...
+ Ô£ô Compiled successfully in 3.7s
+   Running TypeScript ...
+   Collecting page data using 15 workers ...
+   Generating static pages using 15 workers (0/51) ...
+   Generating static pages using 15 workers (12/51) 
+   Generating static pages using 15 workers (25/51) 
+   Generating static pages using 15 workers (38/51) 
+ Ô£ô Generating static pages using 15 workers (51/51) in 1266.1ms
+   Finalizing page optimization ...
+
+Route (app)
+Ôöî Ôùï /
+Ôö£ Ôùï /_not-found
+Ôö£ Ôùï /about
+Ôö£ Ôùï /admin
+Ôö£ Ôùï /api
+Ôö£ ãÆ /api/auth/login
+Ôö£ ãÆ /api/auth/register
+Ôö£ ãÆ /api/comments
+Ôö£ ãÆ /api/favorites
+Ôö£ ãÆ /api/problems
+Ôö£ ãÆ /api/problems/[id]
+Ôö£ ãÆ /api/problems/[id]/vote
+Ôö£ ãÆ /api/proposals
+Ôö£ ãÆ /api/startups
+Ôö£ ãÆ /api/startups/[id]
+Ôö£ ãÆ /api/votes
+Ôö£ ãÆ /api/votes/check
+Ôö£ Ôùï /blog
+Ôö£ Ôùï /collections
+Ôö£ ãÆ /collections/[id]
+Ôö£ Ôùï /compare
+Ôö£ Ôùï /contact
+Ôö£ Ôùï /cookies
+Ôö£ Ôùï /dashboard
+Ôö£ Ôùï /dashboard/analytics
+Ôö£ Ôùï /events
+Ôö£ Ôùï /events/create
+Ôö£ Ôùï /forum
+Ôö£ ãÆ /forum/[id]
+Ôö£ Ôùï /forum/new
+Ôö£ Ôùï /funding
+Ôö£ Ôùï /guides
+Ôö£ Ôùï /help
+Ôö£ Ôùï /icon.svg
+Ôö£ Ôùï /investors
+Ôö£ ãÆ /investors/[id]
+Ôö£ Ôùï /jobs
+Ôö£ Ôùï /jobs/post
+Ôö£ Ôùï /login
+Ôö£ Ôùï /mentors
+Ôö£ ãÆ /mentors/[id]
+Ôö£ ãÆ /mentors/[id]/book
+Ôö£ Ôùï /mentors/apply
+Ôö£ Ôùï /messages
+Ôö£ Ôùï /news
+Ôö£ ãÆ /news/[id]
+Ôö£ Ôùï /notifications
+Ôö£ Ôùï /privacy
+Ôö£ Ôùï /problems
+Ôö£ ãÆ /problems/[id]
+Ôö£ Ôùï /profile
+Ôö£ Ôùï /register
+Ôö£ Ôùï /resources
+Ôö£ Ôùï /settings
+Ôö£ Ôùï /signup
+Ôö£ Ôùï /startups
+Ôö£ ãÆ /startups/[id]
+Ôö£ Ôùï /submit-problem
+Ôö£ Ôùï /submit-startup
+Ôöö Ôùï /terms
+
+
+Ôùï  (Static)   prerendered as static content
+ãÆ  (Dynamic)  server-rendered on demand
+

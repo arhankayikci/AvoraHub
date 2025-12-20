@@ -1,238 +1,193 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import styles from './jobs.module.css';
-
-// Demo iş ilanları
-const DEMO_JOBS = [
-    {
-        id: 1,
-        title: 'Senior Full Stack Developer',
-        company: 'PayFlex',
-        companyLogo: 'PF',
-        location: 'İstanbul (Remote)',
-        type: 'Tam Zamanlı',
-        salary: '₺80.000 - ₺120.000',
-        tags: ['React', 'Node.js', 'PostgreSQL'],
-        posted: '2 gün önce',
-        featured: true,
-        description: 'Fintech alanında hızla büyüyen ekibimize katılın.'
-    },
-    {
-        id: 2,
-        title: 'Product Designer',
-        company: 'DataMind AI',
-        companyLogo: 'DM',
-        location: 'Ankara',
-        type: 'Tam Zamanlı',
-        salary: '₺60.000 - ₺90.000',
-        tags: ['Figma', 'UI/UX', 'Design Systems'],
-        posted: '3 gün önce',
-        featured: true,
-        description: 'AI ürünlerimiz için kullanıcı deneyimi tasarlayın.'
-    },
-    {
-        id: 3,
-        title: 'Growth Marketing Manager',
-        company: 'GreenDelivery',
-        companyLogo: 'GD',
-        location: 'İstanbul',
-        type: 'Tam Zamanlı',
-        salary: '₺50.000 - ₺75.000',
-        tags: ['Growth', 'Performance Marketing', 'Analytics'],
-        posted: '1 hafta önce',
-        featured: false,
-        description: 'Yeşil lojistik sektöründe büyüme stratejileri geliştirin.'
-    },
-    {
-        id: 4,
-        title: 'Mobile Developer (React Native)',
-        company: 'HealthTrack',
-        companyLogo: 'HT',
-        location: 'Remote',
-        type: 'Tam Zamanlı',
-        salary: '₺70.000 - ₺100.000',
-        tags: ['React Native', 'iOS', 'Android'],
-        posted: '1 hafta önce',
-        featured: false,
-        description: 'Sağlık takip uygulamalarımızı geliştirin.'
-    },
-    {
-        id: 5,
-        title: 'Backend Developer',
-        company: 'CryptoTR',
-        companyLogo: 'CT',
-        location: 'İstanbul (Hybrid)',
-        type: 'Tam Zamanlı',
-        salary: '₺90.000 - ₺130.000',
-        tags: ['Python', 'Blockchain', 'AWS'],
-        posted: '2 hafta önce',
-        featured: false,
-        description: 'Kripto altyapımızı güçlendirin.'
-    },
-    {
-        id: 6,
-        title: 'Part-time Content Writer',
-        company: 'EduTech Pro',
-        companyLogo: 'EP',
-        location: 'Remote',
-        type: 'Yarı Zamanlı',
-        salary: '₺15.000 - ₺25.000',
-        tags: ['İçerik', 'SEO', 'Eğitim'],
-        posted: '3 gün önce',
-        featured: false,
-        description: 'Eğitim içerikleri üretin.'
-    }
-];
-
-const JOB_TYPES = ['Tümü', 'Tam Zamanlı', 'Yarı Zamanlı', 'Staj', 'Freelance'];
-const LOCATIONS = ['Tümü', 'İstanbul', 'Ankara', 'İzmir', 'Remote'];
+import { formatCurrency, formatRelativeTime } from '@/utils/formatters';
+import { useAuth } from '@/contexts/AuthContext';
+import FreemiumGate from '@/components/FreemiumGate';
+import { filterItemsForGuests } from '@/utils/visibilityHelpers';
 
 function JobCard({ job }) {
     return (
-        <Link href={`/jobs/${job.id}`} className={`${styles.jobCard} ${job.featured ? styles.featured : ''}`}>
-            {job.featured && <span className={styles.featuredBadge}></span>}
-
+        <Link href={`/jobs/${job.id}`} className={styles.jobCard}>
             <div className={styles.cardHeader}>
-                <div className={styles.companyLogo}>{job.companyLogo}</div>
+                <div className={styles.companyLogo}>
+                    {job.company_logo ? (
+                        <img src={job.company_logo} alt={job.company} />
+                    ) : (
+                        job.company.charAt(0)
+                    )}
+                </div>
                 <div className={styles.jobInfo}>
                     <h3 className={styles.jobTitle}>{job.title}</h3>
                     <div className={styles.company}>{job.company}</div>
                 </div>
             </div>
 
-            <p className={styles.description}>{job.description}</p>
+            <p className={styles.description}>
+                {job.description?.substring(0, 120) || 'Açıklama yok'}...
+            </p>
 
-            <div className={styles.tags}>
-                {job.tags.map((tag, i) => (
-                    <span key={i} className={styles.tag}>{tag}</span>
-                ))}
-            </div>
+            {job.tags && job.tags.length > 0 && (
+                <div className={styles.tags}>
+                    {job.tags.slice(0, 4).map((tag, i) => (
+                        <span key={i} className={styles.tag}>{tag}</span>
+                    ))}
+                </div>
+            )}
 
             <div className={styles.cardFooter}>
                 <div className={styles.meta}>
-                    <span className={styles.location}>{job.location}</span>
-                    <span className={styles.type}>{job.type}</span>
+                    {job.location && <span className={styles.location}>{job.location}</span>}
+                    {job.type && <span className={styles.type}>{job.type}</span>}
                 </div>
-                <div className={styles.salary}>{job.salary}</div>
+                {job.salary_min && job.salary_max && (
+                    <div className={styles.salary}>
+                        {formatCurrency(job.salary_min)} - {formatCurrency(job.salary_max)}
+                    </div>
+                )}
             </div>
 
-            <span className={styles.posted}>{job.posted}</span>
+            {job.created_at && (
+                <span className={styles.posted}>{formatRelativeTime(job.created_at)}</span>
+            )}
         </Link>
     );
 }
 
+function FreemiumGateWrapper({ jobs }) {
+    const { user } = useAuth();
+    const { displayedItems } = filterItemsForGuests(jobs, !!user, 3);
+
+    return (
+        <FreemiumGate
+            isAuthenticated={!!user}
+            items={jobs}
+            listType="iş ilanı"
+        >
+            <div className={styles.grid}>
+                {displayedItems.map(job => (
+                    <JobCard key={job.id} job={job} />
+                ))}
+            </div>
+        </FreemiumGate>
+    );
+}
+
 export default function JobsPage() {
-    const [selectedType, setSelectedType] = useState('Tümü');
-    const [selectedLocation, setSelectedLocation] = useState('Tümü');
-    const [searchQuery, setSearchQuery] = useState('');
-
-    const filteredJobs = DEMO_JOBS.filter(job => {
-        const matchesType = selectedType === 'Tümü' || job.type === selectedType;
-        const matchesLocation = selectedLocation === 'Tümü' || job.location.includes(selectedLocation);
-        const matchesSearch = job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            job.company.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            job.tags.some(t => t.toLowerCase().includes(searchQuery.toLowerCase()));
-        return matchesType && matchesLocation && matchesSearch;
+    const [filters, setFilters] = useState({
+        type: 'all',
+        location: 'all',
+        search: ''
     });
+    const [jobs, setJobs] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-    const featuredJobs = filteredJobs.filter(j => j.featured);
-    const regularJobs = filteredJobs.filter(j => !j.featured);
+    useEffect(() => {
+        const fetchJobs = async () => {
+            setLoading(true);
+            try {
+                const params = new URLSearchParams();
+                if (filters.type !== 'all') params.append('type', filters.type);
+                if (filters.location !== 'all') params.append('location', filters.location);
+                if (filters.search) params.append('search', filters.search);
+
+                const res = await fetch(`/api/jobs?${params.toString()}`);
+                const data = await res.json();
+                setJobs(Array.isArray(data) ? data : []);
+            } catch (error) {
+                console.error('Error fetching jobs:', error);
+                setJobs([]);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        const timeoutId = setTimeout(fetchJobs, 300);
+        return () => clearTimeout(timeoutId);
+    }, [filters]);
+
+    const filteredJobs = jobs.filter(job => {
+        if (filters.type !== 'all' && job.type !== filters.type) return false;
+        if (filters.location !== 'all' && !job.location?.includes(filters.location)) return false;
+        if (filters.search) {
+            const search = filters.search.toLowerCase();
+            return (
+                job.title?.toLowerCase().includes(search) ||
+                job.company?.toLowerCase().includes(search) ||
+                job.description?.toLowerCase().includes(search)
+            );
+        }
+        return true;
+    });
 
     return (
         <div className={styles.page}>
-            <div className="container">
-                {/* Hero */}
-                <div className={styles.hero}>
+            {/* Hero */}
+            <section className={styles.hero}>
+                <div className="container">
                     <h1 className={styles.title}>Kariyer Fırsatları</h1>
-                    <p className={styles.subtitle}>
-                        Türkiye'nin en inovatif startup'larında çalışma fırsatı
-                    </p>
+                    <p className={styles.subtitle}>Türkiye'nin en heyecan verici startup'larında çalış</p>
+                </div>
+            </section>
 
-                    {/* Search */}
-                    <div className={styles.searchBox}>
+            {/* Filters */}
+            <section className={styles.filtersSection}>
+                <div className="container">
+                    <div className={styles.filters}>
                         <input
                             type="text"
-                            placeholder="Pozisyon, şirket veya teknoloji ara..."
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
+                            placeholder="İş ara..."
                             className={styles.searchInput}
+                            value={filters.search}
+                            onChange={(e) => setFilters({ ...filters, search: e.target.value })}
                         />
-                        <button className={styles.searchBtn}>Ara</button>
+                        <select
+                            className={styles.select}
+                            value={filters.type}
+                            onChange={(e) => setFilters({ ...filters, type: e.target.value })}
+                        >
+                            <option value="all">Tüm Pozisyonlar</option>
+                            <option value="Tam Zamanlı">Tam Zamanlı</option>
+                            <option value="Yarı Zamanlı">Yarı Zamanlı</option>
+                            <option value="Staj">Staj</option>
+                            <option value="Uzaktan">Uzaktan</option>
+                        </select>
+                        <select
+                            className={styles.select}
+                            value={filters.location}
+                            onChange={(e) => setFilters({ ...filters, location: e.target.value })}
+                        >
+                            <option value="all">Tüm Lokasyonlar</option>
+                            <option value="İstanbul">İstanbul</option>
+                            <option value="Ankara">Ankara</option>
+                            <option value="İzmir">İzmir</option>
+                            <option value="Remote">Remote</option>
+                        </select>
                     </div>
                 </div>
+            </section>
 
-                {/* Filters */}
-                <div className={styles.filters}>
-                    <div className={styles.filterGroup}>
-                        <span className={styles.filterLabel}>Çalışma Şekli:</span>
-                        <div className={styles.filterOptions}>
-                            {JOB_TYPES.map(type => (
-                                <button
-                                    key={type}
-                                    className={`${styles.filterBtn} ${selectedType === type ? styles.active : ''}`}
-                                    onClick={() => setSelectedType(type)}
-                                >
-                                    {type}
-                                </button>
-                            ))}
+            {/* Jobs Grid */}
+            <section className={styles.jobsSection}>
+                <div className="container">
+                    {loading ? (
+                        <div className={styles.loading}>Yükleniyor...</div>
+                    ) : filteredJobs.length > 0 ? (
+                        <FreemiumGateWrapper jobs={filteredJobs} />
+                    ) : (
+                        <div className={styles.emptyState}>
+                            <div className={styles.emptyIcon}>💼</div>
+                            <h3>Henüz İş İlanı Yok</h3>
+                            <p>Şu an aktif iş ilanı bulunmamaktadır.</p>
+                            <Link href="/jobs/new" className="btn btn-primary">
+                                İlk İlanı Siz Verin
+                            </Link>
                         </div>
-                    </div>
-                    <div className={styles.filterGroup}>
-                        <span className={styles.filterLabel}>Lokasyon:</span>
-                        <div className={styles.filterOptions}>
-                            {LOCATIONS.map(loc => (
-                                <button
-                                    key={loc}
-                                    className={`${styles.filterBtn} ${selectedLocation === loc ? styles.active : ''}`}
-                                    onClick={() => setSelectedLocation(loc)}
-                                >
-                                    {loc}
-                                </button>
-                            ))}
-                        </div>
-                    </div>
+                    )}
                 </div>
-
-                {/* Stats */}
-                <div className={styles.stats}>
-                    <span>{filteredJobs.length} açık pozisyon</span>
-                    <span>•</span>
-                    <span>{new Set(DEMO_JOBS.map(j => j.company)).size} şirket</span>
-                </div>
-
-                {/* Featured Jobs */}
-                {featuredJobs.length > 0 && (
-                    <div className={styles.section}>
-                        <h2 className={styles.sectionTitle}>Öne Çıkan Pozisyonlar</h2>
-                        <div className={styles.jobGrid}>
-                            {featuredJobs.map(job => (
-                                <JobCard key={job.id} job={job} />
-                            ))}
-                        </div>
-                    </div>
-                )}
-
-                {/* All Jobs */}
-                <div className={styles.section}>
-                    <h2 className={styles.sectionTitle}>Tüm Pozisyonlar</h2>
-                    <div className={styles.jobGrid}>
-                        {regularJobs.map(job => (
-                            <JobCard key={job.id} job={job} />
-                        ))}
-                    </div>
-                </div>
-
-                {/* CTA */}
-                <div className={styles.cta}>
-                    <h3>Startup'ınız için yetenek mi arıyorsunuz?</h3>
-                    <p>İlanınızı binlerce yetenekli adaya ulaştırın</p>
-                    <Link href="/jobs/post" className={styles.ctaBtn}>
-                        + İlan Ver
-                    </Link>
-                </div>
-            </div>
+            </section>
         </div>
     );
 }

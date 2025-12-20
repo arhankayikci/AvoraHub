@@ -1,0 +1,59 @@
+﻿
+> avora-web@0.1.0 build
+> next build
+
+   Ôû▓ Next.js 16.0.10 (Turbopack)
+   - Environments: .env.local
+
+   Creating an optimized production build ...
+ Ô£ô Compiled successfully in 4.1s
+   Running TypeScript ...
+   Collecting page data using 15 workers ...
+   Generating static pages using 15 workers (0/58) ...
+node.exe : Error occu
+rred prerendering pag
+e "/about". Read more
+: https://nextjs.org/
+docs/messages/prerend
+er-error
+At line:1 char:1
++ & "C:\Program Files
+\nodejs/node.exe" "C:
+\Program Files\nodejs
+/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~
+    + CategoryInfo   
+           : NotSpe  
+  cified: (Error o   
+ ccurred ...prere    
+nder-error:Strin    g
+) [], RemoteExc    ep
+tion
+    + FullyQualified 
+   ErrorId : Native  
+  CommandError
+ 
+TypeError: Cannot des
+tructure property 'us
+er' of '(0 , f.useAut
+h)(...)' as it is und
+efined.
+    at <unknown> (C:\
+Users\Ay┼şe\Documents
+\Avora Product Hunter
+\.next\server\chunks\
+ssr\components_8b1ff0
+8b._.js:1:10987) {
+  digest: '2733654564
+'
+}
+Export encountered an
+ error on /about/page
+: /about, exiting the
+ build.
+ Ô¿» Next.js build wo
+rker exited with code
+: 1 and signal: null

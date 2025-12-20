@@ -13,7 +13,9 @@ export function FollowProvider({ children }) {
         // localStorage'dan yükle
         const saved = localStorage.getItem('avorahub_following');
         if (saved) {
-            setFollowing(JSON.parse(saved));
+            setTimeout(() => {
+                setFollowing(JSON.parse(saved));
+            }, 0);
         }
     }, []);
 

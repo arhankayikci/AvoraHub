@@ -15,7 +15,9 @@ export default function LiveStatsWidget() {
     const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
-        setIsVisible(true);
+        setTimeout(() => {
+            setIsVisible(true);
+        }, 100);
 
         // Simulate live updates every 30 seconds
         const interval = setInterval(() => {

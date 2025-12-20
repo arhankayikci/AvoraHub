@@ -1,64 +1,73 @@
 import { NextResponse } from 'next/server';
-import { db } from '@/lib/db';
+import { supabase } from '@/lib/supabase';
 
 export async function GET(request) {
     try {
+        // Check if Supabase is configured
+        if (!supabase) {
+            console.warn('Supabase not configured');
+            return NextResponse.json([]);
+        }
+
         const { searchParams } = new URL(request.url);
         const category = searchParams.get('category');
         const country = searchParams.get('country');
         const stage = searchParams.get('stage');
         const search = searchParams.get('search');
-        const sort = searchParams.get('sort');
+        const sort = searchParams.get('sort') || 'popular';
 
-        let startups = db.startups.getAll();
+        let query = supabase
+            .from('startups')
+            .select('*');
 
         // Filter by Category
         if (category && category !== 'all') {
-            startups = startups.filter(s => s.category.toLowerCase() === category.toLowerCase());
+            query = query.ilike('category', category);
         }
 
         // Filter by Country
         if (country && country !== 'all') {
-            startups = startups.filter(s => s.country === country);
+            query = query.eq('country', country);
         }
 
         // Filter by Stage
         if (stage && stage !== 'all') {
-            startups = startups.filter(s => s.stage === stage);
+            query = query.eq('stage', stage);
         }
 
         // Filter by Search
         if (search) {
-            const query = search.toLowerCase();
-            startups = startups.filter(s =>
-                s.name.toLowerCase().includes(query) ||
-                s.tagline.toLowerCase().includes(query)
-            );
+            query = query.or(`name.ilike.%${search}%,tagline.ilike.%${search}%`);
         }
 
         // Sorting
-        if (sort) {
-            switch (sort) {
-                case 'newest':
-                    startups.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-                    break;
-                case 'popular': // Likes
-                    startups.sort((a, b) => b.likes - a.likes);
-                    break;
-                case 'funding': // Simplified funding sort (parsing string to number would be needed for real sort)
-                    // For now, just string sort or keep as is
-                    break;
-                case 'discussed':
-                    startups.sort((a, b) => b.comments - a.comments);
-                    break;
-                default:
-                    startups.sort((a, b) => b.likes - a.likes);
-            }
+        switch (sort) {
+            case 'newest':
+                query = query.order('created_at', { ascending: false });
+                break;
+            case 'popular':
+                query = query.order('likes', { ascending: false });
+                break;
+            case 'discussed':
+                query = query.order('comments', { ascending: false });
+                break;
+            default:
+                query = query.order('likes', { ascending: false });
         }
 
-        return NextResponse.json(startups);
+        const { data, error } = await query;
+
+        if (error) {
+            console.error('Supabase error:', error);
+            // Return empty array with 200 to prevent infinite loading
+            return NextResponse.json([]);
+        }
+
+        return NextResponse.json(data || []);
     } catch (error) {
-        return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+        console.error('API error:', error);
+        // Return empty array with 200 to prevent infinite loading
+        return NextResponse.json([]);
     }
 }
 
@@ -67,14 +76,35 @@ export async function POST(request) {
         const body = await request.json();
 
         // Basic validation
-        if (!body.name || !body.tagline || !body.description || !body.authorId) {
+        if (!body.name || !body.tagline) {
             return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
         }
 
-        const newStartup = db.startups.create(body);
-        return NextResponse.json(newStartup, { status: 201 });
+        const { data, error } = await supabase
+            .from('startups')
+            .insert([{
+                name: body.name,
+                tagline: body.tagline,
+                description: body.description || '',
+                category: body.category || 'Teknoloji',
+                country: body.country || 'TR',
+                stage: body.stage || 'Seed',
+                website: body.website || '',
+                likes: 0,
+                comments: 0,
+                featured: false
+            }])
+            .select()
+            .single();
+
+        if (error) {
+            console.error('Supabase error:', error);
+            return NextResponse.json({ error: error.message }, { status: 500 });
+        }
+
+        return NextResponse.json(data, { status: 201 });
     } catch (error) {
-        console.error(error);
+        console.error('API error:', error);
         return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
     }
 }

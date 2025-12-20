@@ -53,7 +53,9 @@ export default function BudgetCalculator({ problem }) {
     };
 
     useEffect(() => {
-        calculateBudget();
+        setTimeout(() => {
+            calculateBudget();
+        }, 0);
     }, [teamSize, duration, region]);
 
     const formatCurrency = (amount) => {

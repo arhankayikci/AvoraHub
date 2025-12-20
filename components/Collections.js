@@ -1,47 +1,8 @@
 "use client";
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import styles from './Collections.module.css';
-
-// Demo koleksiyonlar
-const DEMO_COLLECTIONS = [
-    {
-        id: 1,
-        title: "2024'ün En İyi Fintech'leri",
-        description: "Türkiye'nin öne çıkan fintech startup'ları",
-        icon: "💳",
-        itemCount: 12,
-        curator: "AvoraHub Editör",
-        color: "#0B4F3B"
-    },
-    {
-        id: 2,
-        title: "Yapay Zeka Çözümleri",
-        description: "AI tabanlı inovatif girişimler",
-        icon: "🤖",
-        itemCount: 8,
-        curator: "Tech Team",
-        color: "#8B5CF6"
-    },
-    {
-        id: 3,
-        title: "Sürdürülebilirlik",
-        description: "Çevre dostu ve yeşil startup'lar",
-        icon: "🌱",
-        itemCount: 15,
-        curator: "Green Hub",
-        color: "#22C55E"
-    },
-    {
-        id: 4,
-        title: "Sağlık Teknolojileri",
-        description: "HealthTech alanında yenilikçi çözümler",
-        icon: "🏥",
-        itemCount: 10,
-        curator: "Health Desk",
-        color: "#EF4444"
-    }
-];
 
 export function CollectionCard({ collection }) {
     return (
@@ -64,7 +25,35 @@ export function CollectionCard({ collection }) {
     );
 }
 
-export default function Collections({ collections = DEMO_COLLECTIONS, title = "Koleksiyonlar" }) {
+export default function Collections({ title = "Koleksiyonlar" }) {
+    const [collections, setCollections] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchCollections = async () => {
+            try {
+                const res = await fetch('/api/collections');
+                if (res.ok) {
+                    const data = await res.json();
+                    setCollections(Array.isArray(data) ? data : []);
+                }
+            } catch (error) {
+                console.error('Error fetching collections:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchCollections();
+    }, []);
+
+    if (loading) {
+        return null;
+    }
+
+    if (collections.length === 0) {
+        return null; // Don't render section if no collections
+    }
+
     return (
         <section className={styles.section}>
             <div className={styles.header}>

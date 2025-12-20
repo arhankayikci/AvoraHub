@@ -1,138 +1,59 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import styles from './funding.module.css';
-
-// Demo funding data
-const DEMO_FUNDING_ROUNDS = [
-    {
-        id: 1,
-        company: 'PayFlex',
-        logo: 'PF',
-        amount: '₺12M',
-        round: 'Series A',
-        date: '2024-12-15',
-        investors: ['TechVentures', 'Seed Capital'],
-        category: 'Fintech',
-        description: 'Esnek ödeme çözümleri sunan fintech startup\'ı Series A turunu kapattı.',
-        leadInvestor: 'TechVentures',
-        isHot: true
-    },
-    {
-        id: 2,
-        company: 'DataMind AI',
-        logo: 'DM',
-        amount: '₺5M',
-        round: 'Seed',
-        date: '2024-12-10',
-        investors: ['AI Fund', 'Angel Network TR'],
-        category: 'AI/ML',
-        description: 'AI destekli analitik platformu ilk yatırımını aldı.',
-        leadInvestor: 'AI Fund',
-        isHot: true
-    },
-    {
-        id: 3,
-        company: 'GreenDelivery',
-        logo: 'GD',
-        amount: '₺25M',
-        round: 'Series B',
-        date: '2024-12-01',
-        investors: ['Green Fund', 'Impact Ventures', 'Corporate VC'],
-        category: 'Lojistik',
-        description: 'Sürdürülebilir teslimat şirketi büyüme için yeni yatırım aldı.',
-        leadInvestor: 'Green Fund',
-        isHot: false
-    },
-    {
-        id: 4,
-        company: 'HealthTrack',
-        logo: 'HT',
-        amount: '₺8M',
-        round: 'Series A',
-        date: '2024-11-28',
-        investors: ['Health Capital', 'Digital Health Fund'],
-        category: 'HealthTech',
-        description: 'Sağlık takip uygulaması Series A turunu tamamladı.',
-        leadInvestor: 'Health Capital',
-        isHot: false
-    },
-    {
-        id: 5,
-        company: 'CryptoTR',
-        logo: 'CT',
-        amount: '₺18M',
-        round: 'Series A',
-        date: '2024-11-20',
-        investors: ['Blockchain Capital', 'Crypto Fund'],
-        category: 'Blockchain',
-        description: 'Türk kripto platformu büyük yatırım aldı.',
-        leadInvestor: 'Blockchain Capital',
-        isHot: false
-    },
-    {
-        id: 6,
-        company: 'EduTech Pro',
-        logo: 'EP',
-        amount: '₺3M',
-        round: 'Seed',
-        date: '2024-11-15',
-        investors: ['EdTech Angels'],
-        category: 'EdTech',
-        description: 'Online eğitim platformu seed yatırımı aldı.',
-        leadInvestor: 'EdTech Angels',
-        isHot: false
-    }
-];
-
-const STATS = {
-    totalRounds: 47,
-    totalAmount: '₺285M',
-    avgDealSize: '₺6.1M',
-    topCategory: 'Fintech'
-};
-
-const ROUND_TYPES = ['Tümü', 'Pre-Seed', 'Seed', 'Series A', 'Series B', 'Series C+'];
-const CATEGORIES = ['Tümü', 'Fintech', 'AI/ML', 'HealthTech', 'Lojistik', 'EdTech', 'Blockchain'];
-
-function formatDate(dateStr) {
-    const date = new Date(dateStr);
-    return date.toLocaleDateString('tr-TR', { day: 'numeric', month: 'short', year: 'numeric' });
-}
+import { formatCurrency, formatDate } from '@/utils/formatters';
+import { ImgWithFallback } from '@/components/ImageWithFallback';
+import { LoadingState, EmptyState, ErrorState } from '@/components/StateComponents';
 
 function FundingCard({ funding }) {
-    return (
-        <Link href={`/startups/${funding.id}`} className={`${styles.fundingCard} ${funding.isHot ? styles.hot : ''}`}>
-            {funding.isHot && <span className={styles.hotBadge}>Sıcak</span>}
+    const startup = funding.startups || {};
 
+    return (
+        <Link href={`/startups/${startup.id || funding.startup_id}`} className={styles.fundingCard}>
             <div className={styles.cardHeader}>
-                <div className={styles.logo}>{funding.logo}</div>
+                <div className={styles.logo}>
+                    <ImgWithFallback
+                        src={startup.logo_url}
+                        alt={startup.name}
+                        fallbackText={startup.name}
+                        className={styles.logoImg}
+                        style={{ width: '60px', height: '60px' }}
+                    />
+                </div>
                 <div className={styles.headerInfo}>
-                    <h3 className={styles.companyName}>{funding.company}</h3>
-                    <span className={styles.category}>{funding.category}</span>
+                    <h3 className={styles.companyName}>{startup.name || 'Unknown'}</h3>
+                    {startup.category && <span className={styles.category}>{startup.category}</span>}
                 </div>
                 <div className={styles.amountBox}>
-                    <span className={styles.amount}>{funding.amount}</span>
-                    <span className={styles.round}>{funding.round}</span>
+                    <span className={styles.amount}>{formatCurrency(funding.amount)}</span>
+                    <span className={styles.round}>{funding.round_type}</span>
                 </div>
             </div>
 
-            <p className={styles.description}>{funding.description}</p>
+            {startup.tagline && <p className={styles.description}>{startup.tagline}</p>}
 
-            <div className={styles.investors}>
-                <span className={styles.investorsLabel}>Yatırımcılar:</span>
-                <div className={styles.investorsList}>
-                    {funding.investors.map((inv, i) => (
-                        <span key={i} className={`${styles.investor} ${inv === funding.leadInvestor ? styles.lead : ''}`}>
-                            {inv === funding.leadInvestor && '👑 '}{inv}
-                        </span>
-                    ))}
+            {funding.investors && funding.investors.length > 0 && (
+                <div className={styles.investors}>
+                    <span className={styles.investorsLabel}>Yatırımcılar:</span>
+                    <div className={styles.investorsList}>
+                        {funding.investors.map((inv, i) => (
+                            <span
+                                key={i}
+                                className={`${styles.investor} ${inv === funding.lead_investor ? styles.lead : ''}`}
+                            >
+                                {inv === funding.lead_investor && '👑 '}{inv}
+                            </span>
+                        ))}
+                    </div>
                 </div>
-            </div>
+            )}
 
             <div className={styles.cardFooter}>
-                <span className={styles.date}>📅 {formatDate(funding.date)}</span>
+                {funding.announced_date && (
+                    <span className={styles.date}>📅 {formatDate(funding.announced_date)}</span>
+                )}
                 <span className={styles.viewLink}>Detaylar →</span>
             </div>
         </Link>
@@ -140,14 +61,47 @@ function FundingCard({ funding }) {
 }
 
 export default function FundingPage() {
-    const [selectedRound, setSelectedRound] = useState('Tümü');
-    const [selectedCategory, setSelectedCategory] = useState('Tümü');
-
-    const filteredFunding = DEMO_FUNDING_ROUNDS.filter(f => {
-        const matchesRound = selectedRound === 'Tümü' || f.round === selectedRound;
-        const matchesCategory = selectedCategory === 'Tümü' || f.category === selectedCategory;
-        return matchesRound && matchesCategory;
+    const [filters, setFilters] = useState({
+        round: 'all',
+        category: 'all'
     });
+    const [funding, setFunding] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    const fetchFunding = async () => {
+        setLoading(true);
+        setError(null);
+        try {
+            const res = await fetch('/api/funding');
+            const data = await res.json();
+            setFunding(Array.isArray(data) ? data : []);
+        } catch (err) {
+            console.error('Error fetching funding:', err);
+            setError('Yatırım bilgileri yüklenirken hata oluştu');
+            setFunding([]);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchFunding();
+    }, []);
+
+    const filteredFunding = funding.filter(f => {
+        if (filters.round !== 'all' && f.round_type !== filters.round) return false;
+        if (filters.category !== 'all' && f.startups?.category !== filters.category) return false;
+        return true;
+    });
+
+    // Calculate stats from real data
+    const stats = {
+        totalRounds: funding.length,
+        totalAmount: funding.reduce((sum, f) => sum + (f.amount || 0), 0),
+        avgDealSize: funding.length > 0 ? Math.floor(funding.reduce((sum, f) => sum + (f.amount || 0), 0) / funding.length) : 0,
+        topCategory: 'Fintech' // Could calculate from data
+    };
 
     return (
         <div className={styles.page}>
@@ -161,79 +115,81 @@ export default function FundingPage() {
                 </div>
 
                 {/* Stats */}
-                <div className={styles.statsGrid}>
-                    <div className={styles.statCard}>
-                        <span className={styles.statValue}>{STATS.totalRounds}</span>
-                        <span className={styles.statLabel}>2024 Tur Sayısı</span>
+                {!loading && funding.length > 0 && (
+                    <div className={styles.statsGrid}>
+                        <div className={styles.statCard}>
+                            <span className={styles.statValue}>{stats.totalRounds}</span>
+                            <span className={styles.statLabel}>Toplam Tur</span>
+                        </div>
+                        <div className={styles.statCard}>
+                            <span className={styles.statValue}>{formatCurrency(stats.totalAmount)}</span>
+                            <span className={styles.statLabel}>Toplam Yatırım</span>
+                        </div>
+                        <div className={styles.statCard}>
+                            <span className={styles.statValue}>{formatCurrency(stats.avgDealSize)}</span>
+                            <span className={styles.statLabel}>Ortalama Deal</span>
+                        </div>
+                        <div className={styles.statCard}>
+                            <span className={styles.statValue}>{stats.topCategory}</span>
+                            <span className={styles.statLabel}>En Aktif Sektör</span>
+                        </div>
                     </div>
-                    <div className={styles.statCard}>
-                        <span className={styles.statValue}>{STATS.totalAmount}</span>
-                        <span className={styles.statLabel}>Toplam Yatırım</span>
-                    </div>
-                    <div className={styles.statCard}>
-                        <span className={styles.statValue}>{STATS.avgDealSize}</span>
-                        <span className={styles.statLabel}>Ortalama Deal</span>
-                    </div>
-                    <div className={styles.statCard}>
-                        <span className={styles.statValue}>{STATS.topCategory}</span>
-                        <span className={styles.statLabel}>En Aktif Sektör</span>
-                    </div>
-                </div>
+                )}
 
                 {/* Filters */}
                 <div className={styles.filters}>
-                    <div className={styles.filterGroup}>
-                        <label>Tur Tipi</label>
-                        <div className={styles.filterBtns}>
-                            {ROUND_TYPES.map(round => (
-                                <button
-                                    key={round}
-                                    className={`${styles.filterBtn} ${selectedRound === round ? styles.active : ''}`}
-                                    onClick={() => setSelectedRound(round)}
-                                >
-                                    {round}
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-                    <div className={styles.filterGroup}>
-                        <label>Sektör</label>
-                        <div className={styles.filterBtns}>
-                            {CATEGORIES.map(cat => (
-                                <button
-                                    key={cat}
-                                    className={`${styles.filterBtn} ${selectedCategory === cat ? styles.active : ''}`}
-                                    onClick={() => setSelectedCategory(cat)}
-                                >
-                                    {cat}
-                                </button>
-                            ))}
-                        </div>
-                    </div>
+                    <select
+                        className={styles.select}
+                        value={filters.round}
+                        onChange={(e) => setFilters({ ...filters, round: e.target.value })}
+                    >
+                        <option value="all">Tüm Turlar</option>
+                        <option value="Pre-Seed">Pre-Seed</option>
+                        <option value="Seed">Seed</option>
+                        <option value="Series A">Series A</option>
+                        <option value="Series B">Series B</option>
+                        <option value="Series C+">Series C+</option>
+                    </select>
                 </div>
 
-                {/* Results */}
-                <div className={styles.resultsHeader}>
-                    <span>{filteredFunding.length} yatırım turu</span>
-                </div>
-
-                {/* Funding List */}
-                <div className={styles.fundingList}>
-                    {filteredFunding.map(funding => (
-                        <FundingCard key={funding.id} funding={funding} />
-                    ))}
-                </div>
+                {/* Content */}
+                {loading ? (
+                    <LoadingState text="Yatırım turları yükleniyor..." />
+                ) : error ? (
+                    <ErrorState error={error} onRetry={fetchFunding} />
+                ) : filteredFunding.length > 0 ? (
+                    <>
+                        <div className={styles.resultsHeader}>
+                            <span>{filteredFunding.length} yatırım turu</span>
+                        </div>
+                        <div className={styles.fundingList}>
+                            {filteredFunding.map(f => (
+                                <FundingCard key={f.id} funding={f} />
+                            ))}
+                        </div>
+                    </>
+                ) : (
+                    <EmptyState
+                        icon="💰"
+                        title="Henüz Yatırım Turu Yok"
+                        description="Şu an ekosistemde duyurulan yatırım turu bulunmamaktadır."
+                        actionText="Yatırımını Duyur"
+                        actionHref="/funding/submit"
+                    />
+                )}
 
                 {/* CTA */}
-                <div className={styles.cta}>
-                    <div className={styles.ctaContent}>
-                        <h3>Yatırım aldınız mı?</h3>
-                        <p>Yatırım turunuzu ekosistemle paylaşın</p>
+                {!loading && funding.length > 0 && (
+                    <div className={styles.cta}>
+                        <div className={styles.ctaContent}>
+                            <h3>Yatırım aldınız mı?</h3>
+                            <p>Yatırım turunuzu ekosistemle paylaşın</p>
+                        </div>
+                        <Link href="/funding/submit" className={styles.ctaBtn}>
+                            + Yatırım Duyur
+                        </Link>
                     </div>
-                    <Link href="/funding/submit" className={styles.ctaBtn}>
-                        + Yatırım Duyur
-                    </Link>
-                </div>
+                )}
             </div>
         </div>
     );

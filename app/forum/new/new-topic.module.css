@@ -191,3 +191,39 @@
         width: 100%;
     }
 }
+
+/* Auth Required State */
+.authRequired {
+    max-width: 400px;
+    margin: 4rem auto;
+    text-align: center;
+    padding: 3rem 2rem;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+}
+
+.authRequired h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--foreground);
+    margin: 0 0 1rem;
+}
+
+.authRequired p {
+    font-size: 1rem;
+    color: var(--muted);
+    margin: 0 0 1.5rem;
+}
+
+.loadingState {
+    max-width: 400px;
+    margin: 4rem auto;
+    text-align: center;
+    padding: 3rem 2rem;
+}
+
+.loadingState p {
+    font-size: 1rem;
+    color: var(--muted);
+}

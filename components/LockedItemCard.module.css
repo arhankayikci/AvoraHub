@@ -1,0 +1,143 @@
+.lockedCard {
+    position: relative;
+    background: white;
+    border: 2px dashed #e2e8f0;
+    border-radius: 12px;
+    padding: 1.5rem;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    overflow: hidden;
+}
+
+.lockOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(249, 250, 251, 0.98) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+}
+
+.lockIcon {
+    font-size: 3rem;
+    opacity: 0.3;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 0.3;
+    }
+
+    50% {
+        transform: scale(1.1);
+        opacity: 0.5;
+    }
+}
+
+.content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+}
+
+.title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #1a202c;
+    margin: 0 0 0.5rem;
+}
+
+.subtitle {
+    font-size: 0.875rem;
+    color: #64748b;
+    margin: 0 0 1rem;
+}
+
+.blurredContent {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    opacity: 0.3;
+}
+
+.blurLine {
+    height: 12px;
+    background: linear-gradient(90deg, #e2e8f0 0%, #cbd5e1 50%, #e2e8f0 100%);
+    border-radius: 6px;
+}
+
+.blurLine:nth-child(1) {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.blurLine:nth-child(2) {
+    width: 60%;
+    margin: 0 auto;
+}
+
+.blurLine:nth-child(3) {
+    width: 70%;
+    margin: 0 auto;
+}
+
+.unlockPrompt {
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+
+.message {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #64748b;
+    margin: 0 0 0.75rem;
+}
+
+.unlockBtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1.5rem;
+    background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+    color: white;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.unlockBtn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);
+}
+
+@media (max-width: 768px) {
+    .lockedCard {
+        min-height: 150px;
+        padding: 1rem;
+    }
+
+    .lockIcon {
+        font-size: 2rem;
+    }
+
+    .title {
+        font-size: 1rem;
+    }
+}

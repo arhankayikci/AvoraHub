@@ -1,7 +1,7 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from 'react';
-import { useAuth } from '@/context/AuthContext';
+import { useAuth } from '@/contexts/AuthContext';
 import styles from './FavoriteButton.module.css';
 
 export default function FavoriteButton({ itemId, itemType, initialFavorited = false }) {

@@ -9,6 +9,27 @@ import VoteButton from '@/components/VoteButton';
 import ShareButtons from '@/components/ShareButtons';
 import LoadingSpinner from '@/components/LoadingSpinner';
 
+// Claim Profile Button Component
+function ClaimProfileButton({ startupName }) {
+    const handleClaim = () => {
+        const subject = encodeURIComponent(`Sahiplendirme Talebi: ${startupName}`);
+        const body = encodeURIComponent(
+            `Merhaba AvoraHub Ekibi,\n\n${startupName} girişimini sahiplenmek istiyorum.\n\nDetaylar:\n- Şirket İsmi: ${startupName}\n- İletişim Bilgilerim: \n- Pozisyonum: \n\nTeşekkürler.`
+        );
+        window.location.href = `mailto:contact@avorahub.com.tr?subject=${subject}&body=${body}`;
+    };
+
+    return (
+        <button
+            onClick={handleClaim}
+            className="btn btn-outline"
+            style={{ width: '100%', marginTop: '1rem' }}
+        >
+            🏢 Bu Girişimi Sahiplen
+        </button>
+    );
+}
+
 export default function StartupDetailPage() {
     const params = useParams();
     const { id } = params;
@@ -51,7 +72,7 @@ export default function StartupDetailPage() {
                     <div className={styles.breadcrumb}>
                         <Link href="/">Ana Sayfa</Link>
                         <span>/</span>
-                        <Link href="/startups">Startup'lar</Link>
+                        <Link href="/startups">Startup&apos;lar</Link>
                         <span>/</span>
                         <span>{startup.category}</span>
                     </div>
@@ -163,6 +184,15 @@ export default function StartupDetailPage() {
                                 </div>
                             </div>
 
+                            {/* Claim Profile */}
+                            <div className={styles.ctaCard}>
+                                <div className={styles.ctaContent}>
+                                    <h3>Bu Girişim Senin mi?</h3>
+                                    <p>Profilini sahiplen ve bilgilerini güncelle</p>
+                                </div>
+                                <ClaimProfileButton startupName={startup.name} />
+                            </div>
+
                             {/* CTA */}
                             <div className={styles.ctaCard}>
                                 <div className={styles.ctaContent}>
@@ -223,7 +253,7 @@ export default function StartupDetailPage() {
 
                             {/* Similar Startups */}
                             <div className={styles.sidebarCard}>
-                                <h4>Benzer Startup'lar</h4>
+                                <h4>Benzer Startup&apos;lar</h4>
                                 <div className={styles.similarList}>
                                     <Link href="/startups/2" className={styles.similarItem}>
                                         <span>TechFlow AI</span>

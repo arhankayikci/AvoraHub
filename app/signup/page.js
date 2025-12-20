@@ -33,7 +33,7 @@ export default function Signup() {
                         <Link href="/" className={styles.logo}>
                             AVORA<span>HUB</span>
                         </Link>
-                        <h1>Türkiye'nin Lider Startup Ekosistemi</h1>
+                        <h1>Türkiye&apos;nin Lider Startup Ekosistemi</h1>
                         <p>Problem çözücülerini, girişimcileri ve yatırımcıları bir araya getiriyoruz.</p>
 
                         <div className={styles.stats}>

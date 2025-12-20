@@ -318,12 +318,13 @@
 .ctaContent h3 {
     font-size: 1.25rem;
     font-weight: 800;
+    color: white;
     margin: 0 0 0.25rem;
 }
 
 .ctaContent p {
     font-size: 0.9375rem;
-    opacity: 0.9;
+    color: rgba(255, 255, 255, 0.95);
     margin: 0;
 }
 

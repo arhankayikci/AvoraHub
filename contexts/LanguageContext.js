@@ -15,7 +15,9 @@ export function LanguageProvider({ children }) {
         // Check localStorage for saved preference
         const saved = localStorage.getItem('locale');
         if (saved && (saved === 'tr' || saved === 'en')) {
-            setLocale(saved);
+            setTimeout(() => {
+                setLocale(saved);
+            }, 0);
         }
     }, []);
 

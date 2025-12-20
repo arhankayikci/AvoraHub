@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import HeroSection from "../components/HeroSection";
 import ProblemCard from "../components/ProblemCard";
 import StartupCard from "../components/StartupCard";
@@ -11,106 +12,34 @@ import styles from "./page.module.css";
 import { useLanguage } from '@/contexts/LanguageContext';
 import Link from 'next/link';
 
-const trendingProblems = [
-  {
-    id: 1,
-    title: "Elektrikli araç şarj istasyonu eksikliği",
-    description: "Brezilya'nın büyük şehirlerinde elektrikli araçların şarj edilebileceği yeterli istasyon yok ve bu durum EV benimsenmesini engelliyor.",
-    category: "Ulaşım",
-    votes: 342,
-    comments: 56,
-    author: "Maria Silva",
-    timeAgo: "3 saat önce",
-    countryCode: "BR",
-    countryName: "Brezilya"
-  },
-  {
-    id: 2,
-    title: "Uygun fiyatlı sağlık hizmeti erişimi",
-    description: "Hindistan'ın kırsal bölgelerinde milyonlarca insan temel sağlık hizmetlerine erişemiyor çünkü klinikler çok uzakta ve pahalı.",
-    category: "Sağlık",
-    votes: 567,
-    comments: 89,
-    author: "Raj Patel",
-    timeAgo: "1 saat önce",
-    countryCode: "IN",
-    countryName: "Hindistan"
-  },
-  {
-    id: 3,
-    title: "İstanbul'da kaliteli çocuk bakım hizmeti bulmak",
-    description: "Ebeveynler, İstanbul'da iş yerlerine yakın güvenilir ve uygun fiyatlı çocuk bakım seçenekleri bulmakta zorlanıyor.",
-    category: "Aile & Çocuk",
-    votes: 124,
-    comments: 18,
-    author: "Ayşe Kaya",
-    timeAgo: "2 saat önce",
-    countryCode: "TR",
-    countryName: "Türkiye"
-  },
-  {
-    id: 4,
-    title: "Plastik atık yönetimi",
-    description: "Endonezya'da her gün tonlarca plastik atık okyanuslara karışıyor ve çevreye zarar veriyor. Etkili bir geri dönüşüm sistemine ihtiyaç var.",
-    category: "Sürdürülebilirlik",
-    votes: 445,
-    comments: 72,
-    author: "Putri Wijaya",
-    timeAgo: "4 saat önce",
-    countryCode: "ID",
-    countryName: "Endonezya"
-  }
-];
-
-const featuredStartups = [
-  {
-    id: 1,
-    name: "ChargeHub Brasil",
-    tagline: "Brezilya genelinde akıllı EV şarj ağı",
-    category: "Ulaşım",
-    likes: 789,
-    comments: 124,
-    featured: true,
-    countryCode: "BR",
-    countryName: "Brezilya"
-  },
-  {
-    id: 2,
-    name: "HealthBridge India",
-    tagline: "Kırsal kesimlerde mobil tele-sağlık platformu",
-    category: "Sağlık",
-    likes: 892,
-    comments: 156,
-    featured: true,
-    countryCode: "IN",
-    countryName: "Hindistan"
-  },
-  {
-    id: 3,
-    name: "BakımBağla",
-    tagline: "Doğrulanmış çocuk bakıcıları ağı",
-    category: "Aile & Çocuk",
-    likes: 456,
-    comments: 67,
-    featured: false,
-    countryCode: "TR",
-    countryName: "Türkiye"
-  },
-  {
-    id: 4,
-    name: "OceanClean Indonesia",
-    tagline: "AI destekli plastik toplama ve geri dönüşüm",
-    category: "Sürdürülebilirlik",
-    likes: 654,
-    comments: 98,
-    featured: true,
-    countryCode: "ID",
-    countryName: "Endonezya"
-  }
-];
-
 export default function Home() {
   const { t } = useLanguage();
+  const [problems, setProblems] = useState([]);
+  const [startups, setStartups] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [problemsRes, startupsRes] = await Promise.all([
+          fetch('/api/problems?sort=votes'),
+          fetch('/api/startups?sort=popular')
+        ]);
+
+        const problemsData = await problemsRes.json();
+        const startupsData = await startupsRes.json();
+
+        setProblems(Array.isArray(problemsData) ? problemsData.slice(0, 4) : []);
+        setStartups(Array.isArray(startupsData) ? startupsData.slice(0, 4) : []);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <div className={styles.page}>
@@ -141,6 +70,7 @@ export default function Home() {
         {/* Trending Problems Section */}
         <section className={styles.section}>
           <div className="container">
+
             <div className={styles.sectionHeader}>
               <div>
                 <h2 className={styles.sectionTitle}>
@@ -156,9 +86,18 @@ export default function Home() {
             </div>
 
             <div className={styles.grid}>
-              {trendingProblems.map(problem => (
-                <ProblemCard key={problem.id} {...problem} />
-              ))}
+              {loading ? (
+                <p>Yükleniyor...</p>
+              ) : problems.length > 0 ? (
+                problems.map(problem => (
+                  <ProblemCard key={problem.id} {...problem} />
+                ))
+              ) : (
+                <div className={styles.emptyState}>
+                  <p>Henüz problem eklenmemiş. İlk problemi siz ekleyin!</p>
+                  <Link href="/problems/new" className="btn btn-primary">Problem Ekle</Link>
+                </div>
+              )}
             </div>
           </div>
         </section>
@@ -169,7 +108,7 @@ export default function Home() {
             <div className={styles.sectionHeader}>
               <div>
                 <h2 className={styles.sectionTitle}>
-                  Global Öne Çıkan Startup'lar
+                  Global Öne Çıkan Startup&apos;lar
                 </h2>
                 <p className={styles.sectionSubtitle}>
                   Dünya genelinde gerçek problemleri çözen yenilikçi şirketler
@@ -181,9 +120,18 @@ export default function Home() {
             </div>
 
             <div className={styles.grid}>
-              {featuredStartups.map(startup => (
-                <StartupCard key={startup.id} {...startup} />
-              ))}
+              {loading ? (
+                <p>Yükleniyor...</p>
+              ) : startups.length > 0 ? (
+                startups.map(startup => (
+                  <StartupCard key={startup.id} {...startup} />
+                ))
+              ) : (
+                <div className={styles.emptyState}>
+                  <p>Henüz startup eklenmemiş. İlk startup&apos;ı siz ekleyin!</p>
+                  <Link href="/startups/new" className="btn btn-primary">Startup Ekle</Link>
+                </div>
+              )}
             </div>
           </div>
         </section>

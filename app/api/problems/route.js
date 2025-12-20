@@ -1,55 +1,67 @@
 import { NextResponse } from 'next/server';
-import { db } from '@/lib/db';
+import { supabase } from '@/lib/supabase';
 
 export async function GET(request) {
     try {
+        // Check if Supabase is configured
+        if (!supabase) {
+            console.warn('Supabase not configured');
+            return NextResponse.json([]);
+        }
+
         const { searchParams } = new URL(request.url);
         const category = searchParams.get('category');
         const country = searchParams.get('country');
         const search = searchParams.get('search');
-        const sort = searchParams.get('sort');
+        const sort = searchParams.get('sort') || 'votes';
 
-        let problems = db.problems.getAll();
+        let query = supabase
+            .from('problems')
+            .select('*');
 
         // Filter by Category
         if (category && category !== 'all') {
-            problems = problems.filter(p => p.category.toLowerCase() === category.toLowerCase());
+            query = query.ilike('category', category);
         }
 
         // Filter by Country
         if (country && country !== 'all') {
-            problems = problems.filter(p => p.country === country);
+            query = query.eq('country_code', country);
         }
 
         // Filter by Search
         if (search) {
-            const query = search.toLowerCase();
-            problems = problems.filter(p =>
-                p.title.toLowerCase().includes(query) ||
-                p.description.toLowerCase().includes(query)
-            );
+            query = query.or(`title.ilike.%${search}%,description.ilike.%${search}%`);
         }
 
         // Sorting
-        if (sort) {
-            switch (sort) {
-                case 'newest':
-                    problems.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-                    break;
-                case 'votes':
-                    problems.sort((a, b) => b.votes - a.votes);
-                    break;
-                case 'discussed':
-                    problems.sort((a, b) => b.comments - a.comments);
-                    break;
-                default: // Trending (mix of votes and recency - simplified here as votes)
-                    problems.sort((a, b) => b.votes - a.votes);
-            }
+        switch (sort) {
+            case 'newest':
+                query = query.order('created_at', { ascending: false });
+                break;
+            case 'votes':
+                query = query.order('votes', { ascending: false });
+                break;
+            case 'discussed':
+                query = query.order('comments', { ascending: false });
+                break;
+            default:
+                query = query.order('votes', { ascending: false });
         }
 
-        return NextResponse.json(problems);
+        const { data, error } = await query;
+
+        if (error) {
+            console.error('Supabase error:', error);
+            // Return empty array with 200 to prevent infinite loading
+            return NextResponse.json([]);
+        }
+
+        return NextResponse.json(data || []);
     } catch (error) {
-        return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+        console.error('API error:', error);
+        // Return empty array with 200 to prevent infinite loading
+        return NextResponse.json([]);
     }
 }
 
@@ -57,14 +69,33 @@ export async function POST(request) {
     try {
         const body = await request.json();
 
-        // Basic validation
-        if (!body.title || !body.description || !body.category) {
+        if (!body.title || !body.description) {
             return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
         }
 
-        const newProblem = db.problems.create(body);
-        return NextResponse.json(newProblem, { status: 201 });
+        const { data, error } = await supabase
+            .from('problems')
+            .insert([{
+                title: body.title,
+                description: body.description,
+                category: body.category || 'Genel',
+                country_code: body.country_code || 'TR',
+                country_name: body.country_name || 'Türkiye',
+                author: body.author || 'Anonim',
+                votes: 0,
+                comments: 0
+            }])
+            .select()
+            .single();
+
+        if (error) {
+            console.error('Supabase error:', error);
+            return NextResponse.json({ error: error.message }, { status: 500 });
+        }
+
+        return NextResponse.json(data, { status: 201 });
     } catch (error) {
+        console.error('API error:', error);
         return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
     }
 }

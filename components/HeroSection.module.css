@@ -264,6 +264,14 @@
         padding: 2.5rem 0 2rem;
     }
 
+    .container {
+        align-items: flex-start;
+    }
+
+    .content {
+        text-align: left;
+    }
+
     .title {
         font-size: 1.875rem;
     }
@@ -271,29 +279,16 @@
     .subtitle {
         font-size: 1rem;
         margin-bottom: 1.5rem;
+        margin-left: 0;
+    }
+
+    .badge {
+        margin-left: 0;
     }
 
     .actions {
+        justify-content: flex-start;
         margin-bottom: 1.5rem;
-    }
-
-    .stats {
-        flex-direction: column;
-        width: 100%;
-        max-width: 280px;
-    }
-
-    .statItem {
-        width: 100%;
-        border-bottom: 1px solid var(--border);
-        justify-content: center;
-    }
-
-    .statItem:last-child {
-        border-bottom: none;
-    }
-
-    .actions {
         flex-direction: column;
         width: 100%;
         max-width: 260px;
@@ -301,5 +296,22 @@
 
     .actions .btn {
         width: 100%;
+    }
+
+    .stats {
+        flex-direction: column;
+        width: 100%;
+        max-width: 260px;
+        align-self: flex-start;
+    }
+
+    .statItem {
+        width: 100%;
+        border-bottom: 1px solid var(--border);
+        justify-content: flex-start;
+    }
+
+    .statItem:last-child {
+        border-bottom: none;
     }
 }
