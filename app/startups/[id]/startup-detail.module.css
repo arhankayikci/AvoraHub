@@ -471,4 +471,327 @@
         text-align: center;
         gap: 1rem;
     }
+
+    .breadcrumb {
+        display: none;
+    }
+}
+
+/* Soft Gating Styles */
+.gatedContent {
+    position: relative;
+}
+
+.teaserDescription {
+    position: relative;
+    color: var(--foreground-muted);
+    line-height: 1.7;
+}
+
+.teaserDescription p {
+    margin: 0;
+}
+
+.fadeOverlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    background: linear-gradient(to bottom, transparent, white);
+    pointer-events: none;
+}
+
+/* Login Wall - Professional Corporate Style */
+.loginWall {
+    margin-top: 1.5rem;
+    padding: 1.5rem 2rem;
+    background: linear-gradient(135deg, #f8fffe 0%, #f0f7f5 100%);
+    border: 1px solid rgba(11, 79, 59, 0.12);
+    border-radius: var(--radius-lg);
+    text-align: center;
+}
+
+.loginWallIcon {
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+    opacity: 0.7;
+}
+
+.loginWall h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--foreground);
+    margin: 0 0 0.375rem;
+}
+
+.loginWall p {
+    font-size: 0.875rem;
+    color: var(--muted);
+    margin: 0 0 1.25rem;
+}
+
+.loginWallButtons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.loginButton {
+    padding: 0.875rem 2rem;
+    background: var(--primary);
+    color: white;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: var(--radius-lg);
+    transition: all 0.2s;
+}
+
+.loginButton:hover {
+    background: var(--primary-hover);
+}
+
+.registerButton {
+    padding: 0.875rem 2rem;
+    background: white;
+    color: var(--primary);
+    font-weight: 600;
+    text-decoration: none;
+    border: 2px solid var(--primary);
+    border-radius: var(--radius-lg);
+    transition: all 0.2s;
+}
+
+.registerButton:hover {
+    background: rgba(11, 79, 59, 0.05);
+}
+
+/* Funding Box */
+.fundingBox {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.5rem;
+    background: rgba(11, 79, 59, 0.05);
+    border: 1px solid rgba(11, 79, 59, 0.1);
+    border-radius: var(--radius-lg);
+    margin: 1.5rem 0;
+}
+
+.fundingLabel {
+    font-size: 0.875rem;
+    color: var(--muted);
+}
+
+.fundingValue {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.infoRow {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.9375rem;
+}
+
+.infoRow span:first-child {
+    color: var(--muted);
+}
+
+.infoRow span:last-child {
+    font-weight: 600;
+    color: var(--foreground);
+}
+
+.ctaSection {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+}
+
+.visitButton {
+    display: inline-block;
+    padding: 1rem 2rem;
+    background: var(--primary);
+    color: white;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: var(--radius-lg);
+    transition: all 0.2s;
+}
+
+.visitButton:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+}
+
+/* Info Card updates */
+.infoCard h3 {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--muted);
+    margin: 0 0 0.5rem;
+}
+
+.infoValue {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--foreground);
+}
+
+/* Share buttons */
+.shareButtons {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.shareBtn {
+    padding: 0.5rem 1rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.shareBtn:hover {
+    background: rgba(11, 79, 59, 0.05);
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+/* Claim Section */
+.claimText {
+    font-size: 0.875rem;
+    color: var(--muted);
+    margin: 0 0 1rem;
+}
+
+.claimButton {
+    display: block;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    text-align: center;
+    font-weight: 600;
+    color: var(--foreground);
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.claimButton:hover {
+    background: rgba(11, 79, 59, 0.05);
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+/* Logo styles */
+.logo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 1rem;
+}
+
+.logoPlaceholder {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--primary);
+}
+
+.year {
+    font-size: 0.875rem;
+    color: var(--foreground-muted);
+}
+
+/* Responsive - Tablet */
+@media (max-width: 1024px) {
+    .contentGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+}
+
+/* Responsive - Mobile */
+@media (max-width: 768px) {
+    .hero {
+        padding: 1.5rem 0;
+    }
+
+    .breadcrumb {
+        display: none;
+    }
+
+    .heroContent {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .logoWrapper {
+        width: 64px;
+        height: 64px;
+    }
+
+    .title {
+        font-size: 1.5rem;
+    }
+
+    .tagline {
+        font-size: 0.9375rem;
+    }
+
+    .meta {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .sidebar {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebarCard {
+        padding: 1.25rem;
+    }
+
+    .contentCard {
+        padding: 1.25rem;
+    }
+
+    .loginWall {
+        padding: 1.25rem;
+    }
+
+    .loginWallButtons {
+        flex-direction: column;
+    }
+
+    .loginButton,
+    .registerButton {
+        width: 100%;
+        text-align: center;
+    }
+
+    .infoCards {
+        grid-template-columns: 1fr;
+    }
+
+    .visitButton {
+        display: block;
+        width: 100%;
+        text-align: center;
+    }
 }

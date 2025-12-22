@@ -11,12 +11,21 @@ const EXPERTISE_AREAS = ['Tümü', 'Fundraising', 'Product Strategy', 'Growth Ma
 const INDUSTRIES = ['Tümü', 'Fintech', 'SaaS', 'HealthTech', 'E-commerce', 'AI/ML'];
 
 function MentorCard({ mentor }) {
+    // Check if avatar is a URL or just initials
+    const isAvatarUrl = mentor.avatar && mentor.avatar.length > 10 && mentor.avatar.startsWith('http');
+
     return (
         <Link href={`/mentors/${mentor.id}`} className={`${styles.mentorCard} ${mentor.featured ? styles.featured : ''}`}>
             {mentor.featured && <span className={styles.featuredBadge}></span>}
 
             <div className={styles.cardHeader}>
-                <div className={styles.avatar}>{mentor.avatar || mentor.name?.slice(0, 2).toUpperCase()}</div>
+                <div className={styles.avatar}>
+                    {isAvatarUrl ? (
+                        <img src={mentor.avatar} alt={mentor.name} className={styles.avatarImg} />
+                    ) : (
+                        <span>{mentor.avatar || mentor.name?.slice(0, 2).toUpperCase()}</span>
+                    )}
+                </div>
                 <div className={styles.headerInfo}>
                     <h3 className={styles.name}>{mentor.name}</h3>
                     <p className={styles.mentorTitle}>{mentor.role}</p>

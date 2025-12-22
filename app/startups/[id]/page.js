@@ -1,85 +1,96 @@
-"use client";
-
-import { useState, useEffect } from 'react';
-import { useParams } from 'next/navigation';
+import { supabase } from '@/lib/supabase';
+import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import { cookies } from 'next/headers';
 import styles from './startup-detail.module.css';
-import CommentSection from '@/components/CommentSection';
-import VoteButton from '@/components/VoteButton';
-import ShareButtons from '@/components/ShareButtons';
-import LoadingSpinner from '@/components/LoadingSpinner';
 
-// Claim Profile Button Component
-function ClaimProfileButton({ startupName }) {
-    const handleClaim = () => {
-        const subject = encodeURIComponent(`Sahiplendirme Talebi: ${startupName}`);
-        const body = encodeURIComponent(
-            `Merhaba AvoraHub Ekibi,\n\n${startupName} girişimini sahiplenmek istiyorum.\n\nDetaylar:\n- Şirket İsmi: ${startupName}\n- İletişim Bilgilerim: \n- Pozisyonum: \n\nTeşekkürler.`
-        );
-        window.location.href = `mailto:contact@avorahub.com.tr?subject=${subject}&body=${body}`;
+// SEO: Generate dynamic metadata
+export async function generateMetadata({ params }) {
+    const { id } = await params;
+
+    if (!supabase) {
+        return { title: 'Startup | AvoraHub' };
+    }
+
+    const { data: startup } = await supabase
+        .from('startups')
+        .select('name, tagline, category')
+        .eq('id', id)
+        .single();
+
+    if (!startup) {
+        return { title: 'Startup Bulunamadı | AvoraHub' };
+    }
+
+    return {
+        title: `${startup.name} | AvoraHub`,
+        description: startup.tagline || `${startup.name} - ${startup.category} kategorisinde Türk startup'ı`,
+        openGraph: {
+            title: startup.name,
+            description: startup.tagline,
+            type: 'website',
+        },
     };
-
-    return (
-        <button
-            onClick={handleClaim}
-            className="btn btn-outline"
-            style={{ width: '100%', marginTop: '1rem' }}
-        >
-            🏢 Bu Girişimi Sahiplen
-        </button>
-    );
 }
 
-export default function StartupDetailPage() {
-    const params = useParams();
-    const { id } = params;
+// Server Component with Soft Gating
+export default async function StartupDetailPage({ params }) {
+    const { id } = await params;
 
-    const [startup, setStartup] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    // Fetch startup data (always - for SEO)
+    if (!supabase) {
+        notFound();
+    }
 
-    useEffect(() => {
-        const fetchStartup = async () => {
-            try {
-                const res = await fetch(`/api/startups/${id}`);
-                if (!res.ok) throw new Error('Startup not found');
-                const data = await res.json();
-                setStartup(data);
-            } catch (err) {
-                setError(err.message);
-            } finally {
-                setLoading(false);
-            }
-        };
+    const { data: startup, error } = await supabase
+        .from('startups')
+        .select('*')
+        .eq('id', id)
+        .single();
 
-        if (id) fetchStartup();
-    }, [id]);
+    if (error || !startup) {
+        notFound();
+    }
 
-    if (loading) return <div className={styles.loadingContainer}><LoadingSpinner /></div>;
-    if (error) return (
-        <div className={styles.errorContainer}>
-            <h1>Startup Bulunamadı</h1>
-            <Link href="/startups" className="btn btn-primary">Listeye Dön</Link>
-        </div>
-    );
-    if (!startup) return null;
+    // Check user session for gating
+    let isAuthenticated = false;
+    try {
+        const cookieStore = await cookies();
+        const token = cookieStore.get('sb-access-token')?.value ||
+            cookieStore.get('supabase-auth-token')?.value;
+
+        // If there's a token, we consider the user authenticated for the gated UI.
+        // The middleware already handles the token verification.
+        isAuthenticated = !!token;
+    } catch (e) {
+        isAuthenticated = false;
+    }
+
+    // Teaser description (first 300 chars)
+    const teaserDescription = startup.description?.substring(0, 300) || '';
+    const hasMoreContent = startup.description?.length > 300;
 
     return (
         <div className={styles.page}>
-            {/* Hero Section */}
-            <section className={styles.hero}>
-                <div className="container">
-                    <div className={styles.breadcrumb}>
-                        <Link href="/">Ana Sayfa</Link>
-                        <span>/</span>
-                        <Link href="/startups">Startup&apos;lar</Link>
-                        <span>/</span>
-                        <span>{startup.category}</span>
-                    </div>
+            <div className="container">
+                {/* Breadcrumb */}
+                <div className={styles.breadcrumb}>
+                    <Link href="/">Ana Sayfa</Link>
+                    <span>/</span>
+                    <Link href="/startups">Startup&apos;lar</Link>
+                    <span>/</span>
+                    <span>{startup.category}</span>
+                </div>
 
+                {/* Hero Section - Always Public */}
+                <section className={styles.hero}>
                     <div className={styles.heroContent}>
                         <div className={styles.logoWrapper}>
-                            <div className={styles.logo}>{startup.name[0]}</div>
+                            {startup.logo_url ? (
+                                <img src={startup.logo_url} alt={startup.name} className={styles.logo} />
+                            ) : (
+                                <div className={styles.logoPlaceholder}>{startup.name[0]}</div>
+                            )}
                         </div>
                         <div className={styles.headerInfo}>
                             <span className={styles.categoryBadge}>{startup.category}</span>
@@ -88,11 +99,14 @@ export default function StartupDetailPage() {
                             <div className={styles.meta}>
                                 <span className={styles.stageBadge}>{startup.stage}</span>
                                 <span className={styles.location}>📍 {startup.country}</span>
+                                {startup.founded_year && (
+                                    <span className={styles.year}>📅 {startup.founded_year}</span>
+                                )}
                             </div>
                         </div>
                         <div className={styles.heroStats}>
                             <div className={styles.statBox}>
-                                <span className={styles.statNumber}>{startup.likes}</span>
+                                <span className={styles.statNumber}>{startup.likes || 0}</span>
                                 <span className={styles.statLabel}>Beğeni</span>
                             </div>
                             <div className={styles.statBox}>
@@ -101,178 +115,139 @@ export default function StartupDetailPage() {
                             </div>
                         </div>
                     </div>
-                </div>
-            </section>
+                </section>
 
-            {/* Content Section */}
-            <section className={styles.contentSection}>
-                <div className="container">
-                    <div className={styles.contentGrid}>
-                        {/* Main Content */}
-                        <div className={styles.mainContent}>
-                            {/* About Card */}
-                            <div className={styles.contentCard}>
-                                <h2 className={styles.sectionTitle}>Hakkında</h2>
-                                <p className={styles.description}>{startup.description}</p>
+                <div className={styles.contentGrid}>
+                    {/* Main Content */}
+                    <main className={styles.mainContent}>
+                        {/* About Section */}
+                        <div className={styles.contentCard}>
+                            <h2 className={styles.sectionTitle}>Hakkında</h2>
 
-                                <div className={styles.actions}>
-                                    <VoteButton
-                                        itemId={id}
-                                        itemType="startup"
-                                        initialCount={startup.likes}
-                                    />
-                                    <ShareButtons title={startup.name} />
-                                </div>
-                            </div>
+                            {isAuthenticated ? (
+                                // Full content for authenticated users
+                                <>
+                                    <p className={styles.description}>{startup.description}</p>
 
-                            {/* Info Cards */}
-                            <div className={styles.infoCards}>
-                                {/* Tech Stack */}
-                                <div className={styles.infoCard}>
-                                    <h3 className={styles.infoCardTitle}>
-                                        <span>💻</span> Teknoloji Stack
-                                    </h3>
-                                    <div className={styles.techStack}>
-                                        {['React', 'Node.js', 'AWS', 'Python', 'PostgreSQL'].map(tech => (
-                                            <span key={tech} className={styles.techBadge}>{tech}</span>
-                                        ))}
+                                    {/* Funding Info */}
+                                    {startup.funding && (
+                                        <div className={styles.fundingBox}>
+                                            <span className={styles.fundingLabel}>💰 Toplam Yatırım</span>
+                                            <span className={styles.fundingValue}>{startup.funding}</span>
+                                        </div>
+                                    )}
+
+                                    {/* Team Size */}
+                                    {startup.team_size && (
+                                        <div className={styles.infoRow}>
+                                            <span>👥 Ekip Büyüklüğü:</span>
+                                            <span>{startup.team_size} kişi</span>
+                                        </div>
+                                    )}
+
+                                    {/* Website - Authenticated Only */}
+                                    {startup.website && (
+                                        <div className={styles.ctaSection}>
+                                            <a
+                                                href={startup.website}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className={styles.visitButton}
+                                            >
+                                                🌐 Web Sitesini Ziyaret Et
+                                            </a>
+                                        </div>
+                                    )}
+                                </>
+                            ) : (
+                                // Teaser content for guests
+                                <div className={styles.gatedContent}>
+                                    <div className={styles.teaserDescription}>
+                                        <p>{teaserDescription}{hasMoreContent && '...'}</p>
+                                        <div className={styles.fadeOverlay}></div>
                                     </div>
-                                </div>
 
-                                {/* Funding Info */}
-                                <div className={styles.infoCard}>
-                                    <h3 className={styles.infoCardTitle}>
-                                        <span>💰</span> Yatırım Bilgileri
-                                    </h3>
-                                    <div className={styles.fundingList}>
-                                        <div className={styles.fundingRow}>
-                                            <span>Toplam Yatırım</span>
-                                            <span>{startup.funding || '$500K'}</span>
-                                        </div>
-                                        <div className={styles.fundingRow}>
-                                            <span>Aşama</span>
-                                            <span>{startup.stage}</span>
-                                        </div>
-                                        <div className={styles.fundingRow}>
-                                            <span>Kuruluş</span>
-                                            <span>2023</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* Team */}
-                                <div className={styles.infoCard}>
-                                    <h3 className={styles.infoCardTitle}>
-                                        <span>👥</span> Ekip
-                                    </h3>
-                                    <div className={styles.teamList}>
-                                        <div className={styles.teamMember}>
-                                            <div className={styles.memberAvatar}>A</div>
-                                            <div>
-                                                <span className={styles.memberName}>Ahmet Yılmaz</span>
-                                                <span className={styles.memberRole}>CEO & Kurucu</span>
-                                            </div>
-                                        </div>
-                                        <div className={styles.teamMember}>
-                                            <div className={styles.memberAvatar}>M</div>
-                                            <div>
-                                                <span className={styles.memberName}>Mehmet Kaya</span>
-                                                <span className={styles.memberRole}>CTO</span>
-                                            </div>
+                                    {/* Login Wall CTA */}
+                                    <div className={styles.loginWall}>
+                                        <div className={styles.loginWallIcon}>🔒</div>
+                                        <h3>Tüm detayları görün</h3>
+                                        <p>Yatırım bilgileri, ekip detayları ve web sitesi için üye olun.</p>
+                                        <div className={styles.loginWallButtons}>
+                                            <Link href={`/login?redirect=/startups/${id}`} className={styles.loginButton}>
+                                                Giriş Yap
+                                            </Link>
+                                            <Link href={`/register?redirect=/startups/${id}`} className={styles.registerButton}>
+                                                Ücretsiz Üye Ol
+                                            </Link>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-
-                            {/* Claim Profile */}
-                            <div className={styles.ctaCard}>
-                                <div className={styles.ctaContent}>
-                                    <h3>Bu Girişim Senin mi?</h3>
-                                    <p>Profilini sahiplen ve bilgilerini güncelle</p>
-                                </div>
-                                <ClaimProfileButton startupName={startup.name} />
-                            </div>
-
-                            {/* CTA */}
-                            <div className={styles.ctaCard}>
-                                <div className={styles.ctaContent}>
-                                    <h3>Bu Startup ile İletişime Geç</h3>
-                                    <p>Yatırım veya iş birliği fırsatlarını değerlendirin</p>
-                                </div>
-                                <a href={startup.website} target="_blank" rel="noopener noreferrer" className="btn btn-primary btn-lg">
-                                    Siteyi Ziyaret Et →
-                                </a>
-                            </div>
-
-                            {/* Comments */}
-                            <CommentSection startupId={id} />
+                            )}
                         </div>
 
-                        {/* Sidebar */}
-                        <aside className={styles.sidebar}>
-                            {/* Founder Info */}
-                            <div className={styles.sidebarCard}>
-                                <h4>Kurucu</h4>
-                                <div className={styles.ownerInfo}>
-                                    <div className={styles.ownerAvatar}>A</div>
-                                    <div>
-                                        <span className={styles.ownerName}>Ahmet Yılmaz</span>
-                                        <span className={styles.ownerMeta}>CEO & Kurucu</span>
-                                    </div>
-                                </div>
-                                <button className="btn btn-outline btn-full">Mesaj Gönder</button>
+                        {/* Info Cards - Public summary */}
+                        <div className={styles.infoCards}>
+                            <div className={styles.infoCard}>
+                                <h3>📈 Aşama</h3>
+                                <span className={styles.infoValue}>{startup.stage}</span>
                             </div>
+                            <div className={styles.infoCard}>
+                                <h3>🏷️ Kategori</h3>
+                                <span className={styles.infoValue}>{startup.category}</span>
+                            </div>
+                            <div className={styles.infoCard}>
+                                <h3>🌍 Lokasyon</h3>
+                                <span className={styles.infoValue}>{startup.country}</span>
+                            </div>
+                        </div>
+                    </main>
 
-                            {/* Quick Stats */}
-                            <div className={styles.sidebarCard}>
-                                <h4>Hızlı Bilgi</h4>
-                                <div className={styles.quickStats}>
-                                    <div className={styles.quickStatItem}>
-                                        <span>💰</span>
-                                        <div>
-                                            <span className={styles.quickStatLabel}>Yatırım</span>
-                                            <span className={styles.quickStatValue}>{startup.funding || '$500K'}</span>
-                                        </div>
-                                    </div>
-                                    <div className={styles.quickStatItem}>
-                                        <span>📈</span>
-                                        <div>
-                                            <span className={styles.quickStatLabel}>Aşama</span>
-                                            <span className={styles.quickStatValue}>{startup.stage}</span>
-                                        </div>
-                                    </div>
-                                    <div className={styles.quickStatItem}>
-                                        <span>🌍</span>
-                                        <div>
-                                            <span className={styles.quickStatLabel}>Lokasyon</span>
-                                            <span className={styles.quickStatValue}>{startup.country}</span>
-                                        </div>
-                                    </div>
+                    {/* Sidebar */}
+                    <aside className={styles.sidebar}>
+                        <div className={styles.sidebarCard}>
+                            <h4>Hızlı Bilgi</h4>
+                            <div className={styles.quickStats}>
+                                <div className={styles.quickStatItem}>
+                                    <span>📊 Aşama</span>
+                                    <span>{startup.stage}</span>
                                 </div>
+                                <div className={styles.quickStatItem}>
+                                    <span>🏷️ Kategori</span>
+                                    <span>{startup.category}</span>
+                                </div>
+                                <div className={styles.quickStatItem}>
+                                    <span>🌍 Ülke</span>
+                                    <span>{startup.country}</span>
+                                </div>
+                                {startup.founded_year && (
+                                    <div className={styles.quickStatItem}>
+                                        <span>📅 Kuruluş</span>
+                                        <span>{startup.founded_year}</span>
+                                    </div>
+                                )}
                             </div>
+                        </div>
 
-                            {/* Similar Startups */}
-                            <div className={styles.sidebarCard}>
-                                <h4>Benzer Startup&apos;lar</h4>
-                                <div className={styles.similarList}>
-                                    <Link href="/startups/2" className={styles.similarItem}>
-                                        <span>TechFlow AI</span>
-                                        <span className={styles.similarVotes}>↑ 234</span>
-                                    </Link>
-                                    <Link href="/startups/3" className={styles.similarItem}>
-                                        <span>DataHub Pro</span>
-                                        <span className={styles.similarVotes}>↑ 189</span>
-                                    </Link>
-                                    <Link href="/startups/4" className={styles.similarItem}>
-                                        <span>CloudSync</span>
-                                        <span className={styles.similarVotes}>↑ 156</span>
-                                    </Link>
-                                </div>
+                        {/* Share */}
+                        <div className={styles.sidebarCard}>
+                            <h4>Bu Startup&apos;ı Paylaş</h4>
+                            <div className={styles.shareButtons}>
+                                <button className={styles.shareBtn}>LinkedIn</button>
+                                <button className={styles.shareBtn}>Twitter</button>
                             </div>
-                        </aside>
-                    </div>
+                        </div>
+
+                        {/* Claim Profile */}
+                        <div className={styles.sidebarCard}>
+                            <h4>Bu Girişim Senin mi?</h4>
+                            <p className={styles.claimText}>Profilini sahiplen ve bilgilerini güncelle</p>
+                            <a href={`mailto:contact@avorahub.com.tr?subject=Sahiplendirme: ${startup.name}`} className={styles.claimButton}>
+                                🏢 Sahiplen
+                            </a>
+                        </div>
+                    </aside>
                 </div>
-            </section>
+            </div>
         </div>
     );
 }

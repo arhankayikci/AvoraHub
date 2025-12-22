@@ -1,4 +1,4 @@
-/* Problem Detail Page Styles - Matching Jobs Format */
+/* Job Detail Page Styles */
 .page {
     min-height: 100vh;
     background: var(--background);
@@ -46,37 +46,42 @@
     border-radius: var(--radius-xl);
 }
 
-.categoryIcon {
+.companyLogo {
     width: 80px;
     height: 80px;
     border-radius: 16px;
-    background: linear-gradient(135deg, #ff9500 0%, #ff6b00 100%);
+    background: linear-gradient(135deg, var(--primary) 0%, #2E8B70 100%);
     display: flex;
     align-items: center;
     justify-content: center;
+    color: white;
     font-size: 2rem;
+    font-weight: 800;
     flex-shrink: 0;
+}
+
+.companyLogo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 16px;
 }
 
 .headerInfo {
     flex: 1;
 }
 
-.categoryBadge {
-    display: inline-block;
-    padding: 0.25rem 0.75rem;
-    background: rgba(255, 149, 0, 0.1);
-    color: #ff9500;
-    border-radius: 9999px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-}
-
 .title {
     font-size: 1.75rem;
     font-weight: 800;
     color: var(--foreground);
+    margin: 0 0 0.5rem;
+}
+
+.company {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--primary);
     margin: 0 0 1rem;
 }
 
@@ -91,12 +96,16 @@
     color: var(--muted);
 }
 
-.author {
+.location {
     font-weight: 500;
 }
 
-.location {
-    font-weight: 500;
+.type {
+    padding: 0.25rem 0.75rem;
+    background: rgba(11, 79, 59, 0.1);
+    color: var(--primary);
+    border-radius: 9999px;
+    font-weight: 600;
 }
 
 /* Description Section */
@@ -124,43 +133,64 @@
     white-space: pre-wrap;
 }
 
-/* Stats Box */
-.statsBox {
+/* Salary Box */
+.salaryBox {
     display: flex;
-    gap: 1rem;
+    align-items: center;
+    justify-content: space-between;
     padding: 1rem 1.5rem;
-    background: rgba(255, 149, 0, 0.05);
-    border: 1px solid rgba(255, 149, 0, 0.1);
+    background: rgba(11, 79, 59, 0.05);
+    border: 1px solid rgba(11, 79, 59, 0.1);
     border-radius: var(--radius-lg);
     margin: 1.5rem 0;
 }
 
-.statItem {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-    flex: 1;
-}
-
-.statLabel {
-    font-size: 0.8125rem;
+.salaryLabel {
+    font-size: 0.875rem;
     color: var(--muted);
 }
 
-.statValue {
-    font-size: 1.125rem;
+.salaryValue {
+    font-size: 1.25rem;
     font-weight: 700;
-    color: #ff9500;
+    color: var(--primary);
 }
 
-/* CTA Section */
-.ctaSection {
+/* Requirements & Benefits */
+.requirements,
+.benefits {
+    margin-top: 1.5rem;
+}
+
+.requirements h3,
+.benefits h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--foreground);
+    margin: 0 0 1rem;
+}
+
+.requirements ul,
+.benefits ul {
+    margin: 0;
+    padding-left: 1.5rem;
+}
+
+.requirements li,
+.benefits li {
+    margin-bottom: 0.5rem;
+    color: var(--foreground-muted);
+    line-height: 1.5;
+}
+
+/* Apply Button */
+.applySection {
     margin-top: 2rem;
     padding-top: 2rem;
     border-top: 1px solid var(--border);
 }
 
-.proposalButton {
+.applyButton {
     display: inline-block;
     padding: 1rem 2.5rem;
     background: var(--primary);
@@ -168,13 +198,11 @@
     font-size: 1rem;
     font-weight: 700;
     text-decoration: none;
-    border: none;
     border-radius: var(--radius-lg);
-    cursor: pointer;
     transition: all 0.2s;
 }
 
-.proposalButton:hover {
+.applyButton:hover {
     background: var(--primary-hover);
     transform: translateY(-2px);
 }
@@ -291,17 +319,17 @@
     border-bottom: 1px solid var(--border);
 }
 
-.ownerInfo {
+.companyInfo {
     display: flex;
     align-items: center;
     gap: 0.75rem;
     margin-bottom: 1rem;
 }
 
-.ownerAvatar {
+.companyLogoSmall {
     width: 40px;
     height: 40px;
-    border-radius: 50%;
+    border-radius: 8px;
     background: var(--primary);
     color: white;
     display: flex;
@@ -387,7 +415,7 @@
         padding: 1.5rem;
     }
 
-    .categoryIcon {
+    .companyLogo {
         width: 64px;
         height: 64px;
         margin: 0 auto;
@@ -397,6 +425,10 @@
 
     .title {
         font-size: 1.375rem;
+    }
+
+    .company {
+        font-size: 1rem;
     }
 
     .meta {
@@ -420,8 +452,10 @@
         padding: 1.25rem;
     }
 
-    .statsBox {
+    .salaryBox {
         flex-direction: column;
+        text-align: center;
+        gap: 0.5rem;
     }
 
     .loginWall {
@@ -438,7 +472,7 @@
         text-align: center;
     }
 
-    .proposalButton {
+    .applyButton {
         display: block;
         width: 100%;
         text-align: center;

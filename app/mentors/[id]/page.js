@@ -1,72 +1,71 @@
-"use client";
-
-import { use } from 'react';
+import { supabase } from '@/lib/supabase';
+import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import { cookies } from 'next/headers';
 import styles from './mentor-detail.module.css';
 
-const DEMO_MENTORS = {
-    1: {
-        id: 1,
-        name: 'Ahmet Yılmaz',
-        title: 'Founder & CEO',
-        company: 'TechVentures (Exit: $50M)',
-        avatar: 'AY',
-        expertise: ['Fundraising', 'Product Strategy', 'Team Building'],
-        industries: ['Fintech', 'SaaS'],
-        experience: '15+ yıl',
-        mentees: 24,
-        rating: 4.9,
-        reviews: 18,
-        bio: '3 başarılı exit yapmış seri girişimci. Angel investor ve startup mentor. 15 yılı aşkın süredir teknoloji sektöründe aktif olarak çalışıyorum.',
-        about: 'İlk startup\'ımı 2008 yılında kurdum ve o günden bu yana girişimcilik ekosisteminin içindeyim. TechVentures\'ı 2015\'te $50M değerleme ile sattıktan sonra angel yatırımcılığa yöneldim. Bugüne kadar 20+ startup\'a yatırım yaptım ve 50+ girişimciye mentorluk ettim.',
-        availability: 'Haftada 2 saat',
-        price: 'Ücretsiz',
-        linkedin: 'https://linkedin.com/in/ahmetyilmaz',
-        twitter: 'https://twitter.com/ahmetyilmaz',
-        languages: ['Türkçe', 'İngilizce'],
-        sessionTypes: [
-            { type: '1-1 Görüşme', duration: '45 dakika', price: 'Ücretsiz' },
-            { type: 'Pitch Review', duration: '30 dakika', price: 'Ücretsiz' },
-            { type: 'Strateji Oturumu', duration: '90 dakika', price: '₺500' }
-        ]
-    },
-    2: {
-        id: 2,
-        name: 'Dr. Elif Demir',
-        title: 'Partner',
-        company: 'Seed Capital VC',
-        avatar: 'ED',
-        expertise: ['Venture Capital', 'Due Diligence', 'Board Management'],
-        industries: ['HealthTech', 'AI/ML'],
-        experience: '12+ yıl',
-        mentees: 18,
-        rating: 4.8,
-        reviews: 14,
-        bio: 'VC partneri olarak 50+ şirkete yatırım yaptı. Stanford MBA.',
-        about: 'Silikon Vadisi ve Türkiye\'de venture capital alanında 12 yılı aşkın deneyimim var. Stanford MBA sonrası Seed Capital\'e katıldım ve bugüne kadar 50\'den fazla şirkete yatırım yaptık.',
-        availability: 'Haftada 1 saat',
-        price: '₺500/saat',
-        linkedin: 'https://linkedin.com/in/elifdemir',
-        languages: ['Türkçe', 'İngilizce', 'Almanca'],
-        sessionTypes: [
-            { type: 'Yatırım Danışmanlığı', duration: '60 dakika', price: '₺500' },
-            { type: 'Due Diligence Prep', duration: '45 dakika', price: '₺400' }
-        ]
-    }
-};
+// SEO: Generate dynamic metadata
+export async function generateMetadata({ params }) {
+    const { id } = await params;
 
-export default function MentorDetailPage({ params }) {
-    const { id } = use(params);
-    const mentor = DEMO_MENTORS[id];
+    if (!supabase) {
+        return { title: 'Mentör | AvoraHub' };
+    }
+
+    const { data: mentor } = await supabase
+        .from('investors')
+        .select('name, role')
+        .eq('id', id)
+        .single();
 
     if (!mentor) {
-        return (
-            <div className={styles.notFound}>
-                <h1>Mentor bulunamadı</h1>
-                <Link href="/mentors">← Mentörlere Dön</Link>
-            </div>
-        );
+        return { title: 'Mentör Bulunamadı | AvoraHub' };
     }
+
+    return {
+        title: `${mentor.name} | ${mentor.role} | AvoraHub`,
+        description: `${mentor.name} - ${mentor.role}. AvoraHub topluluğunda girişimcilere mentorluk ve yatırım desteği sunuyor.`,
+        openGraph: {
+            title: mentor.name,
+            description: mentor.role,
+            type: 'website',
+        },
+    };
+}
+
+// Server Component with Soft Gating
+export default async function MentorDetailPage({ params }) {
+    const { id } = await params;
+
+    if (!supabase) {
+        notFound();
+    }
+
+    // Fetch mentor (investor) data
+    const { data: mentor, error } = await supabase
+        .from('investors')
+        .select('*')
+        .eq('id', id)
+        .single();
+
+    if (error || !mentor) {
+        notFound();
+    }
+
+    // Check user session for gating
+    let isAuthenticated = false;
+    try {
+        const cookieStore = await cookies();
+        const token = cookieStore.get('sb-access-token')?.value ||
+            cookieStore.get('supabase-auth-token')?.value;
+        isAuthenticated = !!token;
+    } catch (e) {
+        isAuthenticated = false;
+    }
+
+    // Teaser bio
+    const teaserBio = mentor.bio?.substring(0, 300) || '';
+    const hasMoreBio = mentor.bio?.length > 300;
 
     return (
         <div className={styles.page}>
@@ -77,93 +76,105 @@ export default function MentorDetailPage({ params }) {
 
                 <div className={styles.layout}>
                     {/* Main Content */}
-                    <div className={styles.main}>
-                        {/* Header */}
+                    <main className={styles.main}>
+                        {/* Header - Public */}
                         <div className={styles.header}>
-                            <div className={styles.avatar}>{mentor.avatar}</div>
+                            <div className={styles.avatarWrapper}>
+                                {mentor.avatar && mentor.avatar.length > 10 ? (
+                                    <img src={mentor.avatar} alt={mentor.name} className={styles.avatarImg} />
+                                ) : (
+                                    <div className={styles.avatarPlaceholder}>{mentor.name?.[0] || 'M'}</div>
+                                )}
+                            </div>
                             <div className={styles.info}>
-                                <h1 className={styles.name}>{mentor.name}</h1>
-                                <p className={styles.title}>{mentor.title}</p>
-                                <p className={styles.company}>{mentor.company}</p>
+                                <div className={styles.nameRow}>
+                                    <h1 className={styles.name}>{mentor.name}</h1>
+                                    {mentor.verified && <span className={styles.verifiedBadge}>✓ Doğrulanmış</span>}
+                                </div>
+                                <p className={styles.role}>{mentor.role}</p>
+                                <p className={styles.location}>📍 {mentor.location}</p>
                                 <div className={styles.stats}>
-                                    <span>⭐ {mentor.rating} ({mentor.reviews} değerlendirme)</span>
-                                    <span>👥 {mentor.mentees} mentee</span>
-                                    <span>🕐 {mentor.experience}</span>
+                                    <div className={styles.stat}>
+                                        <span className={styles.statLabel}>Yatırım</span>
+                                        <span className={styles.statValue}>{mentor.total_investments || 0}</span>
+                                    </div>
+                                    <div className={styles.stat}>
+                                        <span className={styles.statLabel}>Exit</span>
+                                        <span className={styles.statValue}>{mentor.exits || 0}</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        {/* Bio */}
-                        <div className={styles.section}>
-                            <h2>Hakkında</h2>
-                            <p>{mentor.about}</p>
-                        </div>
-
-                        {/* Expertise */}
+                        {/* Expertise - Public */}
                         <div className={styles.section}>
                             <h2>Uzmanlık Alanları</h2>
                             <div className={styles.tags}>
-                                {mentor.expertise.map((exp, i) => (
+                                {mentor.expertise?.map((exp, i) => (
                                     <span key={i} className={styles.tag}>{exp}</span>
                                 ))}
                             </div>
                         </div>
 
-                        {/* Industries */}
+                        {/* Bio with Soft Gating */}
                         <div className={styles.section}>
-                            <h2>Sektörler</h2>
-                            <div className={styles.tags}>
-                                {mentor.industries.map((ind, i) => (
-                                    <span key={i} className={styles.tagAlt}>{ind}</span>
-                                ))}
-                            </div>
-                        </div>
+                            <h2>Hakkında</h2>
+                            {isAuthenticated ? (
+                                <p className={styles.fullBio}>{mentor.bio}</p>
+                            ) : (
+                                <div className={styles.gatedBio}>
+                                    <p>{teaserBio}{hasMoreBio && '...'}</p>
+                                    <div className={styles.fadeOverlay}></div>
 
-                        {/* Session Types */}
-                        <div className={styles.section}>
-                            <h2>Oturum Tipleri</h2>
-                            <div className={styles.sessions}>
-                                {mentor.sessionTypes.map((session, i) => (
-                                    <div key={i} className={styles.sessionCard}>
-                                        <div className={styles.sessionInfo}>
-                                            <h4>{session.type}</h4>
-                                            <span>{session.duration}</span>
+                                    <div className={styles.loginWall}>
+                                        <div className={styles.loginWallIcon}>🔒</div>
+                                        <h3>Tam biyografiyi ve detayları görün</h3>
+                                        <p>Mentörün tüm deneyimini ve iletişim bilgilerini görmek için üye olun.</p>
+                                        <div className={styles.loginWallButtons}>
+                                            <Link href={`/login?redirect=/mentors/${id}`} className={styles.loginButton}>
+                                                Giriş Yap
+                                            </Link>
+                                            <Link href={`/register?redirect=/mentors/${id}`} className={styles.registerButton}>
+                                                Üye Ol
+                                            </Link>
                                         </div>
-                                        <span className={styles.sessionPrice}>{session.price}</span>
                                     </div>
-                                ))}
-                            </div>
+                                </div>
+                            )}
                         </div>
-                    </div>
+                    </main>
 
                     {/* Sidebar */}
-                    <div className={styles.sidebar}>
+                    <aside className={styles.sidebar}>
                         <div className={styles.bookingCard}>
-                            <h3>Randevu Al</h3>
-                            <p className={styles.availability}>📅 {mentor.availability}</p>
-                            <p className={styles.price}>{mentor.price}</p>
-                            <Link href={`/mentors/${mentor.id}/book`} className={styles.bookBtn}>
-                                Randevu Al →
-                            </Link>
+                            <h3>Görüşme Talebi</h3>
+                            {isAuthenticated ? (
+                                <>
+                                    <p className={styles.priceInfo}>Seans başı: {mentor.ticket_size || 'İletişime geçin'}</p>
+                                    <button className={styles.bookBtn}>Takvimi Görüntüle →</button>
+                                </>
+                            ) : (
+                                <div className={styles.bookingLocked}>
+                                    <p>Randevu bilgilerini görmek için giriş yapmalısınız.</p>
+                                    <Link href="/login" className={styles.bookBtnLocked}>Giriş Yap</Link>
+                                </div>
+                            )}
                         </div>
 
                         <div className={styles.detailsCard}>
-                            <h4>Detaylar</h4>
-                            <div className={styles.detailItem}>
-                                <span>Diller</span>
-                                <span>{mentor.languages?.join(', ')}</span>
+                            <h4>Yatırım Odak Alanları</h4>
+                            <div className={styles.sidebarDetails}>
+                                <div className={styles.detailItem}>
+                                    <span>Aşama</span>
+                                    <span>{mentor.stage?.join(', ') || '-'}</span>
+                                </div>
+                                <div className={styles.detailItem}>
+                                    <span>Coğrafya</span>
+                                    <span>{mentor.geography?.join(', ') || '-'}</span>
+                                </div>
                             </div>
-                            <div className={styles.detailItem}>
-                                <span>Deneyim</span>
-                                <span>{mentor.experience}</span>
-                            </div>
-                            {mentor.linkedin && (
-                                <a href={mentor.linkedin} target="_blank" rel="noopener noreferrer" className={styles.socialLink}>
-                                    LinkedIn Profili →
-                                </a>
-                            )}
                         </div>
-                    </div>
+                    </aside>
                 </div>
             </div>
         </div>
