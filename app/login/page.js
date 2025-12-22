@@ -21,12 +21,18 @@ export default function LoginPage() {
         setError('');
         setLoading(true);
 
-        const res = await login(email, password);
+        try {
+            const res = await login(email, password);
 
-        if (res.success) {
-            router.push('/');
-        } else {
-            setError(res.error);
+            if (res.success) {
+                router.push('/');
+            } else {
+                setError(res.error || 'Giriş yapılamadı. Lütfen tekrar deneyin.');
+                setLoading(false);
+            }
+        } catch (err) {
+            console.error('Login error:', err);
+            setError('Bir hata oluştu. Lütfen tekrar deneyin.');
             setLoading(false);
         }
     };

@@ -93,12 +93,19 @@ export default function RegisterPage() {
         setError('');
         setLoading(true);
 
-        const res = await register(name, email, password, userType, interests);
+        try {
+            // Register with correct parameter order: email, password, name
+            const res = await register(email, password, name);
 
-        if (res.success) {
-            router.push('/');
-        } else {
-            setError(res.error);
+            if (res.success) {
+                router.push('/');
+            } else {
+                setError(res.error || 'Kayıt yapılamadı. Lütfen tekrar deneyin.');
+                setLoading(false);
+            }
+        } catch (err) {
+            console.error('Register error:', err);
+            setError('Bir hata oluştu. Lütfen tekrar deneyin.');
             setLoading(false);
         }
     };
