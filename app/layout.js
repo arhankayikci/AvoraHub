@@ -2,7 +2,7 @@ import { Outfit } from 'next/font/google';
 import './globals.css';
 import Layout from '@/components/Layout';
 import { LanguageProvider } from '@/contexts/LanguageContext';
-import { AuthProvider } from '@/context/AuthContext';
+import { AuthProvider } from '@/contexts/AuthContext';
 import { GoogleAnalytics } from '@next/third-parties/google';
 
 const outfit = Outfit({
