@@ -14,7 +14,7 @@ export async function generateMetadata({ params }) {
 
     const { data: job } = await supabase
         .from('jobs')
-        .select('title, company')
+        .select('title, company, description, location')
         .eq('id', id)
         .single();
 
@@ -22,13 +22,28 @@ export async function generateMetadata({ params }) {
         return { title: 'İş İlanı Bulunamadı | AvoraHub' };
     }
 
+    const description = job.description
+        ? job.description.substring(0, 150) + '...'
+        : `${job.company} şirketinde ${job.title} pozisyonu için başvuru yapın.`;
+
     return {
-        title: `${job.title} | ${job.company} | AvoraHub`,
-        description: `${job.company} şirketinde ${job.title} pozisyonu için başvuru yapın. Türkiye'nin lider startup kariyer platformu AvoraHub'da.`,
+        title: `${job.title} @ ${job.company} | AvoraHub`,
+        description,
+        keywords: ['iş ilanı', 'kariyer', job.title, job.company, job.location, 'startup', 'Türkiye'].filter(Boolean),
         openGraph: {
-            title: `${job.title} - ${job.company}`,
-            description: `${job.company} şirketinde kariyer fırsatı`,
+            title: `${job.title} @ ${job.company}`,
+            description,
             type: 'website',
+            url: `https://avorahub.com.tr/jobs/${id}`,
+            siteName: 'AvoraHub',
+        },
+        twitter: {
+            card: 'summary',
+            title: `${job.title} @ ${job.company}`,
+            description,
+        },
+        alternates: {
+            canonical: `https://avorahub.com.tr/jobs/${id}`,
         },
     };
 }

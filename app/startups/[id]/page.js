@@ -14,7 +14,7 @@ export async function generateMetadata({ params }) {
 
     const { data: startup } = await supabase
         .from('startups')
-        .select('name, tagline, category')
+        .select('name, tagline, description, category')
         .eq('id', id)
         .single();
 
@@ -22,13 +22,28 @@ export async function generateMetadata({ params }) {
         return { title: 'Startup Bulunamadı | AvoraHub' };
     }
 
+    const description = startup.description
+        ? startup.description.substring(0, 150) + '...'
+        : startup.tagline || `${startup.name} - ${startup.category} kategorisinde Türk startup'ı`;
+
     return {
-        title: `${startup.name} | AvoraHub`,
-        description: startup.tagline || `${startup.name} - ${startup.category} kategorisinde Türk startup'ı`,
+        title: `${startup.name} - ${startup.tagline || startup.category} | AvoraHub`,
+        description,
+        keywords: ['startup', startup.name, startup.category, 'Türkiye', 'girişim', 'yatırım'].filter(Boolean),
         openGraph: {
             title: startup.name,
-            description: startup.tagline,
+            description,
             type: 'website',
+            url: `https://avorahub.com.tr/startups/${id}`,
+            siteName: 'AvoraHub',
+        },
+        twitter: {
+            card: 'summary',
+            title: startup.name,
+            description,
+        },
+        alternates: {
+            canonical: `https://avorahub.com.tr/startups/${id}`,
         },
     };
 }
