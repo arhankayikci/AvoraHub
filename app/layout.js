@@ -81,9 +81,9 @@ export const metadata = {
     },
   },
   icons: {
-    icon: '/icon.svg',
-    shortcut: '/favicon.ico',
-    apple: '/apple-touch-icon.png',
+    icon: '/favicon.png',
+    shortcut: '/favicon.png',
+    apple: '/icon.png',
   },
   verification: {
     google: 'google-site-verification-code',
