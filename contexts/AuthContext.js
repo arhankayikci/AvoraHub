@@ -47,7 +47,8 @@ export function AuthProvider({ children }) {
                     email: session.user.email,
                     name: session.user.user_metadata?.name || session.user.email?.split('@')[0],
                     avatar: session.user.user_metadata?.avatar,
-                    isAdmin: ['admin@avorahub.com', 'ayse@avorahub.com', 'arhankayikci@gmail.com'].includes(session.user.email)
+                    // Admin check will be done after fetching profile
+                    isAdmin: false
                 };
                 setUser(userData);
 
@@ -66,7 +67,8 @@ export function AuthProvider({ children }) {
                     email: session.user.email,
                     name: session.user.user_metadata?.name || session.user.email?.split('@')[0],
                     avatar: session.user.user_metadata?.avatar,
-                    isAdmin: ['admin@avorahub.com', 'ayse@avorahub.com', 'arhankayikci@gmail.com'].includes(session.user.email)
+                    // Admin check will be done after fetching profile
+                    isAdmin: false
                 };
                 setUser(userData);
 

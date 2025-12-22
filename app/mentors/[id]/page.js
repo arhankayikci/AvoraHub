@@ -56,9 +56,11 @@ export default async function MentorDetailPage({ params }) {
     let isAuthenticated = false;
     try {
         const cookieStore = await cookies();
-        const token = cookieStore.get('sb-access-token')?.value ||
-            cookieStore.get('supabase-auth-token')?.value;
-        isAuthenticated = !!token;
+        const allCookies = cookieStore.getAll();
+        const supabaseCookie = allCookies.find(c =>
+            c.name.startsWith('sb-') && c.name.includes('auth-token')
+        );
+        isAuthenticated = !!supabaseCookie;
     } catch (e) {
         isAuthenticated = false;
     }

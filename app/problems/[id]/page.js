@@ -55,9 +55,12 @@ export default async function ProblemDetailPage({ params }) {
     let isAuthenticated = false;
     try {
         const cookieStore = await cookies();
-        const token = cookieStore.get('sb-access-token')?.value ||
-            cookieStore.get('supabase-auth-token')?.value;
-        isAuthenticated = !!token;
+        const allCookies = cookieStore.getAll();
+        // Check for any Supabase auth cookie (sb-*-auth-token pattern)
+        const supabaseCookie = allCookies.find(c =>
+            c.name.startsWith('sb-') && c.name.includes('auth-token')
+        );
+        isAuthenticated = !!supabaseCookie;
     } catch (e) {
         isAuthenticated = false;
     }
