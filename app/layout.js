@@ -3,6 +3,7 @@ import './globals.css';
 import Layout from '@/components/Layout';
 import { LanguageProvider } from '@/contexts/LanguageContext';
 import { AuthProvider } from '@/context/AuthContext';
+import { GoogleAnalytics } from '@next/third-parties/google';
 
 const outfit = Outfit({
   subsets: ['latin'],
@@ -104,6 +105,7 @@ export default function RootLayout({ children }) {
             <Layout>{children}</Layout>
           </AuthProvider>
         </LanguageProvider>
+        <GoogleAnalytics gaId="G-7ZX65DZ08R" />
       </body>
     </html>
   );
