@@ -105,7 +105,7 @@ export default function RootLayout({ children }) {
             <Layout>{children}</Layout>
           </AuthProvider>
         </LanguageProvider>
-        <GoogleAnalytics gaId="G-7ZX65DZ08R" />
+        <GoogleAnalytics gaId="G-Z2X6SDZ08R" />
       </body>
     </html>
   );
