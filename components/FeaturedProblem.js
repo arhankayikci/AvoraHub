@@ -21,8 +21,8 @@ export default function FeaturedProblem() {
                             empathyCount: data[0].votes || 0,
                             comments: data[0].comments || 0,
                             author: data[0].author || 'Anonim',
-                            badge: 'Problem of the Day',
-                            trending: '+125% today'
+                            badge: 'Günün Problemi',
+                            trending: '+125% bugün'
                         });
                     }
                 }

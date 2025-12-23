@@ -93,7 +93,7 @@
 }
 
 .navIcon {
-    font-size: 1.25rem;
+    font-size: 1rem;
 }
 
 .sidebarFooter {
@@ -394,7 +394,7 @@
 }
 
 .contentIcon {
-    font-size: 1.25rem;
+    font-size: 1rem;
 }
 
 .status {
@@ -465,7 +465,7 @@
 }
 
 .actionIcon {
-    font-size: 1.25rem;
+    font-size: 1rem;
 }
 
 /* Validation Widget */
@@ -548,7 +548,7 @@
 }
 
 .tipIcon {
-    font-size: 1rem;
+    font-size: 0.875rem;
 }
 
 /* Activity Feed */
@@ -592,7 +592,7 @@
 }
 
 .activityIcon {
-    font-size: 1.25rem;
+    font-size: 1rem;
 }
 
 .activityContent {
@@ -688,4 +688,357 @@
     .tableRow span:nth-child(5) {
         display: none;
     }
+}
+
+/* Job Recommendations Section */
+.jobRecommendations {
+    margin-top: 2rem;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    padding: 1.5rem;
+}
+
+.sectionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.sectionHeader h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--foreground);
+    margin: 0;
+}
+
+.seeAllLink {
+    font-size: 0.875rem;
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.seeAllLink:hover {
+    text-decoration: underline;
+}
+
+.jobsLoading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+    color: var(--muted);
+}
+
+.jobsGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.jobCard {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem;
+    text-decoration: none;
+    transition: all var(--transition-fast);
+}
+
+.jobCard:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary);
+}
+
+.jobHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.875rem;
+}
+
+.companyLogo {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-md);
+    background: var(--gradient-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.companyLogo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.companyLogo span {
+    color: white;
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.matchScore {
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    border-radius: 20px;
+    padding: 0.25rem 0.625rem;
+}
+
+.scoreText {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #059669;
+}
+
+.jobTitle {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--foreground);
+    margin: 0 0 0.25rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.jobCard .companyName {
+    font-size: 0.875rem;
+    color: var(--muted);
+    margin: 0 0 0.75rem;
+}
+
+.jobMeta {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.jobLocation,
+.jobType {
+    font-size: 0.75rem;
+    color: var(--muted);
+}
+
+/* No Jobs Empty State */
+.noJobsCard {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(16, 185, 129, 0.05) 100%);
+    border: 1px dashed var(--border);
+    border-radius: var(--radius-lg);
+    padding: 3rem;
+    text-align: center;
+}
+
+.noJobsIcon {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 1rem;
+}
+
+.noJobsCard h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--foreground);
+    margin: 0 0 0.5rem;
+}
+
+.noJobsCard p {
+    font-size: 0.9375rem;
+    color: var(--muted);
+    margin: 0 0 1.25rem;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.updateProfileBtn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background: var(--gradient-primary);
+    color: white;
+    text-decoration: none;
+    border-radius: var(--radius-lg);
+    font-weight: 600;
+    font-size: 0.9375rem;
+    transition: all var(--transition-fast);
+}
+
+.updateProfileBtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(11, 79, 59, 0.3);
+}
+
+@media (max-width: 1024px) {
+    .jobsGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .jobsGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .sectionHeader {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+}
+
+/* My Applications Section */
+.applicationsSection {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    padding: 2rem;
+}
+
+.applicationsSection h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--foreground);
+    margin: 0 0 1.5rem;
+}
+
+.emptyApplications {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 3rem 2rem;
+}
+
+.emptyApplications .emptyIcon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.emptyApplications h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--foreground);
+    margin: 0 0 0.5rem;
+}
+
+.emptyApplications p {
+    color: var(--muted);
+    margin: 0 0 1.5rem;
+}
+
+.exploreBtn {
+    padding: 0.75rem 1.5rem;
+    background: var(--gradient-primary);
+    color: white;
+    text-decoration: none;
+    border-radius: var(--radius-lg);
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.exploreBtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(11, 79, 59, 0.3);
+}
+
+.applicationsList {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.applicationCard {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.applicationCard:hover {
+    border-color: var(--primary);
+    transform: translateX(4px);
+}
+
+.appLogo {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: var(--gradient-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    font-size: 1.25rem;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.appLogo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.appInfo {
+    flex: 1;
+    min-width: 0;
+}
+
+.appInfo h4 {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--foreground);
+    margin: 0 0 0.25rem;
+}
+
+.appInfo p {
+    font-size: 0.8125rem;
+    color: var(--primary);
+    margin: 0 0 0.25rem;
+}
+
+.appDate {
+    font-size: 0.75rem;
+    color: var(--muted);
+}
+
+.appStatus {
+    padding: 0.375rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+.statusPending {
+    background: rgba(245, 158, 11, 0.1);
+    color: #D97706;
+}
+
+.statusInterview {
+    background: rgba(99, 102, 241, 0.1);
+    color: #6366F1;
+}
+
+.statusOffer {
+    background: rgba(16, 185, 129, 0.1);
+    color: #059669;
+}
+
+.statusRejected {
+    background: rgba(239, 68, 68, 0.1);
+    color: #DC2626;
 }

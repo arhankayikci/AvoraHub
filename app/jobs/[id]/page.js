@@ -1,8 +1,8 @@
 import { supabase } from '@/lib/supabase';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { cookies } from 'next/headers';
 import styles from './job-detail.module.css';
+import JobGatedContent from './JobGatedContent';
 
 // SEO: Generate dynamic metadata
 export async function generateMetadata({ params }) {
@@ -41,6 +41,7 @@ export async function generateMetadata({ params }) {
             card: 'summary',
             title: `${job.title} @ ${job.company}`,
             description,
+            type: 'website',
         },
         alternates: {
             canonical: `https://avorahub.com.tr/jobs/${id}`,
@@ -48,7 +49,7 @@ export async function generateMetadata({ params }) {
     };
 }
 
-// Server Component with Soft Gating
+// Server Component with Soft Gating handled by Client Component
 export default async function JobDetailPage({ params }) {
     const { id } = await params;
 
@@ -67,28 +68,10 @@ export default async function JobDetailPage({ params }) {
         notFound();
     }
 
-    // Check user session for gating
-    let isAuthenticated = false;
-    try {
-        const cookieStore = await cookies();
-        const allCookies = cookieStore.getAll();
-        const supabaseCookie = allCookies.find(c =>
-            c.name.startsWith('sb-') && c.name.includes('auth-token')
-        );
-        isAuthenticated = !!supabaseCookie;
-    } catch (e) {
-        // Not authenticated
-        isAuthenticated = false;
-    }
-
     // Format date
     const postedDate = job.created_at
         ? new Date(job.created_at).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' })
         : 'Bilinmiyor';
-
-    // Teaser description (first 300 chars)
-    const teaserDescription = job.description?.substring(0, 300) || '';
-    const hasMoreContent = job.description?.length > 300;
 
     return (
         <div className={styles.page}>
@@ -128,82 +111,7 @@ export default async function JobDetailPage({ params }) {
                         {/* Description Section with Soft Gating */}
                         <section className={styles.descriptionSection}>
                             <h2>Pozisyon Açıklaması</h2>
-
-                            {isAuthenticated ? (
-                                // Full content for authenticated users
-                                <>
-                                    <div className={styles.description}>
-                                        <p>{job.description}</p>
-                                    </div>
-
-                                    {/* Salary - Authenticated Only */}
-                                    {job.salary_range && (
-                                        <div className={styles.salaryBox}>
-                                            <span className={styles.salaryLabel}>💰 Maaş Aralığı</span>
-                                            <span className={styles.salaryValue}>{job.salary_range}</span>
-                                        </div>
-                                    )}
-
-                                    {/* Requirements */}
-                                    {job.requirements?.length > 0 && (
-                                        <div className={styles.requirements}>
-                                            <h3>Aranan Nitelikler</h3>
-                                            <ul>
-                                                {job.requirements.map((req, i) => (
-                                                    <li key={i}>{req}</li>
-                                                ))}
-                                            </ul>
-                                        </div>
-                                    )}
-
-                                    {/* Benefits */}
-                                    {job.benefits?.length > 0 && (
-                                        <div className={styles.benefits}>
-                                            <h3>Yan Haklar</h3>
-                                            <ul>
-                                                {job.benefits.map((benefit, i) => (
-                                                    <li key={i}>{benefit}</li>
-                                                ))}
-                                            </ul>
-                                        </div>
-                                    )}
-
-                                    {/* Apply Button - Authenticated Only */}
-                                    <div className={styles.applySection}>
-                                        <a
-                                            href={job.apply_url || '#'}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className={styles.applyButton}
-                                        >
-                                            Başvuru Yap →
-                                        </a>
-                                    </div>
-                                </>
-                            ) : (
-                                // Teaser content for guests
-                                <div className={styles.gatedContent}>
-                                    <div className={styles.teaserDescription}>
-                                        <p>{teaserDescription}{hasMoreContent && '...'}</p>
-                                        <div className={styles.fadeOverlay}></div>
-                                    </div>
-
-                                    {/* Login Wall CTA */}
-                                    <div className={styles.loginWall}>
-                                        <div className={styles.loginWallIcon}>🔒</div>
-                                        <h3>Bu ilanın tüm detaylarını görün</h3>
-                                        <p>Maaş bilgisi, aranan nitelikler ve başvuru butonu için üye olun.</p>
-                                        <div className={styles.loginWallButtons}>
-                                            <Link href={`/login?redirect=/jobs/${id}`} className={styles.loginButton}>
-                                                Giriş Yap
-                                            </Link>
-                                            <Link href={`/register?redirect=/jobs/${id}`} className={styles.registerButton}>
-                                                Ücretsiz Üye Ol
-                                            </Link>
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
+                            <JobGatedContent job={job} jobId={id} />
                         </section>
                     </main>
 

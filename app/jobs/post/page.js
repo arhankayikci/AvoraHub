@@ -23,7 +23,7 @@ export default function PostJobPage() {
     const handleSubmit = (e) => {
         e.preventDefault();
         // Handle form submission
-        console.log('Job posted:', formData);
+
         router.push('/jobs');
     };
 

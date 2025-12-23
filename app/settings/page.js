@@ -1,18 +1,28 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/contexts/AuthContext';
+import { supabase } from '@/lib/supabase';
+import SkillsTagInput from '@/components/SkillsTagInput';
 import styles from './settings.module.css';
 
 export default function SettingsPage() {
+    const router = useRouter();
+    const { user, profile, loading, refreshProfile } = useAuth();
     const [activeTab, setActiveTab] = useState('profile');
+    const [saving, setSaving] = useState(false);
+    const [message, setMessage] = useState({ type: '', text: '' });
+
     const [settings, setSettings] = useState({
         // Profile
-        name: 'Demo Kullanıcı',
-        email: 'demo@avorahub.com',
-        bio: 'Girişimci ve teknoloji meraklısı.',
+        full_name: '',
+        email: '',
+        bio: '',
         website: '',
         linkedin: '',
         twitter: '',
+        skills: [],
         // Notifications
         emailNotifications: true,
         pushNotifications: true,
@@ -27,8 +37,69 @@ export default function SettingsPage() {
         language: 'tr'
     });
 
+    // Redirect if not logged in
+    useEffect(() => {
+        if (!loading && !user) {
+            router.push('/login');
+        }
+    }, [user, loading, router]);
+
+    // Load profile data into form
+    useEffect(() => {
+        if (profile) {
+            setSettings(prev => ({
+                ...prev,
+                full_name: profile.full_name || '',
+                email: user?.email || '',
+                bio: profile.bio || '',
+                website: profile.website || '',
+                linkedin: profile.linkedin || '',
+                twitter: profile.twitter || '',
+                skills: profile.skills || [],
+                profilePublic: profile.is_public !== false,
+                showEmail: profile.show_email || false,
+            }));
+        }
+    }, [profile, user]);
+
     const handleChange = (key, value) => {
         setSettings(prev => ({ ...prev, [key]: value }));
+    };
+
+    const handleSave = async () => {
+        if (!user) return;
+
+        setSaving(true);
+        setMessage({ type: '', text: '' });
+
+        try {
+            const { error } = await supabase
+                .from('profiles')
+                .update({
+                    full_name: settings.full_name,
+                    bio: settings.bio,
+                    website: settings.website,
+                    linkedin: settings.linkedin,
+                    twitter: settings.twitter,
+                    skills: settings.skills,
+                    is_public: settings.profilePublic,
+                    show_email: settings.showEmail,
+                    updated_at: new Date().toISOString()
+                })
+                .eq('id', user.id);
+
+            if (error) throw error;
+
+            // Refresh profile in context - this updates Navbar instantly
+            await refreshProfile();
+
+            setMessage({ type: 'success', text: 'Ayarlar başarıyla kaydedildi!' });
+        } catch (error) {
+            console.error('Settings save error:', error);
+            setMessage({ type: 'error', text: 'Kaydetme sırasında bir hata oluştu.' });
+        } finally {
+            setSaving(false);
+        }
     };
 
     const tabs = [
@@ -38,10 +109,30 @@ export default function SettingsPage() {
         { id: 'appearance', label: 'Görünüm', icon: '🎨' },
     ];
 
+    if (loading) {
+        return (
+            <div className={styles.page}>
+                <div className="container">
+                    <div className={styles.loading}>Yükleniyor...</div>
+                </div>
+            </div>
+        );
+    }
+
+    if (!user) {
+        return null;
+    }
+
     return (
         <div className={styles.page}>
             <div className="container">
                 <h1 className={styles.title}>⚙️ Ayarlar</h1>
+
+                {message.text && (
+                    <div className={`${styles.message} ${styles[message.type]}`}>
+                        {message.type === 'success' ? '✓' : '⚠️'} {message.text}
+                    </div>
+                )}
 
                 <div className={styles.layout}>
                     {/* Tabs */}
@@ -67,8 +158,8 @@ export default function SettingsPage() {
                                     <label>İsim</label>
                                     <input
                                         type="text"
-                                        value={settings.name}
-                                        onChange={(e) => handleChange('name', e.target.value)}
+                                        value={settings.full_name}
+                                        onChange={(e) => handleChange('full_name', e.target.value)}
                                         className={styles.input}
                                     />
                                 </div>
@@ -77,9 +168,10 @@ export default function SettingsPage() {
                                     <input
                                         type="email"
                                         value={settings.email}
-                                        onChange={(e) => handleChange('email', e.target.value)}
-                                        className={styles.input}
+                                        disabled
+                                        className={`${styles.input} ${styles.disabled}`}
                                     />
+                                    <small className={styles.hint}>E-posta değişikliği için destek ekibiyle iletişime geçin.</small>
                                 </div>
                                 <div className={styles.formGroup}>
                                     <label>Biyografi</label>
@@ -88,6 +180,7 @@ export default function SettingsPage() {
                                         onChange={(e) => handleChange('bio', e.target.value)}
                                         className={styles.textarea}
                                         rows={3}
+                                        placeholder="Kendinizi tanıtın..."
                                     />
                                 </div>
                                 <h3 className={styles.subTitle}>Sosyal Bağlantılar</h3>
@@ -109,6 +202,24 @@ export default function SettingsPage() {
                                         onChange={(e) => handleChange('linkedin', e.target.value)}
                                         className={styles.input}
                                         placeholder="linkedin.com/in/username"
+                                    />
+                                </div>
+                                <div className={styles.formGroup}>
+                                    <label>Twitter</label>
+                                    <input
+                                        type="text"
+                                        value={settings.twitter}
+                                        onChange={(e) => handleChange('twitter', e.target.value)}
+                                        className={styles.input}
+                                        placeholder="@username"
+                                    />
+                                </div>
+                                <h3 className={styles.subTitle}>Yetenekler</h3>
+                                <div className={styles.formGroup}>
+                                    <label>Yetenekleriniz</label>
+                                    <SkillsTagInput
+                                        value={settings.skills}
+                                        onChange={(skills) => handleChange('skills', skills)}
                                     />
                                 </div>
                             </div>
@@ -216,7 +327,13 @@ export default function SettingsPage() {
                         )}
 
                         <div className={styles.saveBar}>
-                            <button className={styles.saveBtn}>Değişiklikleri Kaydet</button>
+                            <button
+                                className={styles.saveBtn}
+                                onClick={handleSave}
+                                disabled={saving}
+                            >
+                                {saving ? 'Kaydediliyor...' : 'Değişiklikleri Kaydet'}
+                            </button>
                         </div>
                     </div>
                 </div>

@@ -475,3 +475,66 @@
         flex-direction: column;
     }
 }
+
+/* Loading State */
+.loadingState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+    color: var(--text-secondary);
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid var(--border-color);
+    border-top-color: var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 1rem;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Empty State */
+.emptyState {
+    text-align: center;
+    color: var(--text-secondary);
+    padding: 2rem;
+    font-size: 0.9rem;
+}
+
+/* No Data Hint */
+.noDataHint {
+    text-align: center;
+    color: var(--text-tertiary);
+    font-size: 0.8rem;
+    font-style: italic;
+    margin-top: 1rem;
+    padding-top: 0.5rem;
+    border-top: 1px dashed var(--border-color);
+}
+
+/* Activity types for new icons */
+.activityIcon.startup {
+    background: rgba(99, 102, 241, 0.15);
+}
+
+.activityIcon.problem {
+    background: rgba(16, 185, 129, 0.15);
+}
+
+/* Metric icon for startups and problems */
+.metricIcon.startups {
+    background: rgba(99, 102, 241, 0.15);
+}
+
+.metricIcon.problems {
+    background: rgba(16, 185, 129, 0.15);
+}

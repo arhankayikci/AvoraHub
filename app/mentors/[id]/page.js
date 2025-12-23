@@ -1,8 +1,8 @@
 import { supabase } from '@/lib/supabase';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { cookies } from 'next/headers';
 import styles from './mentor-detail.module.css';
+import MentorGatedContent, { MentorBookingCard } from './MentorGatedContent';
 
 // SEO: Generate dynamic metadata
 export async function generateMetadata({ params }) {
@@ -33,7 +33,7 @@ export async function generateMetadata({ params }) {
     };
 }
 
-// Server Component with Soft Gating
+// Server Component with Soft Gating handled by Client Component
 export default async function MentorDetailPage({ params }) {
     const { id } = await params;
 
@@ -51,23 +51,6 @@ export default async function MentorDetailPage({ params }) {
     if (error || !mentor) {
         notFound();
     }
-
-    // Check user session for gating
-    let isAuthenticated = false;
-    try {
-        const cookieStore = await cookies();
-        const allCookies = cookieStore.getAll();
-        const supabaseCookie = allCookies.find(c =>
-            c.name.startsWith('sb-') && c.name.includes('auth-token')
-        );
-        isAuthenticated = !!supabaseCookie;
-    } catch (e) {
-        isAuthenticated = false;
-    }
-
-    // Teaser bio
-    const teaserBio = mentor.bio?.substring(0, 300) || '';
-    const hasMoreBio = mentor.bio?.length > 300;
 
     return (
         <div className={styles.page}>
@@ -121,28 +104,7 @@ export default async function MentorDetailPage({ params }) {
                         {/* Bio with Soft Gating */}
                         <div className={styles.section}>
                             <h2>Hakkında</h2>
-                            {isAuthenticated ? (
-                                <p className={styles.fullBio}>{mentor.bio}</p>
-                            ) : (
-                                <div className={styles.gatedBio}>
-                                    <p>{teaserBio}{hasMoreBio && '...'}</p>
-                                    <div className={styles.fadeOverlay}></div>
-
-                                    <div className={styles.loginWall}>
-                                        <div className={styles.loginWallIcon}>🔒</div>
-                                        <h3>Tam biyografiyi ve detayları görün</h3>
-                                        <p>Mentörün tüm deneyimini ve iletişim bilgilerini görmek için üye olun.</p>
-                                        <div className={styles.loginWallButtons}>
-                                            <Link href={`/login?redirect=/mentors/${id}`} className={styles.loginButton}>
-                                                Giriş Yap
-                                            </Link>
-                                            <Link href={`/register?redirect=/mentors/${id}`} className={styles.registerButton}>
-                                                Üye Ol
-                                            </Link>
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
+                            <MentorGatedContent mentor={mentor} mentorId={id} />
                         </div>
                     </main>
 
@@ -150,17 +112,7 @@ export default async function MentorDetailPage({ params }) {
                     <aside className={styles.sidebar}>
                         <div className={styles.bookingCard}>
                             <h3>Görüşme Talebi</h3>
-                            {isAuthenticated ? (
-                                <>
-                                    <p className={styles.priceInfo}>Seans başı: {mentor.ticket_size || 'İletişime geçin'}</p>
-                                    <button className={styles.bookBtn}>Takvimi Görüntüle →</button>
-                                </>
-                            ) : (
-                                <div className={styles.bookingLocked}>
-                                    <p>Randevu bilgilerini görmek için giriş yapmalısınız.</p>
-                                    <Link href="/login" className={styles.bookBtnLocked}>Giriş Yap</Link>
-                                </div>
-                            )}
+                            <MentorBookingCard mentor={mentor} />
                         </div>
 
                         <div className={styles.detailsCard}>

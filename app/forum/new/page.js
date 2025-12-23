@@ -69,7 +69,7 @@ export default function NewTopicPage() {
 
         try {
             // TODO: Submit to API
-            console.log('New topic:', formData);
+
             router.push('/forum');
         } catch (error) {
             console.error('Error creating topic:', error);

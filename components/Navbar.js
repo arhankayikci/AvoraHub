@@ -5,8 +5,9 @@ import styles from './Navbar.module.css';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/contexts/AuthContext';
 import UniversalSearch from './UniversalSearch';
-import NotificationBell from './NotificationBell';
+import NotificationDropdown from './NotificationDropdown';
 import { useState, useRef, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 const roleLabels = {
     'entrepreneur': 'Girişimci',
@@ -16,6 +17,7 @@ const roleLabels = {
 const Navbar = () => {
     const { locale, changeLocale, t } = useLanguage();
     const { user, profile, logout } = useAuth();
+    const router = useRouter();
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const dropdownRef = useRef(null);
@@ -34,6 +36,17 @@ const Navbar = () => {
         document.addEventListener('mousedown', handleClickOutside);
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
+
+    // Handle logout with redirect
+    const handleLogout = async () => {
+        setDropdownOpen(false);
+        await logout();
+        // Clear any auth cookies
+        document.cookie = 'sb-access-token=; path=/; max-age=0';
+        // Redirect to home
+        router.push('/');
+        router.refresh();
+    };
 
     return (
         <nav className={styles.navbar}>
@@ -112,7 +125,7 @@ const Navbar = () => {
                     </div>
 
                     {/* Notification Bell */}
-                    <NotificationBell />
+                    <NotificationDropdown />
 
                     {/* User Menu with Dropdown */}
                     {user ? (
@@ -200,18 +213,11 @@ const Navbar = () => {
                                         </Link>
                                     )}
 
-                                    <Link href="/messages" className={styles.dropdownItem} onClick={() => setDropdownOpen(false)}>
-                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-                                        </svg>
-                                        Mesajlar
-                                    </Link>
-
                                     <Link href="/dashboard/analytics" className={styles.dropdownItem} onClick={() => setDropdownOpen(false)}>
                                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                             <path d="M18 20V10M12 20V4M6 20v-6"></path>
                                         </svg>
-                                        Analytics
+                                        Analitik
                                     </Link>
 
                                     <Link href="/settings" className={styles.dropdownItem} onClick={() => setDropdownOpen(false)}>
@@ -237,7 +243,7 @@ const Navbar = () => {
 
                                     <div className={styles.dropdownDivider}></div>
 
-                                    <button onClick={logout} className={`${styles.dropdownItem} ${styles.dropdownItemDanger}`}>
+                                    <button onClick={handleLogout} className={`${styles.dropdownItem} ${styles.dropdownItemDanger}`}>
                                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                             <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
                                             <polyline points="16 17 21 12 16 7"></polyline>

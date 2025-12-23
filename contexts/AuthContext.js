@@ -40,7 +40,21 @@ export function AuthProvider({ children }) {
             return;
         }
 
+        // Helper function to sync session to cookies for middleware
+        const syncSessionToCookies = (session) => {
+            if (session?.access_token) {
+                // Set cookie with access token for middleware
+                document.cookie = `sb-access-token=${session.access_token}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Lax`;
+            } else {
+                // Clear cookie on logout
+                document.cookie = 'sb-access-token=; path=/; max-age=0';
+            }
+        };
+
         supabase.auth.getSession().then(async ({ data: { session } }) => {
+            // Sync session to cookies for middleware
+            syncSessionToCookies(session);
+
             if (session?.user) {
                 const userData = {
                     id: session.user.id,
@@ -61,6 +75,9 @@ export function AuthProvider({ children }) {
 
         // Listen for auth changes
         const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
+            // Sync session to cookies for middleware
+            syncSessionToCookies(session);
+
             if (session?.user) {
                 const userData = {
                     id: session.user.id,

@@ -1,8 +1,8 @@
 import { supabase } from '@/lib/supabase';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { cookies } from 'next/headers';
 import styles from './problem-detail.module.css';
+import ProblemGatedContent from './ProblemGatedContent';
 
 // SEO: Generate dynamic metadata
 export async function generateMetadata({ params }) {
@@ -33,7 +33,7 @@ export async function generateMetadata({ params }) {
     };
 }
 
-// Server Component with Soft Gating
+// Server Component - SEO optimized, soft gating handled by client component
 export default async function ProblemDetailPage({ params }) {
     const { id } = await params;
 
@@ -51,28 +51,10 @@ export default async function ProblemDetailPage({ params }) {
         notFound();
     }
 
-    // Check user session for gating
-    let isAuthenticated = false;
-    try {
-        const cookieStore = await cookies();
-        const allCookies = cookieStore.getAll();
-        // Check for any Supabase auth cookie (sb-*-auth-token pattern)
-        const supabaseCookie = allCookies.find(c =>
-            c.name.startsWith('sb-') && c.name.includes('auth-token')
-        );
-        isAuthenticated = !!supabaseCookie;
-    } catch (e) {
-        isAuthenticated = false;
-    }
-
     // Format date
     const postedDate = problem.created_at
         ? new Date(problem.created_at).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' })
         : 'Bilinmiyor';
-
-    // Teaser description
-    const teaserDescription = problem.description?.substring(0, 300) || '';
-    const hasMoreContent = problem.description?.length > 300;
 
     return (
         <div className={styles.page}>
@@ -107,60 +89,10 @@ export default async function ProblemDetailPage({ params }) {
                             </div>
                         </header>
 
-                        {/* Description Section with Soft Gating */}
+                        {/* Description Section - Client-side Soft Gating */}
                         <section className={styles.descriptionSection}>
                             <h2>Problem Açıklaması</h2>
-
-                            {isAuthenticated ? (
-                                // Full content for authenticated users
-                                <>
-                                    <div className={styles.description}>
-                                        <p>{problem.description}</p>
-                                    </div>
-
-                                    {/* Stats Box */}
-                                    <div className={styles.statsBox}>
-                                        <div className={styles.statItem}>
-                                            <span className={styles.statLabel}>👍 Destekleyenler</span>
-                                            <span className={styles.statValue}>{problem.votes || 0} oy</span>
-                                        </div>
-                                        <div className={styles.statItem}>
-                                            <span className={styles.statLabel}>💬 Yorumlar</span>
-                                            <span className={styles.statValue}>{problem.comments || 0} yorum</span>
-                                        </div>
-                                    </div>
-
-                                    {/* CTA */}
-                                    <div className={styles.ctaSection}>
-                                        <button className={styles.proposalButton}>
-                                            Çözüm Teklifinde Bulun →
-                                        </button>
-                                    </div>
-                                </>
-                            ) : (
-                                // Teaser content for guests
-                                <div className={styles.gatedContent}>
-                                    <div className={styles.teaserDescription}>
-                                        <p>{teaserDescription}{hasMoreContent && '...'}</p>
-                                        <div className={styles.fadeOverlay}></div>
-                                    </div>
-
-                                    {/* Login Wall CTA */}
-                                    <div className={styles.loginWall}>
-                                        <div className={styles.loginWallIcon}>🔒</div>
-                                        <h3>Problemin tüm detaylarını görün</h3>
-                                        <p>Bütçe bilgisi, gereksinimler ve çözüm teklifi için üye olun.</p>
-                                        <div className={styles.loginWallButtons}>
-                                            <Link href={`/login?redirect=/problems/${id}`} className={styles.loginButton}>
-                                                Giriş Yap
-                                            </Link>
-                                            <Link href={`/register?redirect=/problems/${id}`} className={styles.registerButton}>
-                                                Ücretsiz Üye Ol
-                                            </Link>
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
+                            <ProblemGatedContent problem={problem} problemId={id} />
                         </section>
                     </main>
 

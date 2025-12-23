@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import styles from './jobs.module.css';
+import CustomSelect from '@/components/CustomSelect';
 import { formatCurrency, formatRelativeTime } from '@/utils/formatters';
 import { useAuth } from '@/contexts/AuthContext';
 import FreemiumGate from '@/components/FreemiumGate';
@@ -143,28 +144,30 @@ export default function JobsPage() {
                             value={filters.search}
                             onChange={(e) => setFilters({ ...filters, search: e.target.value })}
                         />
-                        <select
-                            className={styles.select}
+                        <CustomSelect
+                            placeholder="Tüm Pozisyonlar"
                             value={filters.type}
-                            onChange={(e) => setFilters({ ...filters, type: e.target.value })}
-                        >
-                            <option value="all">Tüm Pozisyonlar</option>
-                            <option value="Tam Zamanlı">Tam Zamanlı</option>
-                            <option value="Yarı Zamanlı">Yarı Zamanlı</option>
-                            <option value="Staj">Staj</option>
-                            <option value="Uzaktan">Uzaktan</option>
-                        </select>
-                        <select
-                            className={styles.select}
+                            onChange={(value) => setFilters({ ...filters, type: value })}
+                            options={[
+                                { value: "all", label: "Tüm Pozisyonlar" },
+                                { value: "Tam Zamanlı", label: "Tam Zamanlı" },
+                                { value: "Yarı Zamanlı", label: "Yarı Zamanlı" },
+                                { value: "Staj", label: "Staj" },
+                                { value: "Uzaktan", label: "Uzaktan" }
+                            ]}
+                        />
+                        <CustomSelect
+                            placeholder="Tüm Lokasyonlar"
                             value={filters.location}
-                            onChange={(e) => setFilters({ ...filters, location: e.target.value })}
-                        >
-                            <option value="all">Tüm Lokasyonlar</option>
-                            <option value="İstanbul">İstanbul</option>
-                            <option value="Ankara">Ankara</option>
-                            <option value="İzmir">İzmir</option>
-                            <option value="Remote">Remote</option>
-                        </select>
+                            onChange={(value) => setFilters({ ...filters, location: value })}
+                            options={[
+                                { value: "all", label: "Tüm Lokasyonlar" },
+                                { value: "İstanbul", label: "İstanbul" },
+                                { value: "Ankara", label: "Ankara" },
+                                { value: "İzmir", label: "İzmir" },
+                                { value: "Remote", label: "Remote" }
+                            ]}
+                        />
                     </div>
                 </div>
             </section>

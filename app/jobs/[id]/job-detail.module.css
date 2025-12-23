@@ -207,6 +207,18 @@
     transform: translateY(-2px);
 }
 
+.applyButton.applied {
+    background: #6B7280;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.applyButton:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
 /* Gated Content (for guests) */
 .gatedContent {
     position: relative;

@@ -225,3 +225,59 @@
         padding: 1.5rem;
     }
 }
+
+/* Loading State */
+.loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+    color: var(--muted);
+    font-size: 1rem;
+}
+
+/* Message Alerts */
+.message {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 1.25rem;
+    border-radius: 10px;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+}
+
+.message.success {
+    background: rgba(16, 185, 129, 0.1);
+    color: #059669;
+    border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.message.error {
+    background: rgba(239, 68, 68, 0.1);
+    color: #DC2626;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+/* Disabled Input */
+.input.disabled {
+    background: var(--border);
+    color: var(--muted);
+    cursor: not-allowed;
+}
+
+/* Hint Text */
+.hint {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-top: 0.5rem;
+}
+
+/* Save Button Disabled */
+.saveBtn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}

@@ -1,8 +1,8 @@
 import { supabase } from '@/lib/supabase';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { cookies } from 'next/headers';
 import styles from './startup-detail.module.css';
+import StartupGatedContent from './StartupGatedContent';
 
 // SEO: Generate dynamic metadata
 export async function generateMetadata({ params }) {
@@ -48,7 +48,7 @@ export async function generateMetadata({ params }) {
     };
 }
 
-// Server Component with Soft Gating
+// Server Component with Soft Gating handled by Client Component
 export default async function StartupDetailPage({ params }) {
     const { id } = await params;
 
@@ -66,23 +66,6 @@ export default async function StartupDetailPage({ params }) {
     if (error || !startup) {
         notFound();
     }
-
-    // Check user session for gating
-    let isAuthenticated = false;
-    try {
-        const cookieStore = await cookies();
-        const allCookies = cookieStore.getAll();
-        const supabaseCookie = allCookies.find(c =>
-            c.name.startsWith('sb-') && c.name.includes('auth-token')
-        );
-        isAuthenticated = !!supabaseCookie;
-    } catch (e) {
-        isAuthenticated = false;
-    }
-
-    // Teaser description (first 300 chars)
-    const teaserDescription = startup.description?.substring(0, 300) || '';
-    const hasMoreContent = startup.description?.length > 300;
 
     return (
         <div className={styles.page}>
@@ -137,66 +120,7 @@ export default async function StartupDetailPage({ params }) {
                         {/* About Section */}
                         <div className={styles.contentCard}>
                             <h2 className={styles.sectionTitle}>Hakkında</h2>
-
-                            {isAuthenticated ? (
-                                // Full content for authenticated users
-                                <>
-                                    <p className={styles.description}>{startup.description}</p>
-
-                                    {/* Funding Info */}
-                                    {startup.funding && (
-                                        <div className={styles.fundingBox}>
-                                            <span className={styles.fundingLabel}>💰 Toplam Yatırım</span>
-                                            <span className={styles.fundingValue}>{startup.funding}</span>
-                                        </div>
-                                    )}
-
-                                    {/* Team Size */}
-                                    {startup.team_size && (
-                                        <div className={styles.infoRow}>
-                                            <span>👥 Ekip Büyüklüğü:</span>
-                                            <span>{startup.team_size} kişi</span>
-                                        </div>
-                                    )}
-
-                                    {/* Website - Authenticated Only */}
-                                    {startup.website && (
-                                        <div className={styles.ctaSection}>
-                                            <a
-                                                href={startup.website}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className={styles.visitButton}
-                                            >
-                                                🌐 Web Sitesini Ziyaret Et
-                                            </a>
-                                        </div>
-                                    )}
-                                </>
-                            ) : (
-                                // Teaser content for guests
-                                <div className={styles.gatedContent}>
-                                    <div className={styles.teaserDescription}>
-                                        <p>{teaserDescription}{hasMoreContent && '...'}</p>
-                                        <div className={styles.fadeOverlay}></div>
-                                    </div>
-
-                                    {/* Login Wall CTA */}
-                                    <div className={styles.loginWall}>
-                                        <div className={styles.loginWallIcon}>🔒</div>
-                                        <h3>Tüm detayları görün</h3>
-                                        <p>Yatırım bilgileri, ekip detayları ve web sitesi için üye olun.</p>
-                                        <div className={styles.loginWallButtons}>
-                                            <Link href={`/login?redirect=/startups/${id}`} className={styles.loginButton}>
-                                                Giriş Yap
-                                            </Link>
-                                            <Link href={`/register?redirect=/startups/${id}`} className={styles.registerButton}>
-                                                Ücretsiz Üye Ol
-                                            </Link>
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
+                            <StartupGatedContent startup={startup} startupId={id} />
                         </div>
 
                         {/* Info Cards - Public summary */}

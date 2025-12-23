@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
-import NotificationBell from './NotificationBell';
+import NotificationDropdown from './NotificationDropdown';
 import styles from './MobileHeader.module.css';
 
 export default function MobileHeader() {
@@ -20,7 +20,7 @@ export default function MobileHeader() {
             <div className={styles.actions}>
                 {user ? (
                     <>
-                        <NotificationBell />
+                        <NotificationDropdown />
                         <Link href="/profile" className={styles.avatarBtn}>
                             {profile?.avatar_url ? (
                                 <img

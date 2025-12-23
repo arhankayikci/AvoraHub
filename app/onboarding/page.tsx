@@ -65,14 +65,15 @@ export default function OnboardingPage() {
         try {
             const { error: insertError } = await supabase
                 .from('profiles')
-                .insert([
+                .upsert(
                     {
                         id: user.id,
                         full_name: fullName.trim(),
                         role: role,
                         company: company.trim() || null,
-                    }
-                ]);
+                    },
+                    { onConflict: 'id' }
+                );
 
             if (insertError) throw insertError;
 

@@ -67,11 +67,12 @@
 }
 
 .filters {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
     gap: 1rem;
-    max-width: 800px;
+    max-width: 900px;
     margin: 0 auto;
+    align-items: center;
 }
 
 .searchInput {
@@ -449,6 +450,12 @@
     .posted {
         position: static;
         margin-top: 0.75rem;
+    }
+
+    .filters {
+        grid-template-columns: 1fr;
+        padding: 0 1rem;
+        gap: 1rem;
     }
 
     .filterGroup {

@@ -1,7 +1,13 @@
+"use client";
+
 import Link from 'next/link';
+import { useAuth } from '@/contexts/AuthContext';
 import styles from './investors.module.css';
 
 export default function InvestorsPage() {
+    const { user, profile } = useAuth();
+    const isInvestor = profile?.role === 'investor';
+
     return (
         <div className={styles.page}>
             {/* Hero */}
@@ -14,9 +20,21 @@ export default function InvestorsPage() {
                             Erken aşama fırsatları yakalayın.
                         </p>
                         <div className="flex gap-8 justify-center">
-                            <Link href="/signup?role=investor" className="btn btn-primary btn-lg">
-                                Yatırımcı Olarak Katıl
-                            </Link>
+                            {user ? (
+                                isInvestor ? (
+                                    <Link href="/startups" className="btn btn-primary btn-lg">
+                                        Girişimleri Keşfet
+                                    </Link>
+                                ) : (
+                                    <Link href="/onboarding?role=investor" className="btn btn-primary btn-lg">
+                                        Yatırımcı Profiline Geç
+                                    </Link>
+                                )
+                            ) : (
+                                <Link href="/signup?role=investor" className="btn btn-primary btn-lg">
+                                    Yatırımcı Olarak Katıl
+                                </Link>
+                            )}
                             <Link href="/startups" className="btn btn-outline btn-lg">
                                 Girişimleri İncele
                             </Link>
@@ -92,9 +110,15 @@ export default function InvestorsPage() {
                     <p className={styles.subtitle} style={{ maxWidth: '600px', margin: '0 auto 2rem' }}>
                         Türkiye&apos;nin en hızlı büyüyen girişimcilik ağında yerinizi alın.
                     </p>
-                    <Link href="/signup?role=investor" className="btn btn-primary btn-lg">
-                        Hemen Başvurun
-                    </Link>
+                    {user ? (
+                        <Link href="/startups" className="btn btn-primary btn-lg">
+                            Girişimleri Keşfet
+                        </Link>
+                    ) : (
+                        <Link href="/signup?role=investor" className="btn btn-primary btn-lg">
+                            Hemen Başvurun
+                        </Link>
+                    )}
                 </div>
             </section>
         </div>
